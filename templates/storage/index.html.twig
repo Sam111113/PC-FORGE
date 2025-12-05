@@ -14,18 +14,15 @@
 						<div id="compo-card-img">
 							<img src="" alt="">
 						</div>
+						<div>
 						<p>{{storage.marque}}
 							{{storage.modele}}</p>
 						<p>{{storage.prix}}€</p>
 						<p id="compo-card-note"></p>
 						<a id="compo-card-revendeur" href="">Amazon</a>
 						{% if build ?? false %}
-							{% if build.storageId|length <= mbMaxStorageSlot and (build.ramId|length > 0) %}
+							{% if build.ramId and (build.storageId is empty or null) %}
 								<form method="post" action="{{ path('forge_add_storage', { id: storage.id }) }}">
-									<select name="quantity" id="quantity">
-										<option value="1">1</option>
-										<option value="2">2</option>
-									</select>
 									<input type="hidden" name="_token" value="{{ csrf_token('add_storage_' ~ storage.id) }}">
 									<button class="btn">
 										<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-plus-icon lucide-circle-plus"><circle cx="12" cy="12" r="10"/><path d="M8 12h8"/><path d="M12 8v8"/></svg>
@@ -33,6 +30,7 @@
 								</form>
 							{% endif %}
 						{% endif %}
+						</div>
 						{% if is_granted('ROLE_ADMIN') %}
 							<div>
 								<a href="{{ path('app_storage_show', {'id': storage.id}) }}">

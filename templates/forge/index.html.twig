@@ -25,11 +25,13 @@
 						<div id="compo-card-img">
 							<img src="" alt="">
 						</div>
+						<div>
 						<p>{{selected.cpu.marque}}
 							{{selected.cpu.modele}}</p>
 						<p>{{selected.cpu.prix}}€</p>
 						<p id="compo-card-note"></p>
 						<a id="compo-card-revendeur" href="">Amazon</a>
+						</div>
 						<form method="post" action="{{ path('forge_remove_part', { part: 'cpuId' }) }}">
 							<input type="hidden" name="_token" value="{{ csrf_token('forge_remove_part_cpuId') }}">
 							<button>
@@ -62,11 +64,13 @@
 						<div id="compo-card-img">
 							<img src="" alt="">
 						</div>
+						<div>
 						<p>{{selected.motherboard.marque}}
 							{{selected.motherboard.modele}}</p>
 						<p>{{selected.motherboard.prix}}€</p>
 						<p id="compo-card-note"></p>
 						<a id="compo-card-revendeur" href="">Amazon</a>
+						</div>
 						<form method="post" action="{{ path('forge_remove_part', { part: 'mbId' }) }}">
 							<input type="hidden" name="_token" value="{{ csrf_token('forge_remove_part_mbId') }}">
 							<button>
@@ -103,11 +107,13 @@
 						<div id="compo-card-img">
 							<img src="" alt="">
 						</div>
+						<div>
 						<p>{{selected.gpu.marque}}
 							{{selected.gpu.modele}}</p>
 						<p>{{selected.gpu.prix}}€</p>
 						<p id="compo-card-note"></p>
 						<a id="compo-card-revendeur" href="">Amazon</a>
+						</div>
 						<form method="post" action="{{ path('forge_remove_part', { part: 'gpuId' }) }}">
 							<input type="hidden" name="_token" value="{{ csrf_token('forge_remove_part_gpuId') }}">
 							<button>
@@ -136,18 +142,19 @@
 				La RAM influe directement sur la réactivité du système. Pour du gaming, 16 Go sont idéaux, tandis que 32 Go conviennent aux tâches lourdes comme le streaming ou le montage. Vérifie la fréquence (ex. 6000 MHz) et la compatibilité DDR4 ou DDR5 selon ta carte mère. Opte toujours pour deux barrettes identiques pour profiter du dual channel.
 			</p>
 			<div class="ligne"></div>
-			{% if selected.rams|length > 0 %}
-				{% for ram in selected.rams %}
-					<article id="compo-card" data-ascin="{{ ram.ascin }}">
+			{% if selected.ram %}
+					<article id="compo-card" data-ascin="{{ selected.ram.ascin }}">
 						<div>
 							<div id="compo-card-img">
 								<img src="" alt="">
 							</div>
-							<p>{{ram.marque}}
-								{{ram.modele}}</p>
-							<p>{{ram.prix}}€</p>
+							<div>
+							<p>{{selected.ram.marque}}
+								{{selected.ram.modele}}</p>
+							<p>{{selected.ram.prix}}€</p>
 							<p id="compo-card-note"></p>
 							<a id="compo-card-revendeur" href="">Amazon</a>
+							</div>
 							<form method="post" action="{{ path('forge_remove_part', { part: 'ramId' }) }}">
 								<input type="hidden" name="_token" value="{{ csrf_token('forge_remove_part_ramId') }}">
 								<button>
@@ -157,18 +164,15 @@
 						</div>
 						<div>
 							<p>Type de mémoire :
-								{{ ram.type }}W</p>
+								{{ selected.ram.type }}W</p>
 							<p>Nombre de module :
-								{{ ram.nbModule}}</p>
+								{{ selected.ram.nbModule}}</p>
 							<p>Total GB :
-								{{ ram.total }}
+								{{ selected.ram.total }}
 								GB</p>
 						</div>
 					</article>
-					<div class="ligne"></div>
-				{% endfor %}
-			{% endif %}
-			{% if selected.rams|length <= maxRamSlot %}
+			{% else %}
 				<a href="{{ path('forge_select_ram') }}">Choisir de la ram</a>
 			{% endif %}
 		</section>
@@ -179,33 +183,31 @@
 				Le stockage détermine la rapidité de chargement de ton système. Un SSD NVMe M.2 est le meilleur choix pour le système et les jeux, bien plus rapide qu’un SSD SATA. Pour les gros fichiers, un disque dur (HDD) reste utile en complément. Si ta carte mère le permet, combine plusieurs SSD pour plus de confort et de performance.
 			</p>
 			<div class="ligne"></div>
-			{% if selected.storages|length > 0 %}
-				{% for storage in selected.storages %}
-					<article id="compo-card" data-ascin="{{ storage.ascin }}">
+			{% if selected.storage %}
+					<article id="compo-card" data-ascin="{{ selected.storage.ascin }}">
 						<div>
 							<div id="compo-card-img">
 								<img src="" alt="">
 							</div>
-							<p>{{storage.marque}}
-								{{storage.modele}}</p>
-							<p>{{storage.prix}}€</p>
+							<div>
+							<p>{{selected.storage.marque}}
+								{{selected.storage.modele}}</p>
+							<p>{{selected.storage.prix}}€</p>
 							<p id="compo-card-note"></p>
 							<a id="compo-card-revendeur" href="">Amazon</a>
+							</div>
 							<button>
 								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="#e5676e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-x-icon lucide-circle-x"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
 							</button>
 						</div>
 						<div>
 							<p>Type de stockage :
-								{{ storage.type }}W</p>
+								{{ selected.storage.type }}W</p>
 							<p>Interface :
-								{{ storage.interface}}</p>
+								{{ selected.storage.interface}}</p>
 						</div>
 					</article>
-					<div class="ligne"></div>
-				{% endfor %}
-			{% endif %}
-			{% if selected.storages|length <= maxStorageSlot %}
+			{% else %}
 				<a href="{{ path('forge_select_storage') }}">Choisir du stockage</a>
 			{% endif %}
 		</section>
@@ -222,11 +224,13 @@
 						<div id="compo-card-img">
 							<img src="" alt="">
 						</div>
+						<div>
 						<p>{{selected.cooler.marque}}
 							{{selected.cooler.modele}}</p>
 						<p>{{selected.cooler.prix}}€</p>
 						<p id="compo-card-note"></p>
 						<a id="compo-card-revendeur" href="">Amazon</a>
+						</div>
 						<button>
 							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="#e5676e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-x-icon lucide-circle-x"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
 						</button>
@@ -258,11 +262,13 @@
 						<div id="compo-card-img">
 							<img src="" alt="">
 						</div>
+						<div>
 						<p>{{selected.psu.marque}}
 							{{selected.psu.modele}}</p>
 						<p>{{selected.psu.prix}}€</p>
 						<p id="compo-card-note"></p>
 						<a id="compo-card-revendeur" href="">Amazon</a>
+						</div>
 						<button>
 							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="#e5676e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-x-icon lucide-circle-x"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
 						</button>
@@ -296,11 +302,13 @@
 						<div id="compo-card-img">
 							<img src="" alt="">
 						</div>
+						<div>
 						<p>{{selected.boitier.marque}}
 							{{selected.boitier.modele}}</p>
 						<p>{{selected.boitier.prix}}€</p>
 						<p id="compo-card-note"></p>
 						<a id="compo-card-revendeur" href="">Amazon</a>
+						</div>
 						<button>
 							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="#e5676e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-x-icon lucide-circle-x"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
 						</button>
@@ -330,32 +338,31 @@
 				Les ventilateurs assurent la circulation d’air dans ton boîtier. Installe au moins un ventilateur en entrée et un en sortie pour un flux optimal. Vérifie la taille (120 mm ou 140 mm) et le connecteur (3 ou 4 broches). Les modèles PWM sont plus silencieux car leur vitesse s’ajuste automatiquement à la température.
 			</p>
 			<div class="ligne"></div>
-			{% if selected.fans|length > 0 %}
-				{% for fan in selected.fans %}
-					<article id="compo-card" data-ascin="{{ fan.ascin }}">
+			{% if selected.fan %}
+					<article id="compo-card" data-ascin="{{ selected.fan.ascin }}">
 						<div>
 							<div id="compo-card-img">
 								<img src="" alt="">
 							</div>
-							<p>{{fan.marque}}
-								{{fan.modele}}</p>
-							<p>{{fan.prix}}€</p>
+							<div>
+							<p>{{selected.fan.marque}}
+								{{selected.fan.modele}}</p>
+							<p>{{selected.fan.prix}}€</p>
 							<p id="compo-card-note"></p>
 							<a id="compo-card-revendeur" href="">Amazon</a>
+							</div>
 							<button>
 								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="#e5676e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-x-icon lucide-circle-x"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
 							</button>
 						</div>
 						<div>
 							<p>Largeur :
-								{{ fan.width }}W</p>
+								{{ selected.fan.width }}W</p>
 							<p>Quantité :
-								{{ fan.quantity}}</p>
+								{{ selected.fan.quantity}}</p>
 						</div>
 					</article>
-				{% endfor %}
-			{% endif %}
-			{% if selected.fans|length <= maxFanSlot %}
+			{% else %}
 				<a href="{{ path('forge_select_fan') }}">Choisir des ventilateurs</a>
 			{% endif %}
 		</section>
@@ -367,8 +374,8 @@
 			{% if selected.cpu and
     selected.motherboard and
     selected.gpu and
-    selected.rams and
-    selected.storages and
+    selected.ram and
+    selected.storage and
     selected.boitier and
     selected.psu %}
 					<form method="post" action="{{ path('forge_save') }}">

@@ -93,7 +93,6 @@ class BuildType extends AbstractType
             ->add('image', ImageType::class, [
                 'by_reference' => false,
                 'required' => false,
-                'data' => (new Image())->setContext('news'),
             ])
             // ->add('User', EntityType::class, [
             //     'class' => User::class,

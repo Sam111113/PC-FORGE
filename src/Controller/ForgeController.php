@@ -20,6 +20,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use function PHPUnit\Framework\never;
 
 #[IsGranted('IS_AUTHENTICATED_FULLY')]
 final class ForgeController extends AbstractController
@@ -34,12 +35,12 @@ final class ForgeController extends AbstractController
                 'cpuId' => null,
                 'mbId' => null,
                 'gpuId' => null,
-                'ramId' => [],
-                'storageId' => [],
+                'ramId' => null,
+                'storageId' => null,
                 'coolerId' => null,
                 'psuId' => null,
                 'boitierId' => null,
-                'fan' => [],
+                'fanId' => null,
             ];
             $session->set(self::SESSION_KEY, $state);
         }
@@ -61,19 +62,7 @@ final class ForgeController extends AbstractController
         $state[$key] = $id;
         return $state;
     }
-    private function toggleInList(array $state, string $key, int $id): array
-    {
-        $list = $state[$key] ?? [];
-        $pos = array_search($id, $list, true);
 
-        if ($pos === false) {
-            $list[] = $id;
-        } else {
-            array_splice($list, $pos, 1);
-        }
-        $state[$key] = $list;
-        return $state;
-    }
     #[Route('/forge', name: 'app_forge')]
     public function index(
         Request $request,
@@ -89,17 +78,17 @@ final class ForgeController extends AbstractController
     ): Response {
         $session = $request->getSession();
         $build = $this->getBuild($session);
-        // Prépare un tableau qui contiendra les entités à envoyer à Twig
+
         $selected = [
             'cpu' => null,
             'motherboard' => null,
             'gpu' => null,
-            'rams' => [],   // liste
-            'storages' => [],   // liste
+            'ram' => null,
+            'storage' => null,
             'cooler' => null,
             'psu' => null,
             'boitier' => null,
-            'fans' => [],   // liste
+            'fan' => null,
         ];
 
         // CPU
@@ -110,11 +99,6 @@ final class ForgeController extends AbstractController
         // Motherboard
         if (!empty($build['mbId'])) {
             $selected['motherboard'] = $mbRepo->find($build['mbId']);
-            $mb = $mbRepo->find($build['mbId']);
-            if ($mb) {
-                $maxRamSlot = $mb->getMemorySlot();
-                $maxStorageSlot = $mb->getSataPort() + $mb->getSlotM2();
-            }
         }
 
         // GPU
@@ -122,38 +106,19 @@ final class ForgeController extends AbstractController
             $selected['gpu'] = $gpuRepo->find($build['gpuId']);
         }
 
-        // RAM (liste)
-        $selected['rams'] = [];
+        // RAM
         if (!empty($build['ramId'])) {
-            foreach ($build['ramId'] as $ramId) {
-                if ($ram = $ramRepo->find($ramId)) {
-                    $selected['rams'][] = $ram;
-                    $nbRam = $ram->getNbModule();
-                    $maxRamSlot -= $nbRam;
-                }
-            }
+            $selected['ram'] = $ramRepo->find($build['ramId']);
         }
 
-        // Storage (liste)
-        $selected['storages'] = [];
+        // Storage
         if (!empty($build['storageId'])) {
-            foreach ($build['storageId'] as $storageId) {
-                if ($storage = $storageRepo->find($storageId)) {
-                    $selected['storages'][] = $storage;
-                    $maxStorageSlot -= 1;
-                }
-            }
+            $selected['storage'] = $storageRepo->find($build['storageId']);
         }
 
         // Cooler
         if (!empty($build['coolerId'])) {
             $selected['cooler'] = $coolerRepo->find($build['coolerId']);
-            $cooler = $coolerRepo->find($build['coolerId']);
-            $isAio = $cooler->isAio();
-            if ($isAio === true) {
-                $nbCoolerFan = $cooler->getNbFan();
-            }
-
         }
 
         // PSU
@@ -164,41 +129,26 @@ final class ForgeController extends AbstractController
         // Boitier
         if (!empty($build['boitierId'])) {
             $selected['boitier'] = $boitierRepo->find($build['boitierId']);
-            $boitier = $boitierRepo->find($build['boitierId']);
-            if ($boitier) {
-                $maxFanSlot = $boitier->getFanSlot();
-                if (!empty($nbCoolerFan)) {
-                    $maxFanSlot -= $nbCoolerFan;
-                }
-            }
         }
 
-        // Fan (liste)
-        $selected['fans'] = [];
-        if (!empty($build['fan'])) {
-            foreach ($build['fan'] as $fanId) {
-                if ($fan = $fanRepo->find($fanId)) {
-                    $selected['fans'][] = $fan;
-                    $nbOfFan = $fan->getQuantity();
-                    $maxFanSlot -= $nbOfFan;
-                }
-            }
+        // Fan
+        if (!empty($build['fanId'])) {
+            $selected['fan'] = $fanRepo->find($build['fanId']);
         }
 
-        // Affichage dans la vue
         return $this->render('forge/index.html.twig', [
-            'build' => $build,
             'selected' => $selected,
-            'maxRamSlot' => $maxRamSlot ?? 0,
-            'maxStorageSlot' => $maxStorageSlot ?? 0,
-            'maxFanSlot' => $maxFanSlot ?? 0,
         ]);
     }
     #[Route('/forge/select/cpu', name: 'forge_select_cpu')]
-    public function selectCpu(CpuRepository $cpuRepo, Request $request): Response
+    public function selectCpu(CpuRepository $cpuRepo, SessionInterface $session): Response
     {
-        $session = $request->getSession();
         $build = $session->get('userBuild', []);
+        $build = $this->getBuild($session);
+        if (!empty($build['cpuId'])) {
+            $this->addFlash('warning', 'Tu as déjà sélectionné un processeur.');
+            return $this->redirectToRoute('app_forge');
+        }
         $cpus = $cpuRepo->findBy([], ['prix' => 'DESC']);
         return $this->render('cpu/index.html.twig', [
             'cpus' => $cpus,
@@ -231,14 +181,13 @@ final class ForgeController extends AbstractController
     {
         $build = $session->get('userBuild', []);
         $cpuId = $build['cpuId'];
-        if (!$cpuId) {
+        if (!$build['cpuId']) {
             $this->addFlash('warning', 'Choisis d’abord un processeur.');
             return $this->redirectToRoute('app_forge');
         }
         $cpu = $cpuRepo->find($cpuId);
         $socket = $cpu->getSocket();
-        $cpu = $cpuRepo->find($build['cpuId']);
-        $motherboards = $mbRepo->findBy(['socket' => $socket], ['id' => 'ASC']);
+        $motherboards = $mbRepo->findBy(['socket' => $socket], ['id' => 'DESC']);
 
         return $this->render('motherboard/index.html.twig', [
             'motherboards' => $motherboards,
@@ -266,7 +215,7 @@ final class ForgeController extends AbstractController
 
     //RAM Selection
     #[Route('/forge/select/ram', name: 'forge_select_ram', methods: ['GET'])]
-    public function selectRam(MotherboardRepository $mbRepo, RamRepository $ramRepo, GpuRepository $gpuRepo, SessionInterface $session): Response
+    public function selectRam(MotherboardRepository $mbRepo, RamRepository $ramRepo, SessionInterface $session): Response
     {
         $build = $session->get('userBuild', []);
         $gpuId = $build['gpuId'];
@@ -276,13 +225,19 @@ final class ForgeController extends AbstractController
         }
         $mb = $mbRepo->find($build['mbId']);
         $memoryType = $mb->getMemoryType();
-        $maxRamSlot = $mb->getMemorySlot();
-        $rams = $ramRepo->findBy(['type' => $memoryType], ['id' => 'ASC']);
+        $memoryMax = $mb->getMemoryMax();
+        $rams = $ramRepo->createQueryBuilder('ram')
+            ->andWhere('ram.type LIKE :memoryType')
+            ->andWhere('ram.total <= :memoryMax')
+            ->setParameter('memoryType', $memoryType)
+            ->setParameter('memoryMax', $memoryMax)
+            ->orderBy('ram.prix', 'DESC')
+            ->getQuery()
+            ->getResult();
 
         return $this->render('ram/index.html.twig', [
             'rams' => $rams,
             'build' => $build,
-            'maxRamSlot' => $maxRamSlot,
         ]);
     }
 
@@ -291,17 +246,15 @@ final class ForgeController extends AbstractController
     public function addRam(int $id, Request $request, SessionInterface $session, RamRepository $repo): Response
     {
         $submittedToken = $request->request->get('_token');
-        $ramQuantity = $request->request->get('quantity');
         if (!$this->isCsrfTokenValid('add_ram_' . $id, $submittedToken)) {
             throw $this->createAccessDeniedException('Jeton CSRF invalide.');
         }
         if (!$repo->find($id)) {
             throw $this->createNotFoundException('ram introuvable');
         }
-        for ($i = 0; $i < $ramQuantity; $i++) {
         $state = $this->getBuild($session);
-        $state = $this->toggleInList($state, 'ramId', $id);
-        }
+        $state = $this->setSingle($state, 'ramId', $id);
+
         $this->saveBuild($session, $state);
         return $this->redirectToRoute('app_forge');
     }
@@ -318,7 +271,7 @@ final class ForgeController extends AbstractController
         }
         $mb = $mbRepo->find($build['mbId']);
         $mbPcie = $mb->getPcieModule();
-        $gpus = $gpuRepo->findBy(['pcieModule' => $mbPcie], ['id' => 'ASC']);
+        $gpus = $gpuRepo->findBy(['pcieModule' => $mbPcie], ['id' => 'DESC']);
 
         return $this->render('gpu/index.html.twig', [
             'gpus' => $gpus,
@@ -352,70 +305,31 @@ final class ForgeController extends AbstractController
         $build = $session->get('userBuild', []);
         $ramId = $build['ramId'];
         $mb = $mbRepo->find($build['mbId']);
-        $storageIds = ['storageId'];
         if (!$ramId) {
             $this->addFlash('warning', 'Choisis d’abord de la mémoire.');
             return $this->redirectToRoute('app_forge');
         }
 
-        $mbSataMax = (int) $mb->getSataPort();
-        $mbM2Max = (int) $mb->getSlotM2();
-        $mbMaxStorageSlot = $mbM2Max + $mbSataMax;
-
-        // Comptage des stockages déjà sélectionnés
-        $usedSata = 0;
-        $usedM2 = 0;
-        if (!empty($storageIds)) {
-            $already = $storageRepo->findBy(['id' => $storageIds]);
-            foreach ($already as $s) {
-                $iface = (string) $s->getInterface(); // ex: "SATA III" ou "PCIe 4.0"
-                $type = (string) $s->getType();      // ex: "SSD NVMe" / "SSD SATA" / "HDD"
-
-                $isSata = stripos($iface, 'SATA') !== false
-                    || stripos($type, 'SATA') !== false
-                    || stripos($type, 'HDD') !== false;
-
-                $isM2 = stripos($iface, 'PCIe') !== false   // NVMe via PCIe en M.2
-                    || stripos($iface, 'M.2') !== false
-                    || stripos($type, 'NVMe') !== false;
-
-                if ($isSata) {
-                    $usedSata++;
-                } elseif ($isM2) {
-                    $usedM2++;
-                }
-            }
+        $mbSata = $mb->getSataPort();
+        $mbM2 = $mb->getSlotM2();
+        if ($mbM2 > 0) {
+            $storages = $storageRepo->createQueryBuilder('storage')
+                ->andWhere('storage.interface LIKE :pcie')
+                ->setParameter('pcie', '%PCie%')
+                ->orderBy('storage.prix', 'DESC')
+                ->getQuery()
+                ->getResult();
+        } elseif ($mbSata > 0) {
+            $storages = $storageRepo->createQueryBuilder('storage')
+                ->andWhere('storage.interface LIKE %SATA%')
+                ->orderBy('storage.prix', 'DESC')
+                ->getQuery()
+                ->getResult();
+        } else {
+            $storages = $storageRepo->findAll();
         }
-
-
-        $sataLeft = max(0, $mbSataMax - $usedSata);
-        $m2Left = max(0, $mbM2Max - $usedM2);
-
-
-        $sataOptions = $sataLeft > 0
-            ? $storageRepo->createQueryBuilder('st')
-                ->where('st.interface LIKE :sata OR st.type LIKE :ssdSata OR st.type = :hdd')
-                ->setParameter('sata', 'SATA%')
-                ->setParameter('ssdSata', '%SATA%')
-                ->setParameter('hdd', 'HDD')
-                ->orderBy('st.id', 'ASC')
-                ->getQuery()->getResult()
-            : [];
-
-        $m2Options = $m2Left > 0
-            ? $storageRepo->createQueryBuilder('st')
-                ->where('(st.interface LIKE :pcie OR st.interface LIKE :m2 OR st.type LIKE :nvme)')
-                ->setParameter('pcie', 'PCIe%')
-                ->setParameter('m2', 'M.2%')
-                ->setParameter('nvme', '%NVMe%')
-                ->orderBy('st.id', 'ASC')
-                ->getQuery()->getResult()
-            : [];
-        $storages = array_merge($sataOptions, $m2Options);
-
         return $this->render('storage/index.html.twig', [
             'storages' => $storages,
-            'mbMaxStorageSlot' => $mbMaxStorageSlot,
             'build' => $build,
         ]);
     }
@@ -433,7 +347,7 @@ final class ForgeController extends AbstractController
         }
 
         $state = $this->getBuild($session);
-        $state = $this->toggleInList($state, 'storageId', $id);
+        $state = $this->setSingle($state, 'storageId', $id);
         $this->saveBuild($session, $state);
         return $this->redirectToRoute('app_forge');
     }
@@ -462,7 +376,7 @@ final class ForgeController extends AbstractController
                 ->andWhere('c.mbFormFactor LIKE :formFactor')
                 ->setParameter('length', $gpuLength)
                 ->setParameter('formFactor', '%' . $mbFormFactor . '%')
-                ->orderBy('c.prix', 'ASC')
+                ->orderBy('c.prix', 'DESC')
                 ->getQuery()
                 ->getResult();
         } else {
@@ -479,16 +393,19 @@ final class ForgeController extends AbstractController
                     ->setParameter('length', $gpuLength)
                     ->setParameter('formFactor', '%' . $mbFormFactor . '%')
                     ->setParameter('coolerHeight', $coolerHeight)
-                    ->orderBy('c.prix', 'ASC')
+                    ->orderBy('c.prix', 'DESC')
                     ->getQuery()
                     ->getResult();
             } else {
+                $coolerFan = $cooler->getNbFan();
                 $boitiers = $caseRepo->createQueryBuilder('c')
                     ->andWhere('c.gpuMaxL >= :length')
                     ->andWhere('c.mbFormFactor LIKE :formFactor')
+                    ->andWhere('c.fanSlot >= :fan')
+                    ->setParameter('fan', $coolerFan)
                     ->setParameter('length', $gpuLength)
                     ->setParameter('formFactor', '%' . $mbFormFactor . '%')
-                    ->orderBy('c.prix', 'ASC')
+                    ->orderBy('c.prix', 'DESC')
                     ->getQuery()
                     ->getResult();
             }
@@ -526,7 +443,7 @@ final class ForgeController extends AbstractController
     ): Response {
         $session = $request->getSession();
         $build = $session->get('userBuild', []);
-        $storageId = $build['cpuId'];
+        $storageId = $build['storageId'];
         if (!$storageId) {
             $this->addFlash('warning', 'Choisis d’abord du stockage.');
             return $this->redirectToRoute('app_forge');
@@ -541,7 +458,7 @@ final class ForgeController extends AbstractController
             ->andWhere('cooler.tdp >= :tdp')
             ->setParameter('socket', '%' . $socket . '%')
             ->setParameter('tdp', $tdp)
-            ->orderBy('cooler.prix', 'ASC')
+            ->orderBy('cooler.prix', 'DESC')
             ->getQuery()
             ->getResult();
 
@@ -600,7 +517,7 @@ final class ForgeController extends AbstractController
         $psus = $psuRepo->createQueryBuilder('psu')
             ->andWhere('psu.wattage >= :tdp')
             ->setParameter('tdp', $tdpTotal)
-            ->orderBy('psu.prix', 'ASC')
+            ->orderBy('psu.prix', 'DESC')
             ->getQuery()
             ->getResult();
 
@@ -639,21 +556,13 @@ final class ForgeController extends AbstractController
         $session = $request->getSession();
         $build = $session->get('userBuild', []);
         $boitierId = $build['boitierId'];
-        $fanId = $build['fan'];
         if (!$boitierId) {
             $this->addFlash('warning', 'Choisis d’abord un boitier.');
             return $this->redirectToRoute('app_forge');
         }
-        $nbFanSelected = 0;
-        if ($fanId) {
-            foreach ($fanId as $key => $id) {
-                $fan = $fanRepo->find($id);
-                $nbFanSelected += $fan->getQuantity();
-            }
-        }
+
         $boitier = $boitierRepo->find($boitierId);
-        $maxBoitierFan = $boitier->getFanSlot();
-        $maxFanSlot = $boitier->getFanSlot() - $nbFanSelected;
+        $maxFanSlot = $boitier->getFanSlot();
         $maxFanWidth = $boitier->getFanSlotWidth();
 
         $fans = $fanRepo->createQueryBuilder('fan')
@@ -661,13 +570,12 @@ final class ForgeController extends AbstractController
             ->andWhere('fan.quantity <= :slot')
             ->setParameter('slot', $maxFanSlot)
             ->setParameter('maxWidth', $maxFanWidth)
-            ->orderBy('fan.prix', 'ASC')
+            ->orderBy('fan.prix', 'DESC')
             ->getQuery()
             ->getResult();
         return $this->render('fan/index.html.twig', [
             'fans' => $fans,
             'build' => $build,
-            'maxBoitierFan' => $maxBoitierFan,
         ]);
     }
 
@@ -684,7 +592,7 @@ final class ForgeController extends AbstractController
         }
 
         $state = $this->getBuild($session);
-        $state = $this->toggleInList($state, 'fan', $id);
+        $state = $this->setSingle($state, 'fanId', $id);
         $this->saveBuild($session, $state);
         return $this->redirectToRoute('app_forge');
     }
@@ -700,15 +608,86 @@ final class ForgeController extends AbstractController
 
         $state = $this->getBuild($session);
 
-        $singleKeys = ['cpuId', 'mbId', 'gpuId', 'coolerId', 'psuId', 'boitierId'];
-        $listKeys = ['ramId', 'storageId', 'fan'];
-
-        if (in_array($part, $singleKeys, true)) {
-            $state[$part] = null;
-        } elseif (in_array($part, $listKeys, true)) {
-            $state[$part] = [];
-        } else {
-            throw $this->createNotFoundException('Part inconnue');
+        if ($part = 'cpuId') {
+            $state = [
+                'cpuId' => null,
+                'mbId' => null,
+                'gpuId' => null,
+                'ramId' => null,
+                'storageId' => null,
+                'coolerId' => null,
+                'psuId' => null,
+                'boitierId' => null,
+                'fanId' => null,
+            ];
+        }
+        if ($part = 'mbId') {
+            $state = [
+                'mbId' => null,
+                'gpuId' => null,
+                'ramId' => null,
+                'storageId' => null,
+                'coolerId' => null,
+                'psuId' => null,
+                'boitierId' => null,
+                'fanId' => null,
+            ];
+        }
+        if ($part = 'gpuId') {
+            $state = [
+                'gpuId' => null,
+                'ramId' => null,
+                'storageId' => null,
+                'coolerId' => null,
+                'psuId' => null,
+                'boitierId' => null,
+                'fanId' => null,
+            ];
+        }
+        if ($part = 'ramId') {
+            $state = [
+                'ramId' => null,
+                'storageId' => null,
+                'coolerId' => null,
+                'psuId' => null,
+                'boitierId' => null,
+                'fanId' => null,
+            ];
+        }
+        if ($part = 'storageId') {
+            $state = [
+                'storageId' => null,
+                'coolerId' => null,
+                'psuId' => null,
+                'boitierId' => null,
+                'fanId' => null,
+            ];
+        }
+        if ($part = 'coolerId') {
+            $state = [
+                'coolerId' => null,
+                'psuId' => null,
+                'boitierId' => null,
+                'fanId' => null,
+            ];
+        }
+        if ($part = 'psuId') {
+            $state = [
+                'psuId' => null,
+                'boitierId' => null,
+                'fanId' => null,
+            ];
+        }
+        if ($part = 'boitierId') {
+            $state = [
+                'boitierId' => null,
+                'fanId' => null,
+            ];
+        }
+        if ($part = 'fanId') {
+            $state = [
+                'fanId' => null,
+            ];
         }
 
         $this->saveBuild($session, $state);
@@ -749,61 +728,46 @@ final class ForgeController extends AbstractController
         $user = $this->getUser();
 
         if (!$user instanceof \App\Entity\User) {
-            throw $this->createAccessDeniedException('You must be logged in to save a build.');
+            throw $this->createAccessDeniedException('Vous devez être connecter.');
         }
 
         // CPU
-            $cpu = $cpuRepo->find($build['cpuId']);
+        $cpu = $cpuRepo->find($build['cpuId']);
 
         // Motherboard
-            $mb = $mbRepo->find($build['mbId']);
+        $mb = $mbRepo->find($build['mbId']);
 
         // GPU
-            $gpu = $gpuRepo->find($build['gpuId']);
+        $gpu = $gpuRepo->find($build['gpuId']);
 
-        // RAM (liste)
-        $rams = [];
-            foreach ($build['ramId'] as $ramId) {
-                if ($ram = $ramRepo->find($ramId)) {
-                    $rams[] = $ram;
-                }
-            }
+        // RAM
+        $ram = $ramRepo->find($build['ramId']);
 
-        // Storage (liste)
-        $storages = [];
-            foreach ($build['storageId'] as $storageId) {
-                if ($storage = $storageRepo->find($storageId)) {
-                    $storages[] = $storage;
-                }
-            }
+        // Storage
+        $storage = $storageRepo->find($build['storageId']);
 
         // Cooler
-        if (!empty($build['cooler'])) {
+        if (!empty($build['coolerId'])) {
             $cooler = $coolerRepo->find($build['coolerId']);
         }
 
         // PSU
-            $psu = $psuRepo->find($build['psuId']);
+        $psu = $psuRepo->find($build['psuId']);
 
         // Boitier
-            $boitier = $boitierRepo->find($build['boitierId']);
+        $boitier = $boitierRepo->find($build['boitierId']);
 
-        // Fan (liste)
-        $fans = [];
-        if (!empty($build['fan'])) {
-            foreach ($build['fan'] as $fanId) {
-                if ($fan = $fanRepo->find($fanId)) {
-                    $fans[] = $fan;
-                }
-            }
+        // Fan
+        if (!empty($build['fanId'])) {
+                $fan = $fanRepo->find($build['fanId']);
         }
 
         if (
             empty($cpu) ||
             empty($mb) ||
             empty($gpu) ||
-            empty($storages) ||
-            empty($rams) ||
+            empty($storage) ||
+            empty($ram) ||
             empty($boitier) ||
             empty($psu)
         ) {
@@ -817,17 +781,11 @@ final class ForgeController extends AbstractController
         $buildCreate->addGpu($gpu);
         $buildCreate->setPsu($psu);
         $buildCreate->setBoitier($boitier);
+        $buildCreate->addRam($ram);
+        $buildCreate->addStorage($storage);
 
-        foreach ($rams as $ram) {
-            $buildCreate->addRam($ram);
-        }
-        foreach ($storages as $storage) {
-            $buildCreate->addStorage($storage);
-        }
         if (!empty($fans)) {
-            foreach ($fans as $fan) {
-                $buildCreate->addFan($fan);
-            }
+            $buildCreate->addFan($fan);
         }
         if (!empty($cooler)) {
             $buildCreate->setCooler($cooler);

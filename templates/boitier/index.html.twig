@@ -14,6 +14,7 @@
 						<div id="compo-card-img">
 							<img src="" alt="">
 						</div>
+						<div>
 						<p>{{boitier.marque}}
 							{{boitier.modele}}</p>
 						<p>{{boitier.prix}}€</p>
@@ -29,6 +30,7 @@
 								</form>
 							{% endif %}
 						{% endif %}
+						</div>
 						{% if is_granted('ROLE_ADMIN') %}
 							<div>
 								<a href="{{ path('app_boitier_show', {'id': boitier.id}) }}">

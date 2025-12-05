@@ -14,6 +14,7 @@
 						<div id="compo-card-img">
 							<img src="" alt="">
 						</div>
+						<div>
 						<p>{{gpu.marque}}
 							{{gpu.modele}}</p>
 						<p>{{gpu.prix}}€</p>
@@ -29,6 +30,7 @@
 								</form>
 							{% endif %}
 						{% endif %}
+						</div>
 						{% if is_granted('ROLE_ADMIN') %}
 							<div>
 								<a href="{{ path('app_gpu_show', {'id': gpu.id}) }}">

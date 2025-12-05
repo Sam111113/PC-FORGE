@@ -1,32 +1,38 @@
 export function carouBuild(slide) {
     const leftBtn = document.querySelector('#left-btn');
     const rightBtn = document.querySelector('#right-btn');
-    const buildCard = document.querySelectorAll('.build-card')
-    let max = 0;
-    buildCard.forEach(element => {
-        max += 1;
-        return max;
+    const buildCard = document.querySelector('.build-card');
+    const totalCard = document.querySelectorAll('.build-card');
+    let limiteTotal = 0;
+    totalCard.forEach(element => {
+        limiteTotal += 1;
+        return limiteTotal;
     });
-    //ACC
+
+    const style = getComputedStyle(slide);
+    const gap = parseFloat(style.gap);
+    const itemWidth = buildCard.getBoundingClientRect().width;
+
     let index = 0;
-    let d = 0;
-    //EVENT FLECHE DROITE
-    if (!rightBtn || !leftBtn) return;
-    rightBtn.addEventListener('click', function () {
 
-        if (index < max) {
-            index += 1;
-            d -= 100;
-            slide.style.transform = `translateX(${d}%)`;
-        };
+    function moveCarousel() {
+        const distance = index * (itemWidth + gap);
+        slide.style.transform = `translateX(-${distance}px)`;
+    }
+
+    rightBtn.addEventListener('click', () => {
+        if (index < totalCard.length - 1){
+        index++;
+        moveCarousel();
+        return index;
+        }
     });
 
-    //EVENT FLECHE GAUCHE
-    leftBtn.addEventListener('click', function () {
-        if (index > 0) {
-            index -= 1;
-            d += 100;
-            slide.style.transform = `translateX(${d}%)`;
-        };
+    leftBtn.addEventListener('click', () => {
+        if (index > 0){
+        index--;
+        moveCarousel();
+        return index
+        }
     });
 }

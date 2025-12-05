@@ -14,6 +14,7 @@
 						<div id="compo-card-img">
 							<img src="" alt="">
 						</div>
+						<div>
 						<p>{{motherboard.marque}}
 							{{motherboard.modele}}</p>
 						<p>{{motherboard.prix}}€</p>
@@ -29,6 +30,7 @@
 								</form>
 							{% endif %}
 						{% endif %}
+						</div>
 						{% if is_granted('ROLE_ADMIN') %}
 							<div>
 								<a href="{{ path('app_motherboard_show', {'id': motherboard.id}) }}">

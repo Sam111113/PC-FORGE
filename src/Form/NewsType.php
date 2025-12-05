@@ -18,13 +18,12 @@ class NewsType extends AbstractType
             ->add('titre')
             ->add('content', TextareaType::class, [
                 'label' => 'Contenu',
-                'attr' => ['rows' => 14], // juste pour le rendu initial
+                'attr' => ['rows' => 14],
             ])
             ->add('accroche')
             ->add('image', ImageType::class, [
                 'by_reference' => false,
                 'required' => false,
-                'data' => (new Image())->setContext('news'),
             ]);
     }
 

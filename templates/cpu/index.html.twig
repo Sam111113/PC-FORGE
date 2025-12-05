@@ -24,7 +24,7 @@
 						<p id="compo-card-note"></p>
 						<a id="compo-card-revendeur" href="">Amazon</a>
 						{% if build ?? false %}
-							{% if build.cpuId is empty or null %}
+							{% if build.cpuId is empty or build.cpuId is null %}
 								<form method="post" action="{{ path('forge_add_cpu', { id: cpu.id }) }}">
 									<input type="hidden" name="_token" value="{{ csrf_token('add_cpu_' ~ cpu.id) }}">
 									<button class="btn">
