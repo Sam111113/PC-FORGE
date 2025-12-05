@@ -1,0 +1,79 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}User index
+{% endblock %}
+
+{% block main %}
+	<main class="main-show">
+			<nav>
+				<ul>
+					<li><a href="{{path('app_user_index')}}">Utilisateurs</a></li>
+					<li><a href="{{path('app_build_index')}}">Builds</a></li>
+					<li><a href="{{path('app_news_adminView')}}">News</a></li>
+				</ul>
+			</nav>
+		<h1>admin dashboard</h1>
+		<form class="search-bar" method="get" action="{{ path('app_user_index') }}">
+			<label for="keywords">Rechercher</label>
+			<input type="text" name="keywords">
+			<button type="submit">
+				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-search-icon lucide-search"><path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/></svg>
+			</button>
+		</form>
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Id</th>
+					<th>Email</th>
+					<th>pseudo</th>
+					<th>Roles</th>
+					<th>Créer le</th>
+					<th>actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for user in users %}
+					<tr>
+						<td>{{ user.id }}</td>
+						<td>{{ user.email }}</td>
+						<td>{{ user.pseudo }}</td>
+						<td>
+							<form method="post" action="{{ path('app_user_update_roles', {id: user.id}) }}" class="js-role-form">
+
+								<input type="hidden" name="_token" value="{{ csrf_token('update_roles' ~ user.id) }}">
+
+								{% set currentRole = user.roles[0] ?? 'ROLE_USER' %}
+
+								<select name="role" class="js-role-select">
+									<option value="ROLE_USER" {{ currentRole == 'ROLE_USER' ? 'selected' : '' }}>
+										Utilisateur
+									</option>
+									<option value="ROLE_REDACTEUR" {{ currentRole == 'ROLE_REDACTEUR' ? 'selected' : '' }}>
+										Rédacteur
+									</option>
+									<option value="ROLE_ADMIN" {{ currentRole == 'ROLE_ADMIN' ? 'selected' : '' }}>
+										Admin
+									</option>
+								</select>
+								<button type="submit">
+									<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-save-icon lucide-save"><path d="M15.2 3a2 2 0 0 1 1.4.6l3.8 3.8a2 2 0 0 1 .6 1.4V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path d="M17 21v-7a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v7"/><path d="M7 3v4a1 1 0 0 0 1 1h7"/></svg>
+								</button>
+							</form>
+						</td>
+						<td>{{ user.createdAt|date('d/m/y H:m') }}</td>
+						<td>
+							<a href="{{ path('app_user_show', {'id': user.id}) }}">show</a>
+							{# <a href="{{ path('app_user_edit', {'id': user.id}) }}">edit</a> #}
+						</td>
+					</tr>
+				{% else %}
+					<tr>
+						<td colspan="5">no records found</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+
+		<a href="{{ path('app_user_new') }}">Create new</a>
+	</main>
+{% endblock %}

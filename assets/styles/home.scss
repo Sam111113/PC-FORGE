@@ -1,0 +1,111 @@
+@use './abstracts' as *;
+
+.hero {
+    background-image: url(../img/herohome.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 80vh;
+    width: 100%;
+    color: $colortextPrimary;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+
+    div {
+        @include flex-evenly($direction: column);
+        height: 30vh;
+        margin-right: 15vw;
+
+        h1 {
+            font-family: $fontTitle;
+            font-size: 3rem;
+            font-weight: 500;
+        }
+
+        h2 {
+            font-family: $fontText;
+            font-size: 1.5rem;
+            font-weight: 400;
+        }
+
+        a {
+            @include bouton-nav;
+
+            &:hover {
+                @include bouton-nav-hover;
+            }
+        }
+    }
+}
+
+.home-news {
+    color: $colortextPrimary;
+    font-family: $fontText;
+    @include flex-evenly(column);
+
+    >article {
+        margin: 0;
+    }
+}
+
+.home-builds {
+    @include flex-evenly(column);
+    background-image: url('../img/bgBuildHome.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    >h2 {
+        background-color: $colorBgF;
+        width: 100%;
+    }
+
+    >div {
+        @include flex-evenly(row);
+        width: 80%;
+        border-radius: 2rem;
+        padding: 2rem;
+    }
+}
+
+.home-news,
+.home-builds {
+    h2 {
+        font-family: $fontTitle;
+        font-size: $fontsizeTitle;
+        font-weight: 400;
+        text-align: center;
+        line-height: 8vh;
+        height: 8vh;
+        color: $colortextPrimary;
+    }
+}
+
+.pagination {
+    font-family: $fontText;
+    color: $colortextPrimary;
+    height: 7vh;
+    @include flex-center(row);
+
+    >span {
+        margin: 5px;
+
+        >a {
+            text-decoration: none;
+            color: $colortextPrimary;
+
+        }
+    }
+}
+@media screen and (max-width: 430px) {
+    .home-builds >div {
+        flex-direction: column;
+        gap: 2rem;
+    }
+    .hero {
+        justify-content: center;
+        div {
+            margin: 0;
+        }
+    }
+}

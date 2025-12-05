@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Alimentation
+{% endblock %}
+
+{% block main %}
+<main>
+	<h1 class="titre-main-page">Alimentation</h1>
+
+	<section class="compo-index">
+		{% for psu in psus %}
+			<article id="compo-card" data-ascin="{{ psu.ascin }}">
+				<div>
+					<div id="compo-card-img">
+						<img src="" alt="">
+					</div>
+					<div>
+					<p>{{psu.marque}}
+						{{psu.modele}}</p>
+					<p>{{psu.prix}}€</p>
+					<p id="compo-card-note"></p>
+					<a id="compo-card-revendeur" href="">Amazon</a>
+					{% if build ?? false %}
+						{% if build.storageId|length > 0 and (build.psuId is empty or build.psuId is null) %}
+							<form method="post" action="{{ path('forge_add_psu', { id: psu.id }) }}">
+								<input type="hidden" name="_token" value="{{ csrf_token('add_psu_' ~ psu.id) }}">
+								<button class="btn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-plus-icon lucide-circle-plus"><circle cx="12" cy="12" r="10"/><path d="M8 12h8"/><path d="M12 8v8"/></svg></button>
+							</form>
+						{% endif %}
+					{% endif %}
+					</div>
+					{% if is_granted('ROLE_ADMIN') %}
+						<div>
+							<a href="{{ path('app_psu_show', {'id': psu.id}) }}"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-eye-icon lucide-eye"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"/><circle cx="12" cy="12" r="3"/></svg></a>
+							<a href="{{ path('app_psu_edit', {'id': psu.id}) }}"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pencil-icon lucide-pencil"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></svg></a>
+						</div>
+					{% endif %}
+				</div>
+				<div>
+					<p>Wattage :
+						{{ psu.wattage }}W</p>
+					<p>Connecteur PCie :
+						{{ psu.pcieConnector}}</p>
+					<p>Connecteur EPS :
+						{{ psu.epsConnector }}</p>
+					<p>Connecteur SATA :
+						{{ psu.sataConnector }}</p>
+				</div>
+			</article>
+		{% else %}
+			<p>Aucune Alimentation trouver</p>
+		{% endfor %}
+	</section>
+	{% if is_granted('ROLE_ADMIN') %}
+		<a href="{{ path('app_psu_new') }}">Create new</a>
+	{% endif %}
+	</main>
+{% endblock %}

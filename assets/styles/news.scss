@@ -1,0 +1,239 @@
+@use './abstracts/' as *;
+
+.titre-main-page {
+    background-color: $colorBgS;
+    font-family: $fontTitle;
+    font-weight: 400;
+    font-size: $fontsizeTitle;
+    color: $colortextPrimary;
+    text-align: center;
+    height: 10vh;
+    line-height: 10vh;
+}
+
+.section-news {
+    width: 100%;
+    background-color: $colorBgF;
+    color: $colortextPrimary;
+    font-weight: 400;
+    font-family: $fontText;
+    @include flex-evenly(column);
+
+    h2,
+    h3 {
+        font-family: $fontTitle;
+        font-weight: 400;
+        font-size: $fontsizeTitle;
+
+        span {
+            border-bottom: 2px solid $colorBorder
+        }
+    }
+
+    .news-content-aside {
+        @include flex-evenly(row);
+        width: 100%;
+        margin: 2rem;
+
+        >article {
+            width: 60%;
+            text-align: justify;
+
+            >h3 {
+                margin-bottom: 0.5rem;
+            }
+        }
+
+        >aside {
+            width: 20%;
+            border: 2px solid $colorBorder;
+            border-radius: $bRadius;
+            align-self: flex-start;
+            text-align: center;
+
+            >h3 {
+                margin: 1rem
+            }
+
+            >ul {
+                @include flex-evenly(column);
+
+                >li {
+                    a {
+                        text-decoration: none;
+                        color: $colortextPrimary;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.news-cards {
+    height: 30vh;
+    width: 80%;
+    @include flex-evenly(row);
+    padding: 2rem;
+
+    >div:first-of-type {
+        height: 100%;
+        width: 50%;
+        @include flex-evenly(column);
+
+        p {
+            width: 80%;
+            text-align: justify;
+        }
+    }
+
+    >div:last-of-type {
+        width: 50%;
+        height: 100%;
+
+        img {
+            object-fit: cover;
+            width: 100%;
+            height: 100%;
+        }
+    }
+}
+
+.news-index-cards {
+    background-color: $colorBgS;
+    height: 38vh;
+    width: 70%;
+    @include flex-evenly(row);
+    padding: 1rem;
+    margin: 2rem;
+    border-radius: $bRadius;
+
+    >div:first-of-type {
+        height: 100%;
+        width: 50%;
+        @include flex-evenly(column);
+
+        >p {
+            width: 80%;
+            text-align: justify;
+        }
+
+        >a {
+            font-family: $fontTitle;
+            text-decoration: none;
+            color: $colorBorder;
+        }
+    }
+
+    >div:last-of-type {
+        width: 50%;
+        height: 100%;
+
+        >img {
+            object-fit: cover;
+            width: 100%;
+            height: 100%;
+        }
+    }
+}
+
+.news-new,
+.news-new section,
+.news-new form,
+.news-new form>div {
+    @include flex-center(column);
+}
+
+.news-new {
+    background-color: $colorBgS;
+
+    >section {
+        border-radius: 2rem;
+        border: 2px solid $colorBorder;
+        margin: 2rem;
+        background-color: $colorBgF;
+
+        >a:hover {
+            color: $colorBorder;
+        }
+
+        button {
+            @include bouton-nav;
+
+            &:hover {
+                @include bouton-nav-hover;
+            }
+        }
+    }
+}
+
+.news-new form>div {
+    margin: 0.3rem;
+}
+
+@media screen and (max-width: 430px) {
+    .news-index-cards, .news-cards {
+        flex-direction: column-reverse;
+        height: auto;
+        width: 90%;
+
+        >div:first-of-type {
+            width: 100%;
+            height: auto;
+
+            h2 {
+                height: auto;
+                width: 80%;
+                line-height: 2rem;
+                margin: 0.5rem;
+            }
+
+            p {
+                height: auto;
+                width: 100%;
+            }
+        }
+
+        >div:last-of-type {
+            width: 100%;
+        }
+        a:last-of-type {
+            margin-top: 2rem;
+        }
+    }
+
+    .section-news {
+        width: 100%;
+        background-color: $colorBgF;
+        color: $colortextPrimary;
+        font-weight: 400;
+        font-family: $fontText;
+        @include flex-evenly(column);
+
+        h2,
+        h3 {
+            font-family: $fontTitle;
+            font-weight: 400;
+            font-size: $fontsizeTitle;
+
+            span {
+                border-bottom: 2px solid $colorBorder
+            }
+        }
+
+        .news-content-aside {
+           flex-direction: column;
+            width: 100%;
+
+            >article {
+                width: 90%;
+            }
+
+            >aside {
+                margin-top: 2rem;
+                width: 90%;
+                align-self: center;
+                text-align: center;
+            }
+        }
+    }
+}

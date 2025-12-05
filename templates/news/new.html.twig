@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New News
+{% endblock %}
+{% block link %}
+	<link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/47.1.0/ckeditor5.css" crossorigin>
+	<link rel="stylesheet" href="../assets/news.css">
+{% endblock %}
+{% block main %}
+	<main class="news-new">
+		<section>
+			<h1>Create new News</h1>
+
+			{{ form_start(form) }}
+			{{ form_row(form.titre) }}
+			<div class="main-container">
+				<div class="editor-container editor-container_classic-editor editor-container_include-fullscreen" id="editor-container">
+					<div class="editor-container__editor">
+						<div id="editor">
+							{{ form_row(form.content) }}</div>
+					</div>
+				</div>
+			</div>
+			{{ form_row(form.accroche) }}
+			{{ form_row(form.image) }}
+			<button class="btn">Create</button>
+			{{ form_end(form) }}
+
+			<a href="{{ path('app_news_index') }}">back to list</a>
+		</section>
+	</main>
+{% endblock %}
+{% block script %}
+	<script src="https://cdn.ckeditor.com/ckeditor5/47.1.0/ckeditor5.umd.js" crossorigin></script>
+	<script src="https://cdn.ckeditor.com/ckeditor5/47.1.0/translations/fr.umd.js" crossorigin></script>
+	<script src="../js/news.js"></script>
+{% endblock %}

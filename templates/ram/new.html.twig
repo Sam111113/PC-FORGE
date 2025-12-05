@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Ram
+{% endblock %}
+
+{% block main %}
+	<main class="main-form">
+		<section>
+			<h1>Create new Ram</h1>
+
+			{{ include('ram/_form.html.twig') }}
+
+			<a href="{{ path('app_ram_index') }}">back to list</a>
+		</section>
+	</main>
+{% endblock %}

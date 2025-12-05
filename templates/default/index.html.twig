@@ -1,0 +1,78 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}PC Forge
+{% endblock %}
+{% block main %}
+	<main>
+		<section class="hero">
+			<div>
+				<h1>PC Builder</h1>
+				<h2>Forge ton build et rejoins-nous</h2>
+				<a href="{{ path('app_forge')}}">Forge</a>
+			</div>
+		</section>
+		<section class="home-news">
+			<h2>La dernière news</h2>
+			<article class="news-index-cards">
+				<div>
+					<h2>{{news.titre}}</h2>
+					<p>{{news.accroche}}</p>
+					<a href="{{ path('app_news_show', {id: news.id})}}">Consulter l'article</a>
+				</div>
+				<div><img src="{{ news.image ? vich_uploader_asset(news.image, 'imageFile') : asset('img/placeholder/news.png') }}" alt="News">
+				</div>
+			</article>
+		</section>
+		<section class="home-builds">
+			<h2>Les builds</h2>
+			<div>
+				<article class="build-card">
+					<div>
+						{% if monthBuild.name ?? false %}
+							<h3>Build
+								{{ monthBuild.name }}</h3>
+						{% else %}
+							<h3>Build
+								{{ monthBuild.cpu.marque }}</h3>
+						{% endif %}
+						<div><img src="{{ monthBuild.image ? vich_uploader_asset(monthBuild.image, 'imageFile') : asset('img/placeholder/prebuild.png') }}" alt="Build"></div>
+						<a href="{{ path('app_build_show', {id: monthBuild.id}) }}">Consulter</a>
+					</div>
+					<div>
+						<div>
+							<h3>Processeur :</h3>
+							<p>{{ monthBuild.cpu.marque }}
+								{{ monthBuild.cpu.modele }}</p>
+						</div>
+
+						{% for gpu in monthBuild.gpu %}
+							<div>
+								<h3>Carte graphique :</h3>
+								<p>{{ gpu.marque }}
+									{{ gpu.modele }}</p>
+							</div>
+						{% endfor %}
+						<div>
+							<h3>Prix total :</h3>
+							<p>{{ monthBuild.totalPrice }}</p>
+						</div>
+						<div>
+							Créer le :
+							<p>{{ monthBuild.createdAt|date('d/m/Y') }}</p>
+						</div>
+					</div>
+				</article>
+				<article class="build-home">
+					<h3>Build communautaires</h3>
+					<div><img src="{{ asset('img/PC6-1563590406.jpg') }}" alt="Build"></div>
+					<a href="{{path('app_build_comu')}}">consulter</a>
+				</article>
+				<article class="build-home">
+					<h3>Prebuilds</h3>
+					<div><img src="{{ asset('img/pre.png') }}" alt="Build"></div>
+					<a href="{{path('app_prebuilds')}}">consulter</a>
+				</article>
+			</div>
+		</section>
+	</main>
+{% endblock %}

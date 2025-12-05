@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Cooler
+{% endblock %}
+
+{% block main %}
+	<main class="main-form">
+		<section>
+			<h1>Créer un nouveau cooler</h1>
+
+			{{ include('cooler/_form.html.twig') }}
+
+			<a href="{{ path('app_cooler_index') }}">retour à la liste</a>
+		</section>
+	</main>
+{% endblock %}

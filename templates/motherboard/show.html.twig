@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Motherboard
+{% endblock %}
+
+{% block main %}
+	<main class="main-show">
+		<h1>Motherboard</h1>
+
+		<table class="table">
+			<tbody>
+				<tr>
+					<th>Id</th>
+					<td>{{ motherboard.id }}</td>
+				</tr>
+				<tr>
+					<th>Marque</th>
+					<td>{{ motherboard.marque }}</td>
+				</tr>
+				<tr>
+					<th>Modele</th>
+					<td>{{ motherboard.modele }}</td>
+				</tr>
+				<tr>
+					<th>Prix</th>
+					<td>{{ motherboard.prix }}</td>
+				</tr>
+				<tr>
+					<th>Socket</th>
+					<td>{{ motherboard.socket }}</td>
+				</tr>
+				<tr>
+					<th>PcieSlot</th>
+					<td>{{ motherboard.pcieSlot }}</td>
+				</tr>
+				<tr>
+					<th>PcieModule</th>
+					<td>{{ motherboard.pcieModule }}</td>
+				</tr>
+				<tr>
+					<th>SlotM2</th>
+					<td>{{ motherboard.slotM2 }}</td>
+				</tr>
+				<tr>
+					<th>SataPort</th>
+					<td>{{ motherboard.sataPort }}</td>
+				</tr>
+				<tr>
+					<th>MemoryMax</th>
+					<td>{{ motherboard.memoryMax }}</td>
+				</tr>
+				<tr>
+					<th>MemoryType</th>
+					<td>{{ motherboard.memoryType }}</td>
+				</tr>
+				<tr>
+					<th>MemorySlot</th>
+					<td>{{ motherboard.memorySlot }}</td>
+				</tr>
+				<tr>
+					<th>FormFactor</th>
+					<td>{{ motherboard.formFactor }}</td>
+				</tr>
+			</tbody>
+		</table>
+		<div>
+			<a href="{{ path('app_motherboard_index') }}">back to list</a>
+
+			<a href="{{ path('app_motherboard_edit', {'id': motherboard.id}) }}">edit</a>
+
+			{{ include('motherboard/_delete_form.html.twig') }}
+		</div>
+	</main>
+{% endblock %}

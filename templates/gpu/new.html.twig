@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Gpu
+{% endblock %}
+
+{% block main %}
+	<main class="main-form">
+		<section>
+			<h1>Create new Gpu</h1>
+
+			{{ include('gpu/_form.html.twig') }}
+
+			<a href="{{ path('app_gpu_index') }}">back to list</a>
+		</section>
+	</main>
+{% endblock %}

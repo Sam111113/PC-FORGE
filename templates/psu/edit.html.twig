@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Psu
+{% endblock %}
+
+{% block main %}
+	<main class="main-form">
+		<h1>Edit Psu</h1>
+
+		{{ include('psu/_form.html.twig', {'button_label': 'Update'}) }}
+		<div>
+			<a href="{{ path('app_psu_index') }}">back to list</a>
+
+			{{ include('psu/_delete_form.html.twig') }}
+		</div>
+	</main>
+{% endblock %}

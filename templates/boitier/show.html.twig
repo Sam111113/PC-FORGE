@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Boitier
+{% endblock %}
+
+{% block main %}
+	<main class="main-show">
+		<h1>Boitier</h1>
+
+		<table class="table">
+			<tbody>
+				<tr>
+					<th>Id</th>
+					<td>{{ boitier.id }}</td>
+				</tr>
+				<tr>
+					<th>Marque</th>
+					<td>{{ boitier.marque }}</td>
+				</tr>
+				<tr>
+					<th>Modele</th>
+					<td>{{ boitier.modele }}</td>
+				</tr>
+				<tr>
+					<th>Prix</th>
+					<td>{{ boitier.prix }}</td>
+				</tr>
+				<tr>
+					<th>Length</th>
+					<td>{{ boitier.length }}</td>
+				</tr>
+				<tr>
+					<th>Heigth</th>
+					<td>{{ boitier.heigth }}</td>
+				</tr>
+				<tr>
+					<th>Width</th>
+					<td>{{ boitier.width }}</td>
+				</tr>
+				<tr>
+					<th>GpuMaxL</th>
+					<td>{{ boitier.gpuMaxL }}</td>
+				</tr>
+				<tr>
+					<th>FanSlot</th>
+					<td>{{ boitier.fanSlot }}</td>
+				</tr>
+				<tr>
+					<th>PsuMaxL</th>
+					<td>{{ boitier.psuMaxL }}</td>
+				</tr>
+				<tr>
+					<th>AioSupport</th>
+					<td>{{ boitier.aioSupport }}</td>
+				</tr>
+				<tr>
+					<th>MbFormFactor</th>
+					<td>{{ boitier.mbFormFactor }}</td>
+				</tr>
+				<tr>
+					<th>FanSlotWidth</th>
+					<td>{{ boitier.FanSlotWidth }}</td>
+				</tr>
+			</tbody>
+		</table>
+		<div>
+			<a href="{{ path('app_boitier_index') }}">retour à la liste</a>
+
+			<a href="{{ path('app_boitier_edit', {'id': boitier.id}) }}">Modifier</a>
+
+			{{ include('boitier/_delete_form.html.twig') }}
+		</div>
+	</main>
+{% endblock %}

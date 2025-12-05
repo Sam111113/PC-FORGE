@@ -1,0 +1,387 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}La Forge
+{% endblock %}
+
+{% block main %}
+	<main class="builder">
+
+		<section class="hero-forge">
+			<div>
+				<h1>Bienvenue dans la Forge</h1>
+				<p>
+					Ici, nous façonnons les machines les plus puissantes, pièce après pièce. Choisis ton processeur, assemble tes composants et crée le PC qui te ressemble. Nous allons te guider étape par étape dans l'ordre logique de la conception d'un PC. Que tu sois joueur, créateur ou simple passionné, chaque build commence ici… dans la chaleur de la Forge.</p>
+			</div>
+		</section>
+		<section class="forge-comp">
+			<h2>Etape 1 : Le processeur</h2>
+			<p>
+				Le processeur, ou CPU, est le cerveau de ton ordinateur. Il exécute toutes les instructions et influence directement la puissance globale de ta machine. Définis ton usage, pour du gaming un processeur à haute fréquence (5 GHz+) et 6 à 8 cœurs suffit. Pour du montage / streaming privilégie plus de cœurs (8 à 16) pour le multitâche. Pour de la bureautique	un Ryzen 5 ou Core i5 récent est largement suffisant.
+			</p>
+			<div class="ligne"></div>
+			{% if selected.cpu %}
+				<article id="compo-card" data-ascin="{{ selected.cpu.ascin }}">
+					<div>
+						<div id="compo-card-img">
+							<img src="" alt="">
+						</div>
+						<p>{{selected.cpu.marque}}
+							{{selected.cpu.modele}}</p>
+						<p>{{selected.cpu.prix}}€</p>
+						<p id="compo-card-note"></p>
+						<a id="compo-card-revendeur" href="">Amazon</a>
+						<form method="post" action="{{ path('forge_remove_part', { part: 'cpuId' }) }}">
+							<input type="hidden" name="_token" value="{{ csrf_token('forge_remove_part_cpuId') }}">
+							<button>
+								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="#e5676e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-x-icon lucide-circle-x"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
+							</button>
+						</form>
+					</div>
+					<div>
+						<p>Socket :
+							{{ selected.cpu.socket }}</p>
+						<p>Tdp :
+							{{ selected.cpu.tdp }}</p>
+					</div>
+				</article>
+			{% else %}
+				<a href="{{ path('forge_select_cpu') }}">Choisir un processeur</a>
+			{% endif %}
+		</section>
+		<div class="ligne"></div>
+		<section class="forge-comp">
+
+			<h2>Etape 2 : La carte mère</h2>
+			<p>
+				La carte mère relie tous les composants entre eux. Elle détermine la compatibilité du processeur via le socket (AM5, LGA1700, etc.) et le type de mémoire supporté. Vérifie aussi le format (ATX, Micro-ATX, Mini-ITX) selon la taille de ton boîtier. Pour un build évolutif, choisis une carte avec plusieurs slots RAM, M.2 et ports SATA disponibles.
+			</p>
+			<div class="ligne"></div>
+			{% if selected.motherboard %}
+				<article id="compo-card" data-ascin="{{ selected.motherboard.ascin }}">
+					<div>
+						<div id="compo-card-img">
+							<img src="" alt="">
+						</div>
+						<p>{{selected.motherboard.marque}}
+							{{selected.motherboard.modele}}</p>
+						<p>{{selected.motherboard.prix}}€</p>
+						<p id="compo-card-note"></p>
+						<a id="compo-card-revendeur" href="">Amazon</a>
+						<form method="post" action="{{ path('forge_remove_part', { part: 'mbId' }) }}">
+							<input type="hidden" name="_token" value="{{ csrf_token('forge_remove_part_mbId') }}">
+							<button>
+								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="#e5676e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-x-icon lucide-circle-x"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
+							</button>
+						</form>
+					</div>
+					<div>
+						<p>Type :
+							{{ selected.motherboard.formFactor }}W</p>
+						<p>Socket :
+							{{ selected.motherboard.socket}}</p>
+						<p>Type de mémoire :
+							{{ selected.motherboard.memoryType }}</p>
+						<p>Mémoire max :
+							{{ selected.motherboard.memoryMax }}</p>
+					</div>
+				</article>
+			{% else %}
+				<a href="{{ path('forge_select_motherboard') }}">Choisir une carte mère</a>
+			{% endif %}
+		</section>
+		<div class="ligne"></div>
+		<section class="forge-comp">
+
+			<h2>Etape 3 : La carte graphique</h2>
+			<p>
+				La carte graphique gère tout l’affichage et les calculs 3D. Pour le gaming, elle est aussi importante que le CPU. Choisis selon ta résolution cible : une RTX 4060 ou RX 7700 pour du 1080p, une RTX 4080 ou RX 7900XTX pour de la 4K. Vérifie la taille du GPU et la puissance requise avant l’achat, certaines cartes sont très imposantes.
+			</p>
+			<div class="ligne"></div>
+			{% if selected.gpu %}
+				<article id="compo-card" data-ascin="{{ selected.gpu.ascin }}">
+					<div>
+						<div id="compo-card-img">
+							<img src="" alt="">
+						</div>
+						<p>{{selected.gpu.marque}}
+							{{selected.gpu.modele}}</p>
+						<p>{{selected.gpu.prix}}€</p>
+						<p id="compo-card-note"></p>
+						<a id="compo-card-revendeur" href="">Amazon</a>
+						<form method="post" action="{{ path('forge_remove_part', { part: 'gpuId' }) }}">
+							<input type="hidden" name="_token" value="{{ csrf_token('forge_remove_part_gpuId') }}">
+							<button>
+								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="#e5676e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-x-icon lucide-circle-x"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
+							</button>
+						</form>
+					</div>
+					<div>
+						<p>Module PCie :
+							{{ selected.gpu.pcieModule }}W</p>
+						<p>Longueur :
+							{{ selected.gpu.length}}</p>
+						<p>Tdp :
+							{{ selected.gpu.tdp }}</p>
+					</div>
+				</article>
+			{% else %}
+				<a href="{{ path('forge_select_gpu') }}">Choisir une carte graphique</a>
+			{% endif %}
+		</section>
+		<div class="ligne"></div>
+		<section class="forge-comp">
+
+			<h2>Etape 4 : La mémoire</h2>
+			<p>
+				La RAM influe directement sur la réactivité du système. Pour du gaming, 16 Go sont idéaux, tandis que 32 Go conviennent aux tâches lourdes comme le streaming ou le montage. Vérifie la fréquence (ex. 6000 MHz) et la compatibilité DDR4 ou DDR5 selon ta carte mère. Opte toujours pour deux barrettes identiques pour profiter du dual channel.
+			</p>
+			<div class="ligne"></div>
+			{% if selected.rams|length > 0 %}
+				{% for ram in selected.rams %}
+					<article id="compo-card" data-ascin="{{ ram.ascin }}">
+						<div>
+							<div id="compo-card-img">
+								<img src="" alt="">
+							</div>
+							<p>{{ram.marque}}
+								{{ram.modele}}</p>
+							<p>{{ram.prix}}€</p>
+							<p id="compo-card-note"></p>
+							<a id="compo-card-revendeur" href="">Amazon</a>
+							<form method="post" action="{{ path('forge_remove_part', { part: 'ramId' }) }}">
+								<input type="hidden" name="_token" value="{{ csrf_token('forge_remove_part_ramId') }}">
+								<button>
+									<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="#e5676e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-x-icon lucide-circle-x"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
+								</button>
+							</form>
+						</div>
+						<div>
+							<p>Type de mémoire :
+								{{ ram.type }}W</p>
+							<p>Nombre de module :
+								{{ ram.nbModule}}</p>
+							<p>Total GB :
+								{{ ram.total }}
+								GB</p>
+						</div>
+					</article>
+					<div class="ligne"></div>
+				{% endfor %}
+			{% endif %}
+			{% if selected.rams|length <= maxRamSlot %}
+				<a href="{{ path('forge_select_ram') }}">Choisir de la ram</a>
+			{% endif %}
+		</section>
+		<div class="ligne"></div>
+		<section class="forge-comp">
+			<h2>Etape 5 : Le stockage</h2>
+			<p>
+				Le stockage détermine la rapidité de chargement de ton système. Un SSD NVMe M.2 est le meilleur choix pour le système et les jeux, bien plus rapide qu’un SSD SATA. Pour les gros fichiers, un disque dur (HDD) reste utile en complément. Si ta carte mère le permet, combine plusieurs SSD pour plus de confort et de performance.
+			</p>
+			<div class="ligne"></div>
+			{% if selected.storages|length > 0 %}
+				{% for storage in selected.storages %}
+					<article id="compo-card" data-ascin="{{ storage.ascin }}">
+						<div>
+							<div id="compo-card-img">
+								<img src="" alt="">
+							</div>
+							<p>{{storage.marque}}
+								{{storage.modele}}</p>
+							<p>{{storage.prix}}€</p>
+							<p id="compo-card-note"></p>
+							<a id="compo-card-revendeur" href="">Amazon</a>
+							<button>
+								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="#e5676e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-x-icon lucide-circle-x"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
+							</button>
+						</div>
+						<div>
+							<p>Type de stockage :
+								{{ storage.type }}W</p>
+							<p>Interface :
+								{{ storage.interface}}</p>
+						</div>
+					</article>
+					<div class="ligne"></div>
+				{% endfor %}
+			{% endif %}
+			{% if selected.storages|length <= maxStorageSlot %}
+				<a href="{{ path('forge_select_storage') }}">Choisir du stockage</a>
+			{% endif %}
+		</section>
+		<div class="ligne"></div>
+		<section class="forge-comp">
+			<h2>Etape 6 : Le système de refroidissement</h2>
+			<p>
+				Un bon refroidissement garde ton CPU performant et silencieux. Vérifie la compatibilité du ventirad ou du watercooling avec ton socket et la hauteur autorisée dans ton boîtier. Les AIO (watercooling) sont efficaces mais plus chers. Un bon aircooler reste suffisant pour la majorité des processeurs.
+			</p>
+			<div class="ligne"></div>
+			{% if selected.cooler %}
+				<article id="compo-card" data-ascin="{{ selected.cooler.ascin }}">
+					<div>
+						<div id="compo-card-img">
+							<img src="" alt="">
+						</div>
+						<p>{{selected.cooler.marque}}
+							{{selected.cooler.modele}}</p>
+						<p>{{selected.cooler.prix}}€</p>
+						<p id="compo-card-note"></p>
+						<a id="compo-card-revendeur" href="">Amazon</a>
+						<button>
+							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="#e5676e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-x-icon lucide-circle-x"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
+						</button>
+					</div>
+					<div>
+						<p>Nombre de ventilateur :
+							{{ selected.cooler.nbFan }}W</p>
+						<p>Tdp :
+							{{ selected.cooler.tdp}}</p>
+						<p>Socket :
+							{{ selected.cooler.socket }}</p>
+					</div>
+				</article>
+			{% else %}
+				<a href="{{ path('forge_select_cooler') }}">Choisir un cooler</a>
+			{% endif %}
+
+		</section>
+		<div class="ligne"></div>
+		<section class="forge-comp">
+			<h2>Etape 7 : L'alimentation'</h2>
+			<p>
+				L’alimentation fournit l’énergie à tous tes composants. Choisis une puissance suffisante (en watts) selon ton CPU et ton GPU. Par exemple, un PC gaming milieu de gamme fonctionne avec 650–750W, tandis qu’un haut de gamme demande 850W ou plus. Privilégie une certification 80+ Gold pour un meilleur rendement et une marque fiable.
+			</p>
+			<div class="ligne"></div>
+			{% if selected.psu %}
+				<article id="compo-card" data-ascin="{{ selected.psu.ascin }}">
+					<div>
+						<div id="compo-card-img">
+							<img src="" alt="">
+						</div>
+						<p>{{selected.psu.marque}}
+							{{selected.psu.modele}}</p>
+						<p>{{selected.psu.prix}}€</p>
+						<p id="compo-card-note"></p>
+						<a id="compo-card-revendeur" href="">Amazon</a>
+						<button>
+							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="#e5676e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-x-icon lucide-circle-x"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
+						</button>
+					</div>
+					<div>
+						<p>Wattage :
+							{{ selected.psu.wattage }}W</p>
+						<p>Connecteur PCie :
+							{{ selected.psu.pcieConnector}}</p>
+						<p>Connecteur EPS :
+							{{ selected.psu.epsConnector }}</p>
+						<p>Connecteur SATA :
+							{{ selected.psu.sataConnector }}</p>
+					</div>
+				</article>
+			{% else %}
+				<a href="{{ path('forge_select_psu') }}">Choisir une alimentation</a>
+			{% endif %}
+
+		</section>
+		<div class="ligne"></div>
+		<section class="forge-comp">
+			<h2>Etape 8 : Le boitier</h2>
+			<p>
+				Le boîtier influence le flux d’air, le bruit et le style de ton build. Vérifie la compatibilité avec ta carte mère (ATX, Micro-ATX, Mini-ITX) et la longueur maximale du GPU. Choisis un modèle avec une bonne ventilation et un espace suffisant pour le câble management. Le verre trempé et le RGB sont un plus esthétique mais pas essentiels.
+			</p>
+			<div class="ligne"></div>
+			{% if selected.boitier %}
+				<article id="compo-card" data-ascin="{{ selected.boitier.ascin }}">
+					<div>
+						<div id="compo-card-img">
+							<img src="" alt="">
+						</div>
+						<p>{{selected.boitier.marque}}
+							{{selected.boitier.modele}}</p>
+						<p>{{selected.boitier.prix}}€</p>
+						<p id="compo-card-note"></p>
+						<a id="compo-card-revendeur" href="">Amazon</a>
+						<button>
+							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="#e5676e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-x-icon lucide-circle-x"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
+						</button>
+					</div>
+					<div>
+						<p>Longueur :
+							{{ selected.boitier.length }}
+							mm</p>
+						<p>Largeur :
+							{{ selected.boitier.width }}
+							mm</p>
+						<p>Hauteur :
+							{{ selected.boitier.heigth }}
+							mm</p>
+						<p>Emplacement de ventilateur :
+							{{ selected.boitier.fanSlot }}</p>
+					</div>
+				</article>
+			{% else %}
+				<a href="{{ path('forge_select_boitier') }}">Choisir un boitier</a>
+			{% endif %}
+		</section>
+		<div class="ligne"></div>
+		<section class="forge-comp">
+			<h2>Etape 9 : Les ventilateurs</h2>
+			<p>
+				Les ventilateurs assurent la circulation d’air dans ton boîtier. Installe au moins un ventilateur en entrée et un en sortie pour un flux optimal. Vérifie la taille (120 mm ou 140 mm) et le connecteur (3 ou 4 broches). Les modèles PWM sont plus silencieux car leur vitesse s’ajuste automatiquement à la température.
+			</p>
+			<div class="ligne"></div>
+			{% if selected.fans|length > 0 %}
+				{% for fan in selected.fans %}
+					<article id="compo-card" data-ascin="{{ fan.ascin }}">
+						<div>
+							<div id="compo-card-img">
+								<img src="" alt="">
+							</div>
+							<p>{{fan.marque}}
+								{{fan.modele}}</p>
+							<p>{{fan.prix}}€</p>
+							<p id="compo-card-note"></p>
+							<a id="compo-card-revendeur" href="">Amazon</a>
+							<button>
+								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="#e5676e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-x-icon lucide-circle-x"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
+							</button>
+						</div>
+						<div>
+							<p>Largeur :
+								{{ fan.width }}W</p>
+							<p>Quantité :
+								{{ fan.quantity}}</p>
+						</div>
+					</article>
+				{% endfor %}
+			{% endif %}
+			{% if selected.fans|length <= maxFanSlot %}
+				<a href="{{ path('forge_select_fan') }}">Choisir des ventilateurs</a>
+			{% endif %}
+		</section>
+		<div class="ligne"></div>
+		<section class="forge-comp">
+			<h2>Dernière étape :</h2>
+			<p>Tu peux maintenant finaliser ton buld en le sauvegardant(les composants minimum requis pour qu'un Build soit complet sont : un processeur, une carte mère, une carte graphique, de la mémoire, du stockage, une alimentation et un boitier)</p>
+			<div>
+			{% if selected.cpu and
+    selected.motherboard and
+    selected.gpu and
+    selected.rams and
+    selected.storages and
+    selected.boitier and
+    selected.psu %}
+					<form method="post" action="{{ path('forge_save') }}">
+						<input type="hidden" name="_token" value="{{ csrf_token('forge_save') }}">
+						<button class="btn">Sauvegarder</button>
+					</form>
+				{% endif %}
+				<form method="post" action="{{ path('forge_reset') }}">
+					<input type="hidden" name="_token" value="{{ csrf_token('forge_reset') }}">
+					<button class="btn">Réinitialiser
+					</button>
+				</form>
+			</div>
+		</section>
+	</section>
+</main>{% endblock %}

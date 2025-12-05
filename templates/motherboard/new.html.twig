@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Motherboard
+{% endblock %}
+
+{% block main %}
+	<main class="main-form">
+		<section>
+			<h1>Create new Motherboard</h1>
+
+			{{ include('motherboard/_form.html.twig') }}
+
+			<a href="{{ path('app_motherboard_index') }}">back to list</a>
+		</section>
+	</main>
+{% endblock %}

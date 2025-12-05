@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouveau Cpu
+{% endblock %}
+
+{% block main %}
+	<main class="main-form">
+		<section>
+			<h1>Créer un nouveau Cpu</h1>
+
+			{{ include('cpu/_form.html.twig') }}
+
+			<a href="{{ path('app_cpu_index') }}">retour à la liste</a>
+		</section>
+	</main>
+{% endblock %}

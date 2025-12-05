@@ -1,0 +1,99 @@
+{% block nav %}
+	<nav class="navbar">
+		<a href="{{ path('app_home') }}">
+			<img src="{{ asset('img/logo.png') }}" alt="Logo PC Forge">
+		</a>
+		<div class="menu-burger">
+			<div></div>
+			<div></div>
+			<div></div>
+		</div>
+		<ul class="tel-menu">
+			<li>
+				<a href="{{ path('app_forge') }}">Forge</a>
+			</li>
+			<li class="composant">
+				<a href="#" id="btn-nav">Composants</a>
+				<div class="menu-composant comp">
+				<button class="btn-close-list"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x-icon lucide-x"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
+					<ul class="list-compo">
+						<li>
+							<a href="{{path('app_cpu_index')}}">
+								Processeur</a>
+						</li>
+						<li>
+							<a href="{{path('app_motherboard_index')}}">
+								Carte mère</a>
+						</li>
+						<li>
+							<a href="{{path('app_gpu_index')}}">
+								Carte grphique</a>
+						</li>
+						<li>
+							<a href="{{path('app_ram_index')}}">
+								Ram</a>
+						</li>
+						<li>
+							<a href="{{path('app_storage_index')}}">
+								stockage</a>
+						</li>
+						<li>
+							<a href="{{path('app_psu_index')}}">
+								Alimentation</a>
+						</li>
+						<li>
+							<a href="{{path('app_cooler_index')}}">
+								Refroisdissment</a>
+						</li>
+						<li>
+							<a href="{{path('app_boitier_index')}}">
+								Boîtier</a>
+						</li>
+						<li>
+							<a href="{{path('app_fan_index')}}">
+								Ventilateur</a>
+						</li>
+					</ul>
+				</div>
+			</li>
+			<li>
+				<a href="{{ path('app_build_comu') }}">Communauté</a>
+			</li>
+			<li>
+				<a href="{{ path('app_prebuilds') }}">Pré-builds</a>
+			</li>
+			<li>
+				<a href="{{ path('app_news_index') }}">News</a>
+			</li>
+		</ul>
+		<div class="connecter">
+			{% if app.user %}
+				<div>
+					<img src="{{ app.user.image ? vich_uploader_asset(app.user.image, 'imageFile') : asset('img/placeholder/userplaceholder.jpg') }}">
+				</div>
+				<ul class="co">
+					<li>
+						<a href="{{ path('app_profile', {'id': app.user.id}) }}">Profil</a>
+					</li>
+					{% if is_granted('ROLE_ADMIN') %}
+						<li>
+							<a href="{{ path('app_admin') }}">Admin</a>
+						</li>
+					{% endif %}
+					{% if is_granted('ROLE_REDACTEUR')%}
+						<li>
+							<a href="{{ path('app_news_adminView') }}">Rédacteur</a>
+						</li>
+					{% endif %}
+					<li>
+						<a href="{{ path('app_logout') }}">Déconnexion</a>
+					</li>
+				</ul>
+			{% else %}
+				<a href="{{ path('app_login') }}">Connexion</a>
+				<span>|</span>
+				<a href="{{ path('app_register') }}">Inscription</a>
+			{% endif %}
+		</div>
+	</nav>
+{% endblock %}

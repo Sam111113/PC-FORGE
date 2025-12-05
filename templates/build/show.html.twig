@@ -1,0 +1,248 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Build
+{% endblock %}
+
+{% block main %}
+	<main class="main-bg-s">
+		<section class="secBuildShow">
+			<div class="hautShow">
+				<div>
+					<img src="{{ build.image ? vich_uploader_asset(build.image, 'imageFile') : asset('img/placeholder/prebuild.png') }}" alt="Build">
+				</div>
+				<div>
+					<h1>Build de
+						{{ build.user.pseudo }}</h1>
+					<p>{{ build.description }}</p>
+					<div>
+						<p>Prix total du build :
+							{{ build.totalPrice }}€</p>
+						{% if app.user and (app.user == build.user or is_granted('ROLE_ADMIN')) %}
+							<a href="{{ path('app_build_edit', { id: build.id }) }}" class="btn btn-warning">
+								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pencil-icon lucide-pencil"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></svg>
+							</a>
+						{% endif %}
+					</div>
+				</div>
+			</div>
+			<article id="compo-card" data-ascin="{{ build.cpu.ascin }}">
+				<div>
+					<div id="compo-card-img">
+						<img src="" alt="">
+					</div>
+					<div>
+						<p>{{build.cpu.marque}}
+							{{build.cpu.modele}}</p>
+						<p>{{build.cpu.prix}}€</p>
+						<p id="compo-card-note"></p>
+						<a id="compo-card-revendeur" href="">Amazon</a>
+					</div>
+				</div>
+				<div>
+					<p>Socket :
+						{{ build.cpu.socket }}</p>
+					<p>Tdp :
+						{{ build.cpu.tdp }}</p>
+				</div>
+			</article>
+			<article id="compo-card" data-ascin="{{ build.motherboard.ascin }}">
+				<div>
+					<div id="compo-card-img">
+						<img src="" alt="">
+					</div>
+					<div>
+						<p>{{build.motherboard.marque}}
+							{{build.motherboard.modele}}</p>
+						<p>{{build.motherboard.prix}}€</p>
+						<p id="compo-card-note"></p>
+						<a id="compo-card-revendeur" href="">Amazon</a>
+					</div>
+				</div>
+				<div>
+					<p>Type :
+						{{build.motherboard.formFactor }}W</p>
+					<p>Socket :
+						{{ build.motherboard.socket}}</p>
+					<p>Type de mémoire :
+						{{ build.motherboard.memoryType }}</p>
+					<p>Mémoire max :
+						{{ build.motherboard.memoryMax }}</p>
+				</div>
+			</article>
+			{% for gpu in build.gpu %}
+
+
+				<article id="compo-card" data-ascin="{{ gpu.ascin }}">
+					<div>
+						<div id="compo-card-img">
+							<img src="" alt="">
+						</div>
+						<div>
+							<p>{{gpu.marque}}
+								{{gpu.modele}}</p>
+							<p>{{gpu.prix}}€</p>
+							<p id="compo-card-note"></p>
+							<a id="compo-card-revendeur" href="">Amazon</a>
+						</div>
+					</div>
+					<div>
+						<p>Module PCie :
+							{{ gpu.pcieModule }}W</p>
+						<p>Longueur :
+							{{ gpu.length}}</p>
+						<p>Tdp :
+							{{ gpu.tdp }}</p>
+					</div>
+				</article>
+			{% endfor %}
+			{% for ram in build.ram %}
+				<article id="compo-card" data-ascin="{{ ram.ascin }}">
+					<div>
+						<div id="compo-card-img">
+							<img src="" alt="">
+						</div>
+						<div>
+							<p>{{ram.marque}}
+								{{ram.modele}}</p>
+							<p>{{ram.prix}}€</p>
+							<p id="compo-card-note"></p>
+							<a id="compo-card-revendeur" href="">Amazon</a>
+						</div>
+					</div>
+					<div>
+						<p>Type de mémoire :
+							{{ ram.type }}W</p>
+						<p>Nombre de module :
+							{{ ram.nbModule}}</p>
+						<p>Total GB :
+							{{ ram.total }}
+							GB</p>
+					</div>
+				</article>
+			{% endfor %}
+			{% for storage in build.storage %}
+				<article id="compo-card" data-ascin="{{ storage.ascin }}">
+					<div>
+						<div id="compo-card-img">
+							<img src="" alt="">
+						</div>
+						<div>
+							<p>{{storage.marque}}
+								{{storage.modele}}</p>
+							<p>{{storage.prix}}€</p>
+							<p id="compo-card-note"></p>
+							<a id="compo-card-revendeur" href="">Amazon</a>
+						</div>
+					</div>
+					<div>
+						<p>Type de stockage :
+							{{ storage.type }}W</p>
+						<p>Interface :
+							{{ storage.interface}}</p>
+					</div>
+				</article>
+			{% endfor %}
+			{% if build.cooler ?? null %}
+
+				<article id="compo-card" data-ascin="{{ build.cooler.ascin }}">
+					<div>
+						<div id="compo-card-img">
+							<img src="" alt="">
+						</div>
+						<div>
+							<p>{{build.cooler.marque}}
+								{{build.cooler.modele}}</p>
+							<p>{{build.cooler.prix}}€</p>
+							<p id="compo-card-note"></p>
+							<a id="compo-card-revendeur" href="">Amazon</a>
+						</div>
+					</div>
+					<div>
+						<p>Nombre de ventilateur :
+							{{build.cooler.nbFan }}W</p>
+						<p>Tdp :
+							{{ build.cooler.tdp}}</p>
+						<p>Socket :
+							{{ build.cooler.socket }}</p>
+					</div>
+				</article>
+			{% endif %}
+			<article id="compo-card" data-ascin="{{ build.psu.ascin }}">
+				<div>
+					<div id="compo-card-img">
+						<img src="" alt="">
+					</div>
+					<div>
+						<p>{{build.psu.marque}}
+							{{build.psu.modele}}</p>
+						<p>{{build.psu.prix}}€</p>
+						<p id="compo-card-note"></p>
+						<a id="compo-card-revendeur" href="">Amazon</a>
+					</div>
+				</div>
+				<div>
+					<p>Wattage :
+						{{ build.psu.wattage }}W</p>
+					<p>Connecteur PCie :
+						{{ build.psu.pcieConnector}}</p>
+					<p>Connecteur EPS :
+						{{ build.psu.epsConnector }}</p>
+					<p>Connecteur SATA :
+						{{ build.psu.sataConnector }}</p>
+				</div>
+			</article>
+			<article id="compo-card" data-ascin="{{ build.boitier.ascin }}">
+				<div>
+					<div id="compo-card-img">
+						<img src="" alt="">
+					</div>
+					<div>
+						<p>{{build.boitier.marque}}
+							{{build.boitier.modele}}</p>
+						<p>{{build.boitier.prix}}€</p>
+						<p id="compo-card-note"></p>
+						<a id="compo-card-revendeur" href="">Amazon</a>
+					</div>
+				</div>
+				<div>
+					<p>Longueur :
+						{{ build.boitier.length }}
+						mm</p>
+					<p>Largeur :
+						{{ build.boitier.width }}
+						mm</p>
+					<p>Hauteur :
+						{{ build.boitier.heigth }}
+						mm</p>
+					<p>Emplacement de ventilateur :
+						{{ build.boitier.fanSlot }}</p>
+				</div>
+			</article>
+			{% if build.fan ?? null %}
+
+				{% for fan in build.fan %}
+					<article id="compo-card" data-ascin="{{ fan.ascin }}">
+						<div>
+							<div id="compo-card-img">
+								<img src="" alt="">
+							</div>
+							<div>
+								<p>{{fan.marque}}
+									{{fan.modele}}</p>
+								<p>{{fan.prix}}€</p>
+								<p id="compo-card-note"></p>
+								<a id="compo-card-revendeur" href="">Amazon</a>
+							</div>
+						</div>
+						<div>
+							<p>Largeur :
+								{{ fan.width }}W</p>
+							<p>Quantité :
+								{{ fan.quantity}}</p>
+						</div>
+					</article>
+				{% endfor %}
+			{% endif %}
+		</section>
+	</main>
+{% endblock %}

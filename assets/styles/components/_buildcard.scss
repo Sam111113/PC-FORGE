@@ -1,0 +1,191 @@
+@use '../abstracts/' as *;
+
+.build-card {
+    color: $colortextPrimary;
+    background-color: $colorBgF;
+    min-width: 18vw;
+    max-width: 18vw;
+    min-height: 50vh;
+    max-height: 50vh;
+    border-radius: $bRadius;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    font-weight: 400;
+    font-family: $fontText;
+    border: 2px solid $colorBgF;
+    box-shadow: 2px 2px 5px rgba(255, 255, 255, 0.2),
+        -2px -2px 5px rgba(255, 255, 255, 0.2);
+
+    h3 {
+        font-size: 1.5rem;
+        font-weight: 400;
+    }
+
+    >div:first-of-type {
+        @include flex-evenly(column);
+        min-width: 18vw;
+        max-width: 18vw;
+        min-height: 50vh;
+        max-height: 50vh;
+
+        >div {
+            position: relative;
+            overflow: hidden;
+            height: 60%;
+            width: 80%;
+            border-radius: $bRadius;
+            background-color: rgba($color: white, $alpha: 0.2);
+
+            img {
+                height: 100%;
+                width: 100%;
+                object-fit: contain;
+            }
+        }
+
+        a {
+            z-index: 5;
+            position: relative;
+            @include bouton-nav;
+
+            &:hover {
+                @include bouton-nav-hover;
+            }
+        }
+
+    }
+
+    >div:last-of-type {
+        backdrop-filter: blur(3px);
+        background-color: rgba($color: black, $alpha: 0.5);
+        min-width: 18vw;
+        max-width: 18vw;
+        min-height: 50vh;
+        max-height: 50vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        position: absolute;
+        border-radius: $bRadius;
+        opacity: 0;
+
+        div {
+            @include flex-center(column);
+            margin: 0.5rem;
+        }
+
+        div:first-of-type {
+            margin-top: 3.5rem;
+        }
+    }
+
+    &:hover {
+        box-shadow: 2px 2px 6px rgba(255, 255, 255, 0.2),
+            -2px -2px 6px rgba(255, 255, 255, 0.2);
+        border: 2px solid $colorBorder;
+    }
+
+    &:hover>div:last-of-type {
+        opacity: 1;
+        border: 2px solid $colorBorder;
+    }
+
+    &:hover>div:last-of-type div {
+        animation: buildcard 0.5s forwards;
+    }
+}
+
+@keyframes buildcard {
+    0% {
+        transform: scale(0.5, 0.5);
+    }
+
+    25% {
+        opacity: 1;
+    }
+
+    50% {
+        transform: scale(1.03, 1.03);
+    }
+
+    100% {
+        transform: scale(1, 1);
+    }
+}
+
+.build-home {
+    width: 18vw;
+    height: 50vh;
+    color: $colortextPrimary;
+    background-color: $colorBgF;
+    border-radius: $bRadius;
+    @include flex-evenly(column);
+    position: relative;
+    font-weight: 400;
+    font-family: $fontText;
+    border: 2px solid $colorBgF;
+    box-shadow: 2px 2px 5px rgba(255, 255, 255, 0.2),
+        -2px -2px 5px rgba(255, 255, 255, 0.2);
+
+    h3 {
+        font-size: 1.5rem;
+        font-weight: 400;
+    }
+
+    >div {
+        position: relative;
+        overflow: hidden;
+        height: 60%;
+        width: 80%;
+        border-radius: $bRadius;
+        background-color: rgba($color: white, $alpha: 0.2);
+        padding:1rem;
+
+        img {
+            height: 100%;
+            width: 100%;
+            object-fit: fill;
+        }
+    }
+
+    a {
+        z-index: 5;
+        position: relative;
+        @include bouton-nav;
+
+        &:hover {
+            @include bouton-nav-hover;
+        }
+    }
+}
+
+@media screen and (max-width: 430px) {
+    .build-card {
+        min-width: 80vw;
+        max-width: 80vw;
+        min-height: 50vh;
+        max-height: 50vh;
+
+        >div:first-of-type {
+            min-width: 80vw;
+            max-width: 80vw;
+            min-height: 50vh;
+            max-height: 50vh;
+        }
+
+        >div:last-of-type {
+            min-width: 80vw;
+            max-width: 80vw;
+            min-height: 50vh;
+            max-height: 50vh;
+        }
+    }
+
+    .build-home {
+        width: 80vw;
+        height: 50vh;
+    }
+}

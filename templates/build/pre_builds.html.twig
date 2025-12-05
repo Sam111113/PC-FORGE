@@ -1,0 +1,55 @@
+{% extends "base.html.twig" %}
+{% block title %}Pre-Builds
+{% endblock %}
+
+{% block main %}
+	<main>
+		<h1 class="titre-main-page">Pre-Builds</h1>
+
+		{% for label, items in groups %}
+			<h2 class="prebuild-title">{{ label }}</h2>
+			<section class="{{ label|lower|replace({' ': '-'}) }}">
+				<div>
+					{% for b in items %}
+						<article class="build-card">
+							<div>
+								{% if b.name ?? false %}
+									<h3>Build
+										{{ b.name }}</h3>
+								{% else %}
+									<h3>Build
+										{{ b.cpu.marque }}</h3>
+								{% endif %}
+								<div><img src="{{ b.image ? vich_uploader_asset(b.image, 'imageFile') : asset('img/placeholder/prebuild.png') }}" alt="Build"></div>
+								<a href="{{ path('app_build_show', {id: b.id}) }}">Consulter</a>
+							</div>
+							<div>
+								<div>
+								<h3>Processeur :</h3>
+									<p>{{ b.cpu.marque }}
+										{{ b.cpu.modele }}</p>
+								</div>
+
+								{% for gpu in b.gpu %}
+									<div>
+									<h3>Carte graphique :</h3>
+										<p>{{ gpu.marque }}
+											{{ gpu.modele }}</p>
+									</div>
+								{% endfor %}
+								<div>
+								<h3>Prix total :</h3>
+									<p>{{ b.totalPrice }}</p>
+								</div>
+								<div>
+								Créer le :
+									<p>{{ b.createdAt|date('d/m/Y') }}</p>
+								</div>
+							</div>
+						</article>
+					{% endfor %}
+				</div>
+			</section>
+		{% endfor %}
+	</main>
+{% endblock %}

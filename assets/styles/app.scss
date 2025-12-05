@@ -1,0 +1,61 @@
+@use './abstracts' as *;
+
+@use './components' as *;
+@use 'home' as *;
+@use 'profile' as *;
+@use 'composant' as *;
+@use 'news' as *;
+@use 'builds' as *;
+@use 'show' as *;
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    color: $colortextPrimary;
+    font-family: $fontText;
+    font-weight: 400;
+}
+
+a {
+    text-decoration: none;
+}
+body {
+    width: 100%;
+}
+main {
+    margin-top: 15vh;
+    background-color: $colorBgF;
+    width: 100%;
+}
+
+#compo-card>button,
+.js-role-form>button,
+.main-show button {
+    background: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border: none;
+}
+
+// .vich-image {
+//     > input {
+//         @include bouton-nav;
+
+//         &:hover {
+//             @include bouton-nav-hover;
+//         }
+//     }
+// }
+
+svg {
+    width: 100%;
+    height: 100%;
+
+    &:hover {
+        color: $colorBorder;
+    }
+}
