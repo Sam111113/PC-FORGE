@@ -31,9 +31,9 @@ class UserType extends AbstractType
             // ->add('createdAt', null, [
             //     'widget' => 'single_text',
             // ])
-            ->add('Image', EntityType::class, [
-                'class' => Image::class,
-                'choice_label' => 'id',
+            ->add('image', ImageType::class, [
+                'by_reference' => false,
+                'required' => false,
             ])
         ;
     }

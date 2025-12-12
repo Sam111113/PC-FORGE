@@ -74,20 +74,26 @@
         border-top: 2px solid $colorBorder;
     }
 
-    button {
-        background: none;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        border: none;
-        width: 4rem;
-        height: 4rem;
+    form {
+        display: flex;
 
-        svg {
-            width: 100%;
-            height: 100%;
-            color: $colorBorder;
+        button {
+            align-self: center;
+            justify-self: center;
+            background: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border: none;
+            width: 3rem;
+            height: 3rem;
+
+            svg {
+                width: 100%;
+                height: 100%;
+                color: $colorBorder;
+            }
         }
     }
 }
@@ -117,6 +123,7 @@
 
         >div:first-of-type {
             height: 30vh;
+            position: relative;
 
 
             >div:nth-of-type(2) {
@@ -126,9 +133,20 @@
                 height: 100%;
                 height: auto;
 
+
                 p {
-                    // display: block;
+                    display: block;
                     min-width: 100%;
+                }
+            }
+
+            form {
+                position: absolute;
+                top: 0.5rem;
+                right: 0.5rem;
+                button {
+                width: 2rem;
+                height: 2rem;
                 }
             }
         }

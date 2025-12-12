@@ -13,10 +13,11 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 
-#[IsGranted('ROLE_ADMIN')]
+
 #[Route('/user')]
 final class UserController extends AbstractController
 {
+    #[IsGranted('ROLE_ADMIN')]
     #[Route(name: 'app_user_index', methods: ['GET'])]
     public function index(UserRepository $userRepository, Request $request): Response
     {
@@ -36,7 +37,7 @@ final class UserController extends AbstractController
             'users' => $users,
         ]);
     }
-
+    #[IsGranted('ROLE_ADMIN')]
     #[Route('/new', name: 'app_user_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -56,7 +57,7 @@ final class UserController extends AbstractController
             'form' => $form,
         ]);
     }
-
+    #[IsGranted('ROLE_ADMIN')]
     #[Route('/{id}', name: 'app_user_show', methods: ['GET'])]
     public function show(User $user): Response
     {
@@ -64,6 +65,7 @@ final class UserController extends AbstractController
             'user' => $user,
         ]);
     }
+    #[IsGranted('ROLE_ADMIN')]
     #[Route('/{id}/update-roles', name: 'app_user_update_roles', methods: ['POST'])]
     public function updateRoles(
         User $user,
@@ -82,7 +84,7 @@ final class UserController extends AbstractController
         $this->addFlash('success', 'Rôle mis à jour');
         return $this->redirectToRoute('app_user_index');
     }
-
+    #[IsGranted('ROLE_USER')]
     #[Route('/{id}/edit', name: 'app_user_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, User $user, EntityManagerInterface $entityManager): Response
     {
@@ -100,7 +102,7 @@ final class UserController extends AbstractController
             'form' => $form,
         ]);
     }
-
+    #[IsGranted('ROLE_ADMIN')]
     #[Route('/{id}', name: 'app_user_delete', methods: ['POST'])]
     public function delete(Request $request, User $user, EntityManagerInterface $entityManager): Response
     {

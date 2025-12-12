@@ -247,4 +247,18 @@
             }
         }
     }
+    .builder {
+        section:first-of-type {
+            >div {
+                width: 100%;
+                margin: 0;
+            }
+        }
+        .forge-comp {
+            p {
+                width: 95%;
+                text-align: justify;
+            }
+        }
+    }
 }

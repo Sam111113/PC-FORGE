@@ -17,7 +17,8 @@ class ImageType extends AbstractType
                 'label' => ' ',
                 'required' => false,
                 'allow_delete' => false,
-                'download_uri' => false
+                'download_uri' => false,
+                'image_uri' => false,
             ])
         ;
     }

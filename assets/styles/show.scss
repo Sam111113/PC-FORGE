@@ -43,65 +43,97 @@
         font-weight: 400;
     }
 
-    .table {
-        max-width: 80%;
-        margin-bottom: 2rem;
-        border-collapse: collapse;
-        row-gap: 0.3rem;
+    .table-div {
+        width: 100%;
+        display: flex;
+        justify-content: center;
 
-        th {
-            border-bottom: 2px solid $colorBorder;
-        }
+        .table {
+            max-width: 80%;
+            margin-bottom: 2rem;
+            border-collapse: collapse;
+            row-gap: 0.3rem;
 
-        td {
+            th {
+                border-bottom: 2px solid $colorBorder;
+            }
 
-            img {
-                object-fit: cover;
-                width: 100%;
+            td {
+                max-width: 30vw;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                img {
+                    object-fit: cover;
+                    width: 100%;
+                    height: 100%;
+                }
+            }
+
+            th,
+            td {
+                padding: 0.5rem;
+                text-align: center;
+            }
+
+            select {
                 height: 100%;
+                background-color: $colorBgS;
             }
         }
 
-        th,
-        td {
-            padding: 0.5rem;
-            text-align: center;
-        }
+        div {
+            @include flex-center(row);
 
-        select {
-            height: 100%;
-            background-color: $colorBgS;
-        }
-    }
+            a,
+            button {
+                width: 10vw;
+                margin: 1rem;
+                margin-top: 1rem;
+                @include bouton-nav;
 
-    div {
-        @include flex-center(row);
-
-        a,
-        button {
-            width: 10vw;
-            margin: 1rem;
-            margin-top: 1rem;
-            @include bouton-nav;
-
-            &:hover {
-                @include bouton-nav-hover;
+                &:hover {
+                    @include bouton-nav-hover;
+                }
             }
         }
     }
 }
+
 @media screen and (max-width: 430px) {
     .main-show {
         width: 100%;
-        > nav {
+
+        >nav {
             width: 100%;
+
             ul {
-            width: 100%;
+                width: 100%;
+
+                li {
+                    width: 27vw;
+
+                    a {
+                        font-size: 1.2rem;
+                    }
+                }
+            }
         }
-        }
-        table {
-            width: 100%;
+
+        .table-div {
+            max-width: 100%;
             overflow-x: auto;
+            overflow-y: hidden;
+            -webkit-overflow-scrolling: touch;
+            justify-content: flex-start;
+
+            td {
+                white-space: nowrap;
+                max-width: 50vw;
+                button {
+                    width: 2rem;
+                    height: 2rem;
+                }
+            }
         }
     }
 }

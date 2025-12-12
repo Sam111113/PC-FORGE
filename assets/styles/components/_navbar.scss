@@ -150,7 +150,7 @@ header {
     >ul {
         position: absolute;
         top: 7rem;
-        left: -5rem;
+        left: -2.3rem;
         background-color: $colorBgF;
         @include flex-center(column);
         border-radius: $bRadius;
@@ -328,6 +328,7 @@ header {
         }
 
         ul {
+            left: -5rem;
             top: 15vh;
         }
     }

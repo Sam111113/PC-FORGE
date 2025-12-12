@@ -15,11 +15,12 @@
 							<img src="" alt="">
 						</div>
 						<div>
-						<p>{{motherboard.marque}}
-							{{motherboard.modele}}</p>
-						<p>{{motherboard.prix}}€</p>
-						<p id="compo-card-note"></p>
-						<a id="compo-card-revendeur" href="">Amazon</a>
+							<p>{{motherboard.marque}}
+								{{motherboard.modele}}</p>
+							<p>{{motherboard.prix}} €</p>
+							<p id="compo-card-note"> </p>
+							<a id="compo-card-revendeur" href="">Amazon</a>
+						</div>
 						{% if build ?? false %}
 							{% if build.cpuId is not empty or null and (build.mbId is empty or build.mbId is null) %}
 								<form method="post" action="{{ path('forge_add_motherboard', { id: motherboard.id }) }}">
@@ -30,35 +31,33 @@
 								</form>
 							{% endif %}
 						{% endif %}
+					{% if is_granted('ROLE_ADMIN') %}
+						<div>
+							<a href="{{ path('app_motherboard_show', {'id': motherboard.id}) }}">
+								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-eye-icon lucide-eye"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"/><circle cx="12" cy="12" r="3"/></svg>
+							</a>
+							<a href="{{ path('app_motherboard_edit', {'id': motherboard.id}) }}">
+								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pencil-icon lucide-pencil"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></svg>
+							</a>
 						</div>
-						{% if is_granted('ROLE_ADMIN') %}
-							<div>
-								<a href="{{ path('app_motherboard_show', {'id': motherboard.id}) }}">
-									<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-eye-icon lucide-eye"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"/><circle cx="12" cy="12" r="3"/></svg>
-								</a>
-								<a href="{{ path('app_motherboard_edit', {'id': motherboard.id}) }}">
-									<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pencil-icon lucide-pencil"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></svg>
-								</a>
-							</div>
-						{% endif %}
-					</div>
-					<div>
-						<p>Type :
-							{{ motherboard.formFactor }}W</p>
-						<p>Socket :
-							{{ motherboard.socket}}</p>
-						<p>Type de mémoire :
-							{{ motherboard.memoryType }}</p>
-						<p>Mémoire max :
-							{{ motherboard.memoryMax }}</p>
-					</div>
-				</article>
-			{% else %}
-				<p>Aucune Carte mère trouver</p>
-			{% endfor %}
-		</section>
-		{% if is_granted('ROLE_ADMIN') %}
-			<a href="{{ path('app_motherboard_new') }}">Create new</a>
-		{% endif %}
-	</main>
-{% endblock %}
+					{% endif %}
+				</div>
+				<div>
+					<p>Type : 
+						{{ motherboard.formFactor }}</p>
+					<p>Socket : 
+						{{ motherboard.socket}}</p>
+					<p>Type de mémoire : 
+						{{ motherboard.memoryType }}</p>
+					<p>Mémoire max : 
+						{{ motherboard.memoryMax }} GB</p>
+				</div>
+			</article>
+		{% else %}
+			<p>Aucune Carte mère trouver</p>
+		{% endfor %}
+	</section>
+	{% if is_granted('ROLE_ADMIN') %}
+		<a href="{{ path('app_motherboard_new') }}">Create new</a>
+	{% endif %}
+</main>{% endblock %}

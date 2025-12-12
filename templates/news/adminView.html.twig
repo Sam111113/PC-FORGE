@@ -21,6 +21,7 @@
 				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-x-icon lucide-circle-x"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
 			</button>
 		</form>
+		<div class="table-div">
 		<table class="table">
 			<thead>
 				<tr>
@@ -43,8 +44,8 @@
 						<td>{{ news.createdAt|date('d/m/y h:m') }}</td>
 						<td>{{ news.slug }}</td>
 						<td>
-							<a href="{{ path('app_news_show', {'id': news.id}) }}">show</a>
-							<a href="{{ path('app_news_edit', {'id': news.id}) }}">edit</a>
+							<a href="{{ path('app_news_show', {'id': news.id}) }}">voir</a>
+							<a href="{{ path('app_news_edit', {'id': news.id}) }}">modifier</a>
 						</td>
 					</tr>
 				{% else %}
@@ -54,7 +55,7 @@
 				{% endfor %}
 			</tbody>
 		</table>
-
+</div>
 		<a href="{{ path('app_news_new') }}">Create new</a>
 	</main>
 {% endblock %}

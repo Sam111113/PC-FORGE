@@ -15,11 +15,12 @@
 							<img src="" alt="">
 						</div>
 						<div>
-						<p>{{boitier.marque}}
-							{{boitier.modele}}</p>
-						<p>{{boitier.prix}}€</p>
-						<p id="compo-card-note"></p>
-						<a id="compo-card-revendeur" href="">Amazon</a>
+							<p>{{boitier.marque}}
+								{{boitier.modele}}</p>
+							<p>{{boitier.prix}} €</p>
+							<p id="compo-card-note"> </p>
+							<a id="compo-card-revendeur" href="">Amazon</a>
+						</div>
 						{% if build ?? false %}
 							{% if build.boitierId is empty or null and (build.psuId is not empty or build.psuId is not null) %}
 								<form method="post" action="{{ path('forge_add_boitier', { id: boitier.id }) }}">
@@ -30,7 +31,6 @@
 								</form>
 							{% endif %}
 						{% endif %}
-						</div>
 						{% if is_granted('ROLE_ADMIN') %}
 							<div>
 								<a href="{{ path('app_boitier_show', {'id': boitier.id}) }}">
@@ -43,16 +43,16 @@
 						{% endif %}
 					</div>
 					<div>
-						<p>Longueur :
+						<p>Longueur : 
 							{{ boitier.length }}
 							mm</p>
-						<p>Largeur :
+						<p>Largeur : 
 							{{ boitier.width }}
 							mm</p>
-						<p>Hauteur :
+						<p>Hauteur : 
 							{{ boitier.heigth }}
 							mm</p>
-						<p>Emplacement de ventilateur :
+						<p>Emplacement de ventilateur : 
 							{{ boitier.fanSlot }}</p>
 					</div>
 				</article>

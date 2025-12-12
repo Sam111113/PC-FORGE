@@ -20,9 +20,10 @@
 						<div>
 						<p>{{cpu.marque}}
 							{{cpu.modele}}</p>
-						<p>{{cpu.prix}}€</p>
+						<p>{{cpu.prix}} €</p>
 						<p id="compo-card-note"></p>
 						<a id="compo-card-revendeur" href="">Amazon</a>
+						</div>
 						{% if build ?? false %}
 							{% if build.cpuId is empty or build.cpuId is null %}
 								<form method="post" action="{{ path('forge_add_cpu', { id: cpu.id }) }}">
@@ -33,7 +34,6 @@
 								</form>
 							{% endif %}
 						{% endif %}
-						</div>
 						{% if is_granted('ROLE_ADMIN') %}
 							<div>
 								<a href="{{ path('app_cpu_show', {'id': cpu.id}) }}">
@@ -46,10 +46,10 @@
 						{% endif %}
 					</div>
 					<div>
-						<p>Socket :
+						<p>Socket : 
 							{{ cpu.socket }}</p>
-						<p>Tdp :
-							{{ cpu.tdp }}</p>
+						<p>Tdp : 
+							{{ cpu.tdp }} W</p>
 					</div>
 				</article>
 			{% else %}

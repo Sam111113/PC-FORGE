@@ -1,4 +1,10 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
+    {{ form_row(form.pseudo) }}
+    {{ form_row(form.resume) }}
+    {{ form_row(form.image) }}
+    {% if is_granted('ROLE_ADMIN') %}
+    {{ form_rest(form) }}
+    {% endif %}
     <button class="btn">{{ button_label|default('Save') }}</button>
-{{ form_end(form) }}
+
+{{ form_end(form, {'render_rest': false}) }}

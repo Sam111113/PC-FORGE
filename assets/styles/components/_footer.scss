@@ -25,25 +25,24 @@ footer {
     }
 
     div {
-
+        margin-top: 2rem;
+        align-self: flex-start;
+        width: auto;
+        max-height: 15vh;
         >ul {
+            gap: 0.5rem;
             padding-left: 2%;
             display: flex;
             flex-direction: column;
             align-items: flex-start;
             justify-content: flex-start;
-            height: auto;
-            flex-wrap: wrap;
         }
     }
 
     div:nth-of-type(2) {
         ul {
-            flex-wrap: wrap;
-            // display: grid;
-            // grid-template-columns: 1fr 1fr;
-            // grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
-            // gap: 0.5rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
         }
     }
 }

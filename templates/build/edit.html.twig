@@ -8,10 +8,11 @@
 		<section>
 			<h1>Modifier le build</h1>
 
-			{{ include('build/_form.html.twig', {'button_label': 'Update'}) }}
+			{{ include('build/_form.html.twig', {'button_label': 'Sauvegarder'}) }}
 			<div>
-				<a href="{{ path('app_build_index') }}">retour à la liste</a>
-
+				{% if is_granted('ROLE_ADMIN') %}
+					<a href="{{ path('app_build_index') }}">retour à la liste</a>
+				{% endif %}
 				{{ include('build/_delete_form.html.twig') }}
 			</div>
 		</section>

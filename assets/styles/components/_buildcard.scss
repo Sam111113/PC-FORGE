@@ -37,6 +37,7 @@
             width: 80%;
             border-radius: $bRadius;
             background-color: rgba($color: white, $alpha: 0.2);
+            padding: 1rem;
 
             img {
                 height: 100%;
@@ -117,8 +118,10 @@
 }
 
 .build-home {
-    width: 18vw;
-    height: 50vh;
+    min-width: 18vw;
+    max-width: 18vw;
+    min-height: 50vh;
+    max-height: 50vh;
     color: $colortextPrimary;
     background-color: $colorBgF;
     border-radius: $bRadius;
@@ -142,18 +145,16 @@
         width: 80%;
         border-radius: $bRadius;
         background-color: rgba($color: white, $alpha: 0.2);
-        padding:1rem;
+        padding: 1rem;
 
         img {
             height: 100%;
             width: 100%;
-            object-fit: fill;
+            object-fit: contain;
         }
     }
 
     a {
-        z-index: 5;
-        position: relative;
         @include bouton-nav;
 
         &:hover {

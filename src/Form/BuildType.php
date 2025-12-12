@@ -94,10 +94,11 @@ class BuildType extends AbstractType
                 'by_reference' => false,
                 'required' => false,
             ])
-            // ->add('User', EntityType::class, [
-            //     'class' => User::class,
-            //     'choice_label' => 'id',
-            // ])
+            ->add('User', EntityType::class, [
+                'class' => User::class,
+                'choice_label' => 'id',
+            ])
+            ->add('Name')
         ;
     }
 

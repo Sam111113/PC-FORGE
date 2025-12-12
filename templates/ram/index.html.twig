@@ -15,11 +15,12 @@
 							<img src="" alt="">
 						</div>
 						<div>
-						<p>{{ram.marque}}
-							{{ram.modele}}</p>
-						<p>{{ram.prix}}€</p>
-						<p id="compo-card-note"></p>
-						<a id="compo-card-revendeur" href="">Amazon</a>
+							<p>{{ram.marque}}
+								{{ram.modele}}</p>
+							<p>{{ram.prix}} €</p>
+							<p id="compo-card-note"> </p>
+							<a id="compo-card-revendeur" href="">Amazon</a>
+						</div>
 						{% if build ?? false %}
 							{% if build.gpuId and (build.ramId is empty or null) %}
 								<form method="post" action="{{ path('forge_add_ram', { id: ram.id }) }}">
@@ -30,7 +31,6 @@
 								</form>
 							{% endif %}
 						{% endif %}
-						</div>
 						{% if is_granted('ROLE_ADMIN') %}
 							<div>
 								<a href="{{ path('app_ram_show', {'id': ram.id}) }}">
@@ -43,11 +43,11 @@
 						{% endif %}
 					</div>
 					<div>
-						<p>Type de mémoire :
-							{{ ram.type }}W</p>
-						<p>Nombre de module :
+						<p>Type de mémoire : 
+							{{ ram.type }}</p>
+						<p>Nombre de module : 
 							{{ ram.nbModule}}</p>
-						<p>Total GB :
+						<p>Total GB : 
 							{{ ram.total }}
 							GB</p>
 					</div>

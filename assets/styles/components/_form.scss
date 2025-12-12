@@ -105,10 +105,10 @@
     >section {
         margin: 3rem;
         background-color: $colorBgF;
-        width: 30vw;
+        min-width: 30vw;
         height: auto;
         border: 2px solid $colorBorder;
-        border-radius: 2rem;
+        border-radius: $bRadius;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -201,9 +201,39 @@ input {
 }
 
 @media screen and (max-width: 430px) {
+
     .form-log-reg,
     .section-register form {
         width: 95%;
         height: 65vh;
+    }
+
+    .main-form {
+        >section {
+            min-width: 95vw;
+
+            form {
+                input {
+                    width: 60%;
+                    background-color: $colorBgS;
+                }
+
+                textarea {
+                    min-width: 60%;
+                    min-height: 15vh;
+                }
+            }
+        }
+
+        button {
+            width: 38vw;
+        }
+    }
+
+    .search-bar {
+
+        input {
+            width: 90%;
+        }
     }
 }

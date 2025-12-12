@@ -117,7 +117,7 @@ final class BuildController extends AbstractController
         $pagination = $paginator->paginate(
             $query,
             $request->query->getInt('page', 1),
-            12
+            8
         );
 
         return $this->render('build/comuBuild.html.twig', [
