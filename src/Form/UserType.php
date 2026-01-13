@@ -28,9 +28,6 @@ class UserType extends AbstractType
             ->add('password')
             ->add('pseudo')
             ->add('resume')
-            // ->add('createdAt', null, [
-            //     'widget' => 'single_text',
-            // ])
             ->add('image', ImageType::class, [
                 'by_reference' => false,
                 'required' => false,

@@ -145,6 +145,7 @@
 }
 
 .main-bg-s {
+    background-attachment: fixed;
     background-color: $colorBgS;
     background-image: url('../img/showBuild.png');
     background-position: center;
@@ -211,7 +212,7 @@
     }
 }
 
-@media screen and (max-width: 430px) {
+@media screen and (max-width: 767px) {
 
     .space-ship,
     .high-end,

@@ -5,29 +5,31 @@
 {% endblock %}
 
 {% block main %}
-<main>
-	<h1 class="titre-main-page">News</h1>
-	<section class="section-news">
-		<div class="news-cards">
-			<div>
-				<h2>{{news.titre}}</h2>
-				<p>{{news.accroche}}</p>
+	<main>
+		<h1 class="titre-main-page">News</h1>
+		<section class="section-news">
+			<div class="news-cards">
+				<div>
+					<h2>{{news.titre}}</h2>
+					<p>{{news.accroche}}</p>
+				</div>
+				<div><img src="{{ news.image ? vich_uploader_asset(news.image, 'imageFile') : asset('img/placeholder/news.png') }}" alt="News"></div>
 			</div>
-			<div><img src="{{ news.image ? vich_uploader_asset(news.image, 'imageFile') : asset('img/placeholder/news.png') }}" alt="News"></div>
-		</div>
-        <div class="news-content-aside">
-		<article>
-			{{ news.content | raw }}
-		</article>
-		<aside class="aside-news">
-        <h3>Consulter d'autres News</h3>
-        <ul>
-        {% for news in latestNews %}
-       <li><a href="{{ path('app_news_show', {id: news.id})}}">{{news.titre}}</a></li> 
-        {% endfor %}
-        </ul>
-        </aside>
-        </div>
-	</section>
+			<div class="news-content-aside">
+				<article>
+					{{ news.content | raw }}
+				</article>
+				<aside class="aside-news">
+					<h3>Consulter d'autres News</h3>
+					<ul>
+						{% for news in latestNews %}
+							<li>
+								<a href="{{ path('app_news_show', {id: news.id})}}">{{news.titre}}</a>
+							</li>
+						{% endfor %}
+					</ul>
+				</aside>
+			</div>
+		</section>
 	</main>
 {% endblock %}

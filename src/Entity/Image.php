@@ -6,7 +6,6 @@ use App\Repository\ImageRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
-use Vich\UploaderBundle\Entity\File as VichFile;
 use Symfony\Component\HttpFoundation\File\File;
 
 #[Vich\Uploadable]
@@ -59,7 +58,7 @@ class Image
         return $this->filename;
     }
 
-    public function setFilename(string $filename): static
+    public function setFilename(?string $filename): static
     {
         $this->filename = $filename;
 
@@ -71,7 +70,7 @@ class Image
         return $this->alt;
     }
 
-    public function setAlt(string $alt): static
+    public function setAlt(?string $alt): static
     {
         $this->alt = $alt;
 

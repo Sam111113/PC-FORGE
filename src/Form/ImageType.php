@@ -16,8 +16,8 @@ class ImageType extends AbstractType
             ->add('imageFile', VichImageType::class, [
                 'label' => ' ',
                 'required' => false,
-                'allow_delete' => false,
-                'download_uri' => false,
+                'allow_delete' => true,
+                'download_uri' => true,
                 'image_uri' => false,
             ])
         ;

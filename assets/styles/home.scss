@@ -70,7 +70,7 @@
 
 .home-news,
 .home-builds {
-    h2 {
+    h2:first-of-type {
         font-family: $fontTitle;
         font-size: $fontsizeTitle;
         font-weight: 400;
@@ -97,7 +97,7 @@
         }
     }
 }
-@media screen and (max-width: 430px) {
+@media screen and (max-width: 767px) {
     .home-builds >div {
         flex-direction: column;
         gap: 2rem;

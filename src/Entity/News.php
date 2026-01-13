@@ -93,6 +93,9 @@ class News
     public function setImage(?Image $Image): static
     {
         $this->Image = $Image;
+        if ($Image) {
+            $Image->setContext('news');
+        }
 
         return $this;
     }

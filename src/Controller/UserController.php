@@ -37,34 +37,34 @@ final class UserController extends AbstractController
             'users' => $users,
         ]);
     }
-    #[IsGranted('ROLE_ADMIN')]
-    #[Route('/new', name: 'app_user_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
-    {
-        $user = new User();
-        $form = $this->createForm(UserType::class, $user);
-        $form->handleRequest($request);
+    // #[IsGranted('ROLE_ADMIN')]
+    // #[Route('/new', name: 'app_user_new', methods: ['GET', 'POST'])]
+    // public function new(Request $request, EntityManagerInterface $entityManager): Response
+    // {
+    //     $user = new User();
+    //     $form = $this->createForm(UserType::class, $user);
+    //     $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($user);
-            $entityManager->flush();
+    //     if ($form->isSubmitted() && $form->isValid()) {
+    //         $entityManager->persist($user);
+    //         $entityManager->flush();
 
-            return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
-        }
+    //         return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
+    //     }
 
-        return $this->render('user/new.html.twig', [
-            'user' => $user,
-            'form' => $form,
-        ]);
-    }
-    #[IsGranted('ROLE_ADMIN')]
-    #[Route('/{id}', name: 'app_user_show', methods: ['GET'])]
-    public function show(User $user): Response
-    {
-        return $this->render('user/show.html.twig', [
-            'user' => $user,
-        ]);
-    }
+    //     return $this->render('user/new.html.twig', [
+    //         'user' => $user,
+    //         'form' => $form,
+    //     ]);
+    // }
+    // #[IsGranted('ROLE_ADMIN')]
+    // #[Route('/{id}', name: 'app_user_show', methods: ['GET'])]
+    // public function show(User $user): Response
+    // {
+    //     return $this->render('user/show.html.twig', [
+    //         'user' => $user,
+    //     ]);
+    // }
     #[IsGranted('ROLE_ADMIN')]
     #[Route('/{id}/update-roles', name: 'app_user_update_roles', methods: ['POST'])]
     public function updateRoles(
@@ -76,7 +76,7 @@ final class UserController extends AbstractController
             throw $this->createAccessDeniedException();
         }
 
-        $roles = $request->request->get('role'); // récupère roles[]
+        $roles = $request->request->get('role');
 
         $user->setRoles([$roles]);
         $em->flush();

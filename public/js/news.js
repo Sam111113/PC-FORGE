@@ -1,3 +1,8 @@
+/**
+ * This configuration was generated using the CKEditor 5 Builder. You can modify it anytime using this link:
+ * https://ckeditor.com/ckeditor-5/builder/#installation/NoNgNARATAdAnDADBSBGA7AFilArAZk30XTnylJFXwA4pFN0oRj0m4a4RcaQ8bMKCAFMAdikRhgqMJMkz5AXUgBDACaoAZmoBGgxUA==
+ */
+
 const {
 	ClassicEditor,
 	Autosave,
@@ -5,50 +10,50 @@ const {
 	Paragraph,
 	Autoformat,
 	TextTransformation,
-	Heading,
-	Bold,
-	Italic,
-	Code,
+	LinkImage,
 	Link,
-	AutoLink,
-	ImageInline,
-	ImageToolbar,
 	ImageBlock,
-	ImageInsertViaUrl,
-	AutoImage,
+	ImageToolbar,
+	BlockQuote,
+	Bold,
 	CloudServices,
 	ImageUpload,
-	ImageStyle,
-	LinkImage,
-	ImageCaption,
-	ImageTextAlternative,
-	CodeBlock,
+	ImageInsertViaUrl,
+	AutoImage,
 	Table,
 	TableToolbar,
-	TableCaption,
+	Heading,
+	ImageTextAlternative,
+	ImageCaption,
+	ImageStyle,
+	Indent,
+	IndentBlock,
+	ImageInline,
+	Italic,
 	List,
-	GeneralHtmlSupport,
-	ShowBlocks,
-	HtmlComment,
-	Emoji,
-	Mention,
-	Fullscreen,
+	MediaEmbed,
+	TodoList,
 	Underline,
-	Strikethrough,
-	Highlight,
+	Fullscreen,
 	FontBackgroundColor,
 	FontColor,
 	FontFamily,
 	FontSize,
-	Superscript,
+	Highlight,
 	Subscript,
-	PlainTableOutput,
-	SourceEditing,
-	Title
+	Superscript,
+	Code,
+	Strikethrough,
+	Alignment,
+	Style,
+	GeneralHtmlSupport,
+	CodeBlock,
+	HorizontalLine,
+	TableCaption
 } = window.CKEDITOR;
 
 const LICENSE_KEY =
-	'eyJhbGciOiJFUzI1NiJ9.eyJleHAiOjE3NjIyMTQzOTksImp0aSI6IjJmYzZjNTUzLTFmOWMtNDVmYi04YWUzLTlkNzU3NzdmNzUwOCIsInVzYWdlRW5kcG9pbnQiOiJodHRwczovL3Byb3h5LWV2ZW50LmNrZWRpdG9yLmNvbSIsImRpc3RyaWJ1dGlvbkNoYW5uZWwiOlsiY2xvdWQiLCJkcnVwYWwiLCJzaCJdLCJ3aGl0ZUxhYmVsIjp0cnVlLCJsaWNlbnNlVHlwZSI6InRyaWFsIiwiZmVhdHVyZXMiOlsiKiJdLCJ2YyI6IjIxZTBlMzhjIn0.0l77m5tEfcn3-zg3_fsfPdkoN2HDhwakARoQzMYkQjSyOVLVpHpvVrj-BVNwFDLWrWLehtQjnCncE4VuWOUeBA';
+	'eyJhbGciOiJFUzI1NiJ9.eyJleHAiOjE3OTI1NDA3OTksImp0aSI6Ijg0N2E0MjE3LWQ2ZjUtNDg5Mi04NDM3LWRlNDVhYmU0ODJmZCIsImxpY2Vuc2VkSG9zdHMiOlsiMTI3LjAuMC4xIiwibG9jYWxob3N0IiwiMTkyLjE2OC4qLioiLCIxMC4qLiouKiIsIjE3Mi4qLiouKiIsIioudGVzdCIsIioubG9jYWxob3N0IiwiKi5sb2NhbCJdLCJ1c2FnZUVuZHBvaW50IjoiaHR0cHM6Ly9wcm94eS1ldmVudC5ja2VkaXRvci5jb20iLCJkaXN0cmlidXRpb25DaGFubmVsIjpbImNsb3VkIiwiZHJ1cGFsIl0sImxpY2Vuc2VUeXBlIjoiZGV2ZWxvcG1lbnQiLCJmZWF0dXJlcyI6WyJEUlVQIiwiRTJQIiwiRTJXIl0sInJlbW92ZUZlYXR1cmVzIjpbIlBCIiwiUkYiLCJTQ0giLCJUQ1AiLCJUTCIsIlRDUiIsIklSIiwiU1VBIiwiQjY0QSIsIkxQIiwiSEUiLCJSRUQiLCJQRk8iLCJXQyIsIkZBUiIsIkJLTSIsIkZQSCIsIk1SRSJdLCJ2YyI6IjdkOTIwZDY4In0.zWn712z6SprH5oVgklNRLgZPAj7ykr_8jOp0ti00g_vB8lr0vS0jNisch_o3pEeASMiLNuLmHjbw4yfNlpFfOg';
 
 const editorConfig = {
 	toolbar: {
@@ -56,11 +61,10 @@ const editorConfig = {
 			'undo',
 			'redo',
 			'|',
-			'sourceEditing',
-			'showBlocks',
 			'fullscreen',
 			'|',
 			'heading',
+			'style',
 			'|',
 			'fontSize',
 			'fontFamily',
@@ -75,27 +79,34 @@ const editorConfig = {
 			'superscript',
 			'code',
 			'|',
-			'emoji',
+			'horizontalLine',
 			'link',
+			'mediaEmbed',
 			'insertTable',
 			'highlight',
+			'blockQuote',
 			'codeBlock',
 			'|',
+			'alignment',
+			'|',
 			'bulletedList',
-			'numberedList'
+			'numberedList',
+			'todoList',
+			'outdent',
+			'indent'
 		],
 		shouldNotGroupWhenFull: false
 	},
 	plugins: [
+		Alignment,
 		Autoformat,
 		AutoImage,
-		AutoLink,
 		Autosave,
+		BlockQuote,
 		Bold,
 		CloudServices,
 		Code,
 		CodeBlock,
-		Emoji,
 		Essentials,
 		FontBackgroundColor,
 		FontColor,
@@ -105,7 +116,7 @@ const editorConfig = {
 		GeneralHtmlSupport,
 		Heading,
 		Highlight,
-		HtmlComment,
+		HorizontalLine,
 		ImageBlock,
 		ImageCaption,
 		ImageInline,
@@ -114,23 +125,23 @@ const editorConfig = {
 		ImageTextAlternative,
 		ImageToolbar,
 		ImageUpload,
+		Indent,
+		IndentBlock,
 		Italic,
 		Link,
 		LinkImage,
 		List,
-		Mention,
+		MediaEmbed,
 		Paragraph,
-		PlainTableOutput,
-		ShowBlocks,
-		SourceEditing,
 		Strikethrough,
+		Style,
 		Subscript,
 		Superscript,
 		Table,
 		TableCaption,
 		TableToolbar,
 		TextTransformation,
-		// Title,
+		TodoList,
 		Underline
 	],
 	fontFamily: {
@@ -145,6 +156,7 @@ const editorConfig = {
 			container.classList.add(
 				'editor-container',
 				'editor-container_classic-editor',
+				'editor-container_include-style',
 				'editor-container_include-fullscreen',
 				'main-container'
 			)
@@ -207,8 +219,8 @@ const editorConfig = {
 	image: {
 		toolbar: ['toggleImageCaption', 'imageTextAlternative', '|', 'imageStyle:inline', 'imageStyle:wrapText', 'imageStyle:breakText']
 	},
-	initialData: '',
-	language: 'fr',
+	initialData:
+		'',
 	licenseKey: LICENSE_KEY,
 	link: {
 		addTargetToExternalLinks: true,
@@ -223,17 +235,51 @@ const editorConfig = {
 			}
 		}
 	},
-	mention: {
-		feeds: [
+	placeholder: 'Type or paste your content here!',
+	style: {
+		definitions: [
 			{
-				marker: '@',
-				feed: [
-					/* See: https://ckeditor.com/docs/ckeditor5/latest/features/mentions.html */
-				]
+				name: 'Article category',
+				element: 'h3',
+				classes: ['category']
+			},
+			{
+				name: 'Title',
+				element: 'h2',
+				classes: ['document-title']
+			},
+			{
+				name: 'Subtitle',
+				element: 'h3',
+				classes: ['document-subtitle']
+			},
+			{
+				name: 'Info box',
+				element: 'p',
+				classes: ['info-box']
+			},
+			{
+				name: 'CTA Link Primary',
+				element: 'a',
+				classes: ['button', 'button--green']
+			},
+			{
+				name: 'CTA Link Secondary',
+				element: 'a',
+				classes: ['button', 'button--black']
+			},
+			{
+				name: 'Marker',
+				element: 'span',
+				classes: ['marker']
+			},
+			{
+				name: 'Spoiler',
+				element: 'span',
+				classes: ['spoiler']
 			}
 		]
 	},
-	placeholder: 'Rediger votre article !',
 	table: {
 		contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells']
 	}

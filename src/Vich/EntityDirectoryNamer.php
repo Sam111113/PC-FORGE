@@ -3,7 +3,6 @@ namespace App\Vich;
 
 use Vich\UploaderBundle\Naming\DirectoryNamerInterface;
 use Vich\UploaderBundle\Mapping\PropertyMapping;
-use App\Entity\Image;
 
 class EntityDirectoryNamer implements DirectoryNamerInterface
 {

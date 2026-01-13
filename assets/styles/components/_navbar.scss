@@ -243,7 +243,7 @@ header {
     background-image: url('../img/navbar/fan.png');
 }
 
-@media screen and (max-width: 430px) {
+@media screen and (max-width: 767px) {
     .navbar {
         background-color: $colorBgF;
         display: flex;

@@ -269,6 +269,9 @@ class Build
     public function setImage(?Image $Image): static
     {
         $this->Image = $Image;
+        if ($Image) {
+            $Image->setContext('build');
+        }
 
         return $this;
     }

@@ -112,6 +112,12 @@
         width: 50%;
         @include flex-evenly(column);
 
+        h2 {
+            width: 90%;
+            line-height: 4vh;
+            text-align: center ;
+        }
+
         >p {
             width: 80%;
             text-align: justify;
@@ -170,7 +176,7 @@
     margin: 0.3rem;
 }
 
-@media screen and (max-width: 430px) {
+@media screen and (max-width: 767px) {
     .news-index-cards, .news-cards {
         flex-direction: column-reverse;
         height: auto;

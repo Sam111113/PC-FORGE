@@ -171,6 +171,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setImage(?Image $Image): static
     {
         $this->Image = $Image;
+        if ($Image) {
+            $Image->setContext('user');
+        }
 
         return $this;
     }

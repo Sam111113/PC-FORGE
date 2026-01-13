@@ -20,15 +20,17 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
-use function PHPUnit\Framework\never;
 
+//vérification que l'utilisateur sois connecté
 #[IsGranted('IS_AUTHENTICATED_FULLY')]
 final class ForgeController extends AbstractController
 {
+    //création du key stocker en session
     private const SESSION_KEY = 'userBuild';
 
     private function initBuild(SessionInterface $session): array
     {
+        //création de mon tableau build pour stocker les composants selectionnés avec des valeurs null par default
         $state = $session->get(self::SESSION_KEY);
         if (!$state) {
             $state = [
@@ -46,23 +48,23 @@ final class ForgeController extends AbstractController
         }
         return $state;
     }
-
+    //function pour save le build
     private function saveBuild(SessionInterface $session, array $state): void
     {
         $session->set(self::SESSION_KEY, $state);
     }
-
+    //function pour recup le build
     private function getBuild(SessionInterface $session): array
     {
         return $this->initBuild($session);
     }
-
+    //function pour ajouter les id au build
     private function setSingle(array $state, string $key, ?int $id): array
     {
         $state[$key] = $id;
         return $state;
     }
-
+    //landing page de la forge qui envoie un tableau a la vue avec les compo du build selectionner, qui est mis a jour a chaque refresh de la page
     #[Route('/forge', name: 'app_forge')]
     public function index(
         Request $request,
@@ -76,9 +78,10 @@ final class ForgeController extends AbstractController
         BoitierRepository $boitierRepo,
         FanRepository $fanRepo,
     ): Response {
+        //je recupère le build stocker en session qui contient les id (si composant selectioner)
         $session = $request->getSession();
         $build = $this->getBuild($session);
-
+        //je fait un tableau avec des valeur null et pour chaque id stocker dans le build state je fait une requête via le repo
         $selected = [
             'cpu' => null,
             'motherboard' => null,
@@ -91,47 +94,38 @@ final class ForgeController extends AbstractController
             'fan' => null,
         ];
 
-        // CPU
         if (!empty($build['cpuId'])) {
             $selected['cpu'] = $cpuRepo->find($build['cpuId']);
         }
 
-        // Motherboard
         if (!empty($build['mbId'])) {
             $selected['motherboard'] = $mbRepo->find($build['mbId']);
         }
 
-        // GPU
         if (!empty($build['gpuId'])) {
             $selected['gpu'] = $gpuRepo->find($build['gpuId']);
         }
 
-        // RAM
         if (!empty($build['ramId'])) {
             $selected['ram'] = $ramRepo->find($build['ramId']);
         }
 
-        // Storage
         if (!empty($build['storageId'])) {
             $selected['storage'] = $storageRepo->find($build['storageId']);
         }
 
-        // Cooler
         if (!empty($build['coolerId'])) {
             $selected['cooler'] = $coolerRepo->find($build['coolerId']);
         }
 
-        // PSU
         if (!empty($build['psuId'])) {
             $selected['psu'] = $psuRepo->find($build['psuId']);
         }
 
-        // Boitier
         if (!empty($build['boitierId'])) {
             $selected['boitier'] = $boitierRepo->find($build['boitierId']);
         }
 
-        // Fan
         if (!empty($build['fanId'])) {
             $selected['fan'] = $fanRepo->find($build['fanId']);
         }
@@ -140,10 +134,10 @@ final class ForgeController extends AbstractController
             'selected' => $selected,
         ]);
     }
+    //si aucun cpuId dans la session envoie vers cpu index pour selectionner un cpu et j'envoie aussi le state pour ajouter des condition a la vue si un build est commencer
     #[Route('/forge/select/cpu', name: 'forge_select_cpu')]
     public function selectCpu(CpuRepository $cpuRepo, SessionInterface $session): Response
     {
-        $build = $session->get('userBuild', []);
         $build = $this->getBuild($session);
         if (!empty($build['cpuId'])) {
             $this->addFlash('warning', 'Tu as déjà sélectionné un processeur.');
@@ -156,7 +150,7 @@ final class ForgeController extends AbstractController
         ]);
     }
 
-    //CPU Addition
+    //verif via token csrf, puis verfi que l'id existe en bdd et ensuite il est ajouter au build state puis rediriger vers la page du builder
     #[Route('/forge/add/cpu/{id}', name: 'forge_add_cpu', methods: ['POST'])]
     public function addCpu(int $id, Request $request, SessionInterface $session, CpuRepository $repo): Response
     {
@@ -168,18 +162,19 @@ final class ForgeController extends AbstractController
             throw $this->createNotFoundException('CPU introuvable');
         }
 
-        $state = $this->getBuild($session);
-        $state = $this->setSingle($state, 'cpuId', $id);
-        $this->saveBuild($session, $state);
+        $build = $this->getBuild($session);
+        $build = $this->setSingle($build, 'cpuId', $id);
+        $this->saveBuild($session, $build);
 
         return $this->redirectToRoute('app_forge');
     }
 
-    //Motherboard Selection
+    //verfi que le cpu est choisis avant la motherboard si oui je recupere via le build state l'id du cpu je recupere ces attribus via le repo,
+//je trie les motherboard qui ont un socket compatible, l'utilisateur et rediriger vers une vue ou il peux selectionner une des motherboard
     #[Route('/forge/select/motherboard', name: 'forge_select_motherboard', methods: ['GET'])]
     public function selectMotherboard(SessionInterface $session, CpuRepository $cpuRepo, MotherboardRepository $mbRepo): Response
     {
-        $build = $session->get('userBuild', []);
+        $build = $this->getBuild($session);
         $cpuId = $build['cpuId'];
         if (!$build['cpuId']) {
             $this->addFlash('warning', 'Choisis d’abord un processeur.');
@@ -207,9 +202,9 @@ final class ForgeController extends AbstractController
             throw $this->createNotFoundException('Motherboard introuvable');
         }
 
-        $state = $this->getBuild($session);
-        $state = $this->setSingle($state, 'mbId', $id);
-        $this->saveBuild($session, $state);
+        $build = $this->getBuild($session);
+        $build = $this->setSingle($build, 'mbId', $id);
+        $this->saveBuild($session, $build);
         return $this->redirectToRoute('app_forge');
     }
 
@@ -217,7 +212,7 @@ final class ForgeController extends AbstractController
     #[Route('/forge/select/ram', name: 'forge_select_ram', methods: ['GET'])]
     public function selectRam(MotherboardRepository $mbRepo, RamRepository $ramRepo, SessionInterface $session): Response
     {
-        $build = $session->get('userBuild', []);
+        $build = $this->getBuild($session);
         $gpuId = $build['gpuId'];
         if (!$gpuId) {
             $this->addFlash('warning', 'Choisis d’abord une carte graphique.');
@@ -252,10 +247,9 @@ final class ForgeController extends AbstractController
         if (!$repo->find($id)) {
             throw $this->createNotFoundException('ram introuvable');
         }
-        $state = $this->getBuild($session);
-        $state = $this->setSingle($state, 'ramId', $id);
-
-        $this->saveBuild($session, $state);
+        $build = $this->getBuild($session);
+        $build = $this->setSingle($build, 'ramId', $id);
+        $this->saveBuild($session, $build);
         return $this->redirectToRoute('app_forge');
     }
 
@@ -263,7 +257,7 @@ final class ForgeController extends AbstractController
     #[Route('/forge/select/gpu', name: 'forge_select_gpu', methods: ['GET'])]
     public function selectGpu(SessionInterface $session, GpuRepository $gpuRepo, MotherboardRepository $mbRepo): Response
     {
-        $build = $session->get('userBuild', []);
+        $build = $this->getBuild($session);
         $mbId = $build['mbId'];
         if (!$mbId) {
             $this->addFlash('warning', 'Choisis d’abord une carte mère.');
@@ -291,9 +285,9 @@ final class ForgeController extends AbstractController
             throw $this->createNotFoundException('Gpu introuvable');
         }
 
-        $state = $this->getBuild($session);
-        $state = $this->setSingle($state, 'gpuId', $id);
-        $this->saveBuild($session, $state);
+        $build = $this->getBuild($session);
+        $build = $this->setSingle($build, 'gpuId', $id);
+        $this->saveBuild($session, $build);
 
         return $this->redirectToRoute('app_forge');
     }
@@ -302,7 +296,7 @@ final class ForgeController extends AbstractController
     #[Route('/forge/select/storage', name: 'forge_select_storage', methods: ['GET'])]
     public function selectStorage(SessionInterface $session, MotherboardRepository $mbRepo, StorageRepository $storageRepo): Response
     {
-        $build = $session->get('userBuild', []);
+        $build = $this->getBuild($session);
         $ramId = $build['ramId'];
         $mb = $mbRepo->find($build['mbId']);
         if (!$ramId) {
@@ -321,7 +315,8 @@ final class ForgeController extends AbstractController
                 ->getResult();
         } elseif ($mbSata > 0) {
             $storages = $storageRepo->createQueryBuilder('storage')
-                ->andWhere('storage.interface LIKE %SATA%')
+                ->andWhere('storage.interface LIKE :sata')
+                ->setParameter('sata', '%SATA%')
                 ->orderBy('storage.prix', 'DESC')
                 ->getQuery()
                 ->getResult();
@@ -346,9 +341,9 @@ final class ForgeController extends AbstractController
             throw $this->createNotFoundException('Storage introuvable');
         }
 
-        $state = $this->getBuild($session);
-        $state = $this->setSingle($state, 'storageId', $id);
-        $this->saveBuild($session, $state);
+        $build = $this->getBuild($session);
+        $build = $this->setSingle($build, 'storageId', $id);
+        $this->saveBuild($session, $build);
         return $this->redirectToRoute('app_forge');
     }
 
@@ -356,7 +351,7 @@ final class ForgeController extends AbstractController
     #[Route('/forge/select/boitier', name: 'forge_select_boitier', methods: ['GET'])]
     public function selectCase(SessionInterface $session, GpuRepository $gpuRepo, CoolerRepository $coolerRepo, MotherboardRepository $mbRepo, BoitierRepository $caseRepo): Response
     {
-        $build = $session->get('userBuild', []);
+        $build = $this->getBuild($session);
         $psuId = $build['psuId'];
         $coolerId = $build['coolerId'];
         $mb = $mbRepo->find($build['mbId']);
@@ -428,21 +423,20 @@ final class ForgeController extends AbstractController
             throw $this->createNotFoundException('Storage introuvable');
         }
 
-        $state = $this->getBuild($session);
-        $state = $this->setSingle($state, 'boitierId', $id);
-        $this->saveBuild($session, $state);
+        $build = $this->getBuild($session);
+        $build = $this->setSingle($build, 'boitierId', $id);
+        $this->saveBuild($session, $build);
         return $this->redirectToRoute('app_forge');
     }
 
     //COOLER Selection
     #[Route('/forge/select/cooler', name: 'forge_select_cooler', methods: ['GET'])]
     public function selectCpuCooler(
-        Request $request,
+        SessionInterface $session,
         CoolerRepository $coolerRepo,
         CpuRepository $cpuRepo
     ): Response {
-        $session = $request->getSession();
-        $build = $session->get('userBuild', []);
+        $build = $this->getBuild($session);
         $storageId = $build['storageId'];
         if (!$storageId) {
             $this->addFlash('warning', 'Choisis d’abord du stockage.');
@@ -481,22 +475,21 @@ final class ForgeController extends AbstractController
             throw $this->createNotFoundException('Storage introuvable');
         }
 
-        $state = $this->getBuild($session);
-        $state = $this->setSingle($state, 'coolerId', $id);
-        $this->saveBuild($session, $state);
+        $build = $this->getBuild($session);
+        $build = $this->setSingle($build, 'coolerId', $id);
+        $this->saveBuild($session, $build);
         return $this->redirectToRoute('app_forge');
     }
 
     //PSU Selection
     #[Route('/forge/select/psu', name: 'forge_select_psu', methods: ['GET'])]
     public function selectPsu(
-        Request $request,
+        SessionInterface $session,
         GpuRepository $gpuRepo,
         CpuRepository $cpuRepo,
         PsuRepository $psuRepo
     ): Response {
-        $session = $request->getSession();
-        $build = $session->get('userBuild', []);
+        $build = $this->getBuild($session);
         $storageId = $build['storageId'];
         $cpuId = $build['cpuId'];
         $gpuId = $build['gpuId'];
@@ -539,22 +532,20 @@ final class ForgeController extends AbstractController
             throw $this->createNotFoundException('Storage introuvable');
         }
 
-        $state = $this->getBuild($session);
-        $state = $this->setSingle($state, 'psuId', $id);
-        $this->saveBuild($session, $state);
+        $build = $this->getBuild($session);
+        $build = $this->setSingle($build, 'psuId', $id);
+        $this->saveBuild($session, $build);
         return $this->redirectToRoute('app_forge');
     }
 
     //FAN Selection
     #[Route('/forge/select/fan', name: 'forge_select_fan', methods: ['GET'])]
     public function selectFan(
-        Request $request,
+        SessionInterface $session,
         BoitierRepository $boitierRepo,
         FanRepository $fanRepo
     ): Response {
-
-        $session = $request->getSession();
-        $build = $session->get('userBuild', []);
+        $build = $this->getBuild($session);
         $boitierId = $build['boitierId'];
         if (!$boitierId) {
             $this->addFlash('warning', 'Choisis d’abord un boitier.');
@@ -591,9 +582,9 @@ final class ForgeController extends AbstractController
             throw $this->createNotFoundException('Ventilateur introuvable');
         }
 
-        $state = $this->getBuild($session);
-        $state = $this->setSingle($state, 'fanId', $id);
-        $this->saveBuild($session, $state);
+        $build = $this->getBuild($session);
+        $build = $this->setSingle($build, 'fanId', $id);
+        $this->saveBuild($session, $build);
         return $this->redirectToRoute('app_forge');
     }
 
@@ -606,91 +597,96 @@ final class ForgeController extends AbstractController
             throw $this->createAccessDeniedException('Token CSRF invalide');
         }
 
-        $state = $this->getBuild($session);
+        $build = $this->getBuild($session);
+        $allowedParts = [
+            'cpuId',
+            'mbId',
+            'gpuId',
+            'ramId',
+            'storageId',
+            'coolerId',
+            'psuId',
+            'boitierId',
+            'fanId',
+        ];
+        if (!in_array($part, $allowedParts, true)) {
+            throw $this->createNotFoundException('Composant inconnu');
+        }else {
+        if ($part === 'cpuId') {
 
-        if ($part = 'cpuId') {
-            $state = [
-                'cpuId' => null,
-                'mbId' => null,
-                'gpuId' => null,
-                'ramId' => null,
-                'storageId' => null,
-                'coolerId' => null,
-                'psuId' => null,
-                'boitierId' => null,
-                'fanId' => null,
-            ];
-        }
-        if ($part = 'mbId') {
-            $state = [
-                'mbId' => null,
-                'gpuId' => null,
-                'ramId' => null,
-                'storageId' => null,
-                'coolerId' => null,
-                'psuId' => null,
-                'boitierId' => null,
-                'fanId' => null,
-            ];
-        }
-        if ($part = 'gpuId') {
-            $state = [
-                'gpuId' => null,
-                'ramId' => null,
-                'storageId' => null,
-                'coolerId' => null,
-                'psuId' => null,
-                'boitierId' => null,
-                'fanId' => null,
-            ];
-        }
-        if ($part = 'ramId') {
-            $state = [
-                'ramId' => null,
-                'storageId' => null,
-                'coolerId' => null,
-                'psuId' => null,
-                'boitierId' => null,
-                'fanId' => null,
-            ];
-        }
-        if ($part = 'storageId') {
-            $state = [
-                'storageId' => null,
-                'coolerId' => null,
-                'psuId' => null,
-                'boitierId' => null,
-                'fanId' => null,
-            ];
-        }
-        if ($part = 'coolerId') {
-            $state = [
-                'coolerId' => null,
-                'psuId' => null,
-                'boitierId' => null,
-                'fanId' => null,
-            ];
-        }
-        if ($part = 'psuId') {
-            $state = [
-                'psuId' => null,
-                'boitierId' => null,
-                'fanId' => null,
-            ];
-        }
-        if ($part = 'boitierId') {
-            $state = [
-                'boitierId' => null,
-                'fanId' => null,
-            ];
-        }
-        if ($part = 'fanId') {
-            $state = [
-                'fanId' => null,
-            ];
-        }
+            $build['cpuId'] = null;
+            $build['mbId'] = null;
+            $build['gpuId'] = null;
+            $build['ramId'] = null;
+            $build['storageId'] = null;
+            $build['coolerId'] = null;
+            $build['psuId'] = null;
+            $build['boitierId'] = null;
+            $build['fanId'] = null;
 
-        $this->saveBuild($session, $state);
+        } elseif ($part === 'mbId') {
+
+            $build['mbId'] = null;
+            $build['gpuId'] = null;
+            $build['ramId'] = null;
+            $build['storageId'] = null;
+            $build['coolerId'] = null;
+            $build['psuId'] = null;
+            $build['boitierId'] = null;
+            $build['fanId'] = null;
+
+        } elseif ($part === 'gpuId') {
+
+            $build['gpuId'] = null;
+            $build['ramId'] = null;
+            $build['storageId'] = null;
+            $build['coolerId'] = null;
+            $build['psuId'] = null;
+            $build['boitierId'] = null;
+            $build['fanId'] = null;
+
+        } elseif ($part === 'ramId') {
+
+            $build['ramId'] = null;
+            $build['storageId'] = null;
+            $build['coolerId'] = null;
+            $build['psuId'] = null;
+            $build['boitierId'] = null;
+            $build['fanId'] = null;
+
+        } elseif ($part === 'storageId') {
+
+            $build['storageId'] = null;
+            $build['coolerId'] = null;
+            $build['psuId'] = null;
+            $build['boitierId'] = null;
+            $build['fanId'] = null;
+
+        } elseif ($part === 'coolerId') {
+
+            $build['coolerId'] = null;
+            $build['psuId'] = null;
+            $build['boitierId'] = null;
+            $build['fanId'] = null;
+
+        } elseif ($part === 'psuId') {
+
+            $build['psuId'] = null;
+            $build['boitierId'] = null;
+            $build['fanId'] = null;
+
+        } elseif ($part === 'boitierId') {
+
+            $build['boitierId'] = null;
+            $build['fanId'] = null;
+
+        } elseif ($part === 'fanId') {
+
+            $build['fanId'] = null;
+
+        }}
+
+        $this->saveBuild($session, $build);
         return $this->redirectToRoute('app_forge');
     }
     #[Route('/forge/reset', name: 'forge_reset', methods: ['POST'])]
@@ -706,6 +702,7 @@ final class ForgeController extends AbstractController
     //SAVE
     #[Route('/forge/save', name: 'forge_save', methods: ['POST'])]
     public function save(
+        SessionInterface $session,
         Request $request,
         CpuRepository $cpuRepo,
         MotherboardRepository $mbRepo,
@@ -722,7 +719,6 @@ final class ForgeController extends AbstractController
         if (!$this->isCsrfTokenValid('forge_save', $submittedToken)) {
             throw $this->createAccessDeniedException('Jeton CSRF invalide.');
         }
-        $session = $request->getSession();
         $build = $this->getBuild($session);
 
         $user = $this->getUser();
@@ -759,7 +755,7 @@ final class ForgeController extends AbstractController
 
         // Fan
         if (!empty($build['fanId'])) {
-                $fan = $fanRepo->find($build['fanId']);
+            $fan = $fanRepo->find($build['fanId']);
         }
 
         if (
@@ -784,7 +780,7 @@ final class ForgeController extends AbstractController
         $buildCreate->addRam($ram);
         $buildCreate->addStorage($storage);
 
-        if (!empty($fans)) {
+        if (!empty($fan)) {
             $buildCreate->addFan($fan);
         }
         if (!empty($cooler)) {

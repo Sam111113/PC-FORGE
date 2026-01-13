@@ -163,7 +163,7 @@
     }
 }
 
-@media screen and (max-width: 430px) {
+@media screen and (max-width: 767px) {
     .build-card {
         min-width: 80vw;
         max-width: 80vw;
@@ -186,7 +186,9 @@
     }
 
     .build-home {
-        width: 80vw;
-        height: 50vh;
+        min-width: 80vw;
+        max-width: 80vw;
+        min-height: 50vh;
+        max-height: 50vh;
     }
 }
