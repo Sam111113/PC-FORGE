@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Créer une carte graphique - Admin{% endblock %}
+
+{% block main %}
+	<main class="main-form">
+		<section>
+			<h1>Créer une nouvelle carte graphique</h1>
+
+			{{ include('admin/gpu/_form.html.twig') }}
+
+			<a href="{{ path('app_admin_gpu_index') }}">Retour à la liste</a>
+		</section>
+	</main>
+{% endblock %}

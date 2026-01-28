@@ -7,9 +7,6 @@
 	<main>
 		<section class="section-login">
 			<form class="form-log-reg" method="post">
-				{% if error %}
-					<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-				{% endif %}
 
 				{% if app.user %}
 					<div>
@@ -20,6 +17,9 @@
 				{% endif %}
 
 				<h1>Connexion</h1>
+				{% if error %}
+					<div class="alert alert-danger">Email ou mot de passe incorrect.</div>
+				{% endif %}
 				<div>
 					<label for="inputEmail">Email</label>
 					<input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>

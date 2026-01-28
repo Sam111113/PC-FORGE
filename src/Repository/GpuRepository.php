@@ -40,4 +40,23 @@ class GpuRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+
+    /**
+     * Trouve les GPU compatibles avec une carte mère donnée
+     *
+     * La compatibilité se base sur le module PCIe
+     *
+     * @param string $pcieModule Le module PCIe de la carte mère (ex: 'PCIe 4.0')
+     * @return Gpu[] Les GPU compatibles, triés par ID décroissant
+     */
+    public function findCompatibleWithMotherboard(string $pcieModule): array
+    {
+        return $this->createQueryBuilder('gpu')
+            ->andWhere('gpu.pcieModule = :pcieModule')
+            ->setParameter('pcieModule', $pcieModule)
+            ->orderBy('gpu.id', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
 }
+

@@ -3,19 +3,30 @@
 namespace App\Controller;
 
 use App\Entity\News;
-use App\Form\NewsType;
 use App\Repository\NewsRepository;
-use App\Service\CustomContentSanitizer;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\String\Slugger\SluggerInterface;
 
+/**
+ * Contrôleur public des actualités
+ *
+ * Gère les opérations accessibles à tous les visiteurs :
+ * - Affichage de la liste des actualités
+ * - Affichage du détail d'une actualité
+ *
+ * Les opérations d'administration (création, modification, suppression)
+ * sont dans AdminNewsController (ROLE_REDACTEUR requis)
+ */
 #[Route('/news')]
 final class NewsController extends AbstractController
 {
+    /**
+     * Affiche la liste de toutes les actualités
+     *
+     * @param NewsRepository $newsRepository Repository des actualités
+     * @return Response Page listant toutes les actualités
+     */
     #[Route(name: 'app_news_index', methods: ['GET'])]
     public function index(NewsRepository $newsRepository): Response
     {
@@ -23,54 +34,14 @@ final class NewsController extends AbstractController
             'news' => $newsRepository->findAll(),
         ]);
     }
-    #[Route('/adminView', name: 'app_news_adminView', methods: ['GET'])]
-    public function adminIndex(NewsRepository $newsRepository): Response
-    {
-        return $this->render('news/adminView.html.twig', [
-            'newss' => $newsRepository->findAll(),
-        ]);
-    }
 
-    #[Route('/new', name: 'app_news_new', methods: ['GET', 'POST'])]
-    public function new(
-        Request $request,
-        EntityManagerInterface $em,
-        SluggerInterface $slugger,
-        CustomContentSanitizer $sanitizer
-    ) {
-        $news = new News();
-        $form = $this->createForm(NewsType::class, $news);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            // Sanitizer du HTML
-            $clean = $sanitizer->clean($news->getContent());
-            $news->setContent($clean);
-
-            // Slug auto si vide
-            if (!$news->getSlug()) {
-                $news->setSlug(strtolower($slugger->slug($news->getTitre())));
-            }
-
-            // Dates
-            $news->setCreatedAt(new \DateTimeImmutable());
-
-            $em->persist($news);
-            $em->flush();
-
-            $newsId = $news->getId();
-
-            return $this->redirectToRoute('app_news_show', [
-                'slug' => $news->getSlug(),
-                'id' => $newsId
-            ]);
-        }
-
-        return $this->render('news/new.html.twig', [
-            'form' => $form,
-        ]);
-    }
-
+    /**
+     * Affiche le détail d'une actualité avec les dernières news associées
+     *
+     * @param News $news Actualité à afficher (injection par ParamConverter)
+     * @param NewsRepository $newsRepo Repository pour récupérer les actualités récentes
+     * @return Response Page de détail de l'actualité
+     */
     #[Route('/{id}', name: 'app_news_show', methods: ['GET'])]
     public function show(News $news, NewsRepository $newsRepo): Response
     {
@@ -86,34 +57,5 @@ final class NewsController extends AbstractController
             'news' => $news,
             'latestNews' => $latestNews,
         ]);
-    }
-
-    #[Route('/{id}/edit', name: 'app_news_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, News $news, EntityManagerInterface $entityManager): Response
-    {
-        $form = $this->createForm(NewsType::class, $news);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
-
-            return $this->redirectToRoute('app_news_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->render('news/edit.html.twig', [
-            'news' => $news,
-            'form' => $form,
-        ]);
-    }
-
-    #[Route('/{id}', name: 'app_news_delete', methods: ['POST'])]
-    public function delete(Request $request, News $news, EntityManagerInterface $entityManager): Response
-    {
-        if ($this->isCsrfTokenValid('delete' . $news->getId(), $request->getPayload()->getString('_token'))) {
-            $entityManager->remove($news);
-            $entityManager->flush();
-        }
-
-        return $this->redirectToRoute('app_news_index', [], Response::HTTP_SEE_OTHER);
     }
 }

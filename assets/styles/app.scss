@@ -28,11 +28,13 @@ main {
     margin-top: 15vh;
     background-color: $colorBgF;
     width: 100%;
+    min-height: 85vh;
 }
 
-#compo-card>button,
+.compo-card>button,
 .js-role-form>button,
-.main-show button {
+.main-show button,
+.main-show td a {
     background: none;
     display: inline-flex;
     align-items: center;
@@ -41,21 +43,73 @@ main {
     border: none;
 }
 
-// .vich-image {
-//     > input {
-//         @include bouton-nav;
-
-//         &:hover {
-//             @include bouton-nav-hover;
-//         }
-//     }
-// }
-
 svg {
     width: 100%;
     height: 100%;
 
     &:hover {
         color: $colorBorder;
+    }
+}
+
+// Messages flash (notifications)
+.flash-message {
+    position: fixed;
+    top: 16vh;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 1rem 2rem;
+    border-radius: $bRadius;
+    font-size: $fontsizeText;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    box-shadow: $shadow;
+    animation: slideDown 0.3s ease-out;
+
+    &.flash-success {
+        background-color: $succes;
+        border: 1px solid $succes;
+    }
+
+    &.flash-error {
+        background-color: $alert;
+        border: 1px solid $alert;
+    }
+
+    &.flash-warning {
+        background-color: $colorBorder;
+        border: 1px solid $colorBorder;
+    }
+
+    &.flash-info {
+        background-color: $colorBgS;
+        border: 1px solid $colorBorder;
+    }
+}
+
+.flash-close {
+    background: none;
+    border: none;
+    color: $colortextPrimary;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+
+    &:hover {
+        color: $colorBorder;
+    }
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
     }
 }

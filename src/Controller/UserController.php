@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\UserType;
-use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,105 +11,52 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-
-
+/**
+ * Contrôleur public des utilisateurs
+ *
+ * Gère les opérations accessibles aux utilisateurs connectés :
+ * - Édition de son propre profil
+ *
+ * Les opérations d'administration (liste, gestion des rôles, suppression)
+ * sont dans AdminUserController
+ */
 #[Route('/user')]
 final class UserController extends AbstractController
 {
-    #[IsGranted('ROLE_ADMIN')]
-    #[Route(name: 'app_user_index', methods: ['GET'])]
-    public function index(UserRepository $userRepository, Request $request): Response
-    {
-        $keywords = (string) $request->query->get('keywords', '');
-
-        if ($keywords !== '') {
-            $users = $userRepository->createQueryBuilder('u')
-                ->where('u.email LIKE :k OR u.pseudo LIKE :k')
-                ->setParameter('k', "%{$keywords}%")
-                ->getQuery()
-                ->getResult();
-        } else {
-            $users = $userRepository->findAll();
-        }
-
-        return $this->render('user/index.html.twig', [
-            'users' => $users,
-        ]);
-    }
-    // #[IsGranted('ROLE_ADMIN')]
-    // #[Route('/new', name: 'app_user_new', methods: ['GET', 'POST'])]
-    // public function new(Request $request, EntityManagerInterface $entityManager): Response
-    // {
-    //     $user = new User();
-    //     $form = $this->createForm(UserType::class, $user);
-    //     $form->handleRequest($request);
-
-    //     if ($form->isSubmitted() && $form->isValid()) {
-    //         $entityManager->persist($user);
-    //         $entityManager->flush();
-
-    //         return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
-    //     }
-
-    //     return $this->render('user/new.html.twig', [
-    //         'user' => $user,
-    //         'form' => $form,
-    //     ]);
-    // }
-    // #[IsGranted('ROLE_ADMIN')]
-    // #[Route('/{id}', name: 'app_user_show', methods: ['GET'])]
-    // public function show(User $user): Response
-    // {
-    //     return $this->render('user/show.html.twig', [
-    //         'user' => $user,
-    //     ]);
-    // }
-    #[IsGranted('ROLE_ADMIN')]
-    #[Route('/{id}/update-roles', name: 'app_user_update_roles', methods: ['POST'])]
-    public function updateRoles(
-        User $user,
-        Request $request,
-        EntityManagerInterface $em
-    ): Response {
-        if (!$this->isCsrfTokenValid('update_roles' . $user->getId(), $request->request->get('_token'))) {
-            throw $this->createAccessDeniedException();
-        }
-
-        $roles = $request->request->get('role');
-
-        $user->setRoles([$roles]);
-        $em->flush();
-
-        $this->addFlash('success', 'Rôle mis à jour');
-        return $this->redirectToRoute('app_user_index');
-    }
+    /**
+     * Permet à un utilisateur d'éditer son propre profil
+     *
+     * Vérifie que l'utilisateur connecté est bien le propriétaire du profil.
+     * Les admins utilisent AdminUserController pour gérer tous les utilisateurs.
+     *
+     * @param Request $request Requête HTTP
+     * @param User $user Utilisateur à éditer (injection par ParamConverter)
+     * @param EntityManagerInterface $entityManager Entity manager pour la persistance
+     * @return Response Formulaire ou redirection après modification
+     */
     #[IsGranted('ROLE_USER')]
     #[Route('/{id}/edit', name: 'app_user_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, User $user, EntityManagerInterface $entityManager): Response
     {
+        $current = $this->getUser();
+
+        if ($current !== $user) {
+            throw $this->createAccessDeniedException('Vous ne pouvez pas modifier ce profil.');
+        }
+
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
+            $this->addFlash('success', 'Profil modifié avec succès');
+            return $this->redirectToRoute('app_profile', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('user/edit.html.twig', [
             'user' => $user,
             'form' => $form,
         ]);
-    }
-    #[IsGranted('ROLE_ADMIN')]
-    #[Route('/{id}', name: 'app_user_delete', methods: ['POST'])]
-    public function delete(Request $request, User $user, EntityManagerInterface $entityManager): Response
-    {
-        if ($this->isCsrfTokenValid('delete' . $user->getId(), $request->getPayload()->getString('_token'))) {
-            $entityManager->remove($user);
-            $entityManager->flush();
-        }
-
-        return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
     }
 }

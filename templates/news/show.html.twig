@@ -8,14 +8,14 @@
 	<main>
 		<h1 class="titre-main-page">News</h1>
 		<section class="section-news">
-			<div class="news-cards">
+			<div class="news-index-cards">
 				<div>
 					<h2>{{news.titre}}</h2>
 					<p>{{news.accroche}}</p>
 				</div>
 				<div><img src="{{ news.image ? vich_uploader_asset(news.image, 'imageFile') : asset('img/placeholder/news.png') }}" alt="News"></div>
 			</div>
-			<div class="news-content-aside">
+			<div class="news-content">
 				<article>
 					{{ news.content | raw }}
 				</article>

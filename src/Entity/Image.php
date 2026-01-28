@@ -7,6 +7,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[Vich\Uploadable]
 #[ORM\Entity(repositoryClass: ImageRepository::class)]
@@ -17,20 +18,30 @@ class Image
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(nullable:true, length: 255)]
+    #[ORM\Column(nullable: true, length: 255)]
     private ?string $filename = null;
 
-    #[ORM\Column(nullable:true, length: 255)]
+    #[ORM\Column(nullable: true, length: 255)]
     private ?string $alt = null;
-    
+
     #[Vich\UploadableField(mapping: 'products', fileNameProperty: 'filename')]
+    #[Assert\Image(
+        maxSize: '5M',
+        mimeTypes: ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'],
+        mimeTypesMessage: 'Veuillez uploader une image valide (JPEG, PNG ou WebP)',
+        maxSizeMessage: 'Le fichier est trop volumineux ({{ size }} {{ suffix }}). La taille maximum est de {{ limit }} {{ suffix }}.',
+        maxWidth: 4000,
+        maxHeight: 4000,
+        maxWidthMessage: 'La largeur de l\'image est trop grande ({{ width }}px). Maximum autorisé : {{ max_width }}px.',
+        maxHeightMessage: 'La hauteur de l\'image est trop grande ({{ height }}px). Maximum autorisé : {{ max_height }}px.'
+    )]
     private ?File $imageFile = null;
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
     private ?\DateTimeInterface $updatedAt = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $Context = null;
+    private ?string $context = null;
 
     public function setImageFile(?File $imageFile = null): void
     {
@@ -91,12 +102,12 @@ class Image
 
     public function getContext(): ?string
     {
-        return $this->Context;
+        return $this->context;
     }
 
-    public function setContext(?string $Context): static
+    public function setContext(?string $context): static
     {
-        $this->Context = $Context;
+        $this->context = $context;
 
         return $this;
     }

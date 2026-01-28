@@ -5,7 +5,7 @@
     height: 85vh;
     @include flex-center(column);
     background-image: url('../img/prebuilds/spaceship.jpg');
-    @include bg-img(center);
+    @include bg-img(cover);
 
 }
 
@@ -194,7 +194,7 @@ textarea {
 }
 
 input {
-    background-color: $colorBgF;
+    background-color: $colorBgS;
     border-radius: 7px;
     border: none;
     height: 2rem;

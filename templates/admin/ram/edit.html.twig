@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier la RAM - Admin{% endblock %}
+
+{% block main %}
+	<main class="main-form">
+		<section>
+			<h1>Modifier la RAM</h1>
+			{{ include('admin/ram/_form.html.twig', {'button_label': 'Sauvegarder'}) }}
+			<div>
+				<a href="{{ path('app_admin_ram_index') }}">Retour à la liste</a>
+				<form method="post" action="{{ path('app_admin_ram_delete', {'id': ram.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette RAM ?');">
+					<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ ram.id) }}">
+					<button class="btn btn-danger">Supprimer</button>
+				</form>
+			</div>
+		</section>
+	</main>
+{% endblock %}

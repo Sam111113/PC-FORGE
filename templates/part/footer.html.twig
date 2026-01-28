@@ -7,8 +7,8 @@
 			<h2>Pc Forge</h2>
 			<ul>
 				<li><a href="{{ path('app_forge') }}">Forge</a></li>
-				<li><a href="{{ path('app_build_index') }}">Communauté</a></li>
-				<li><a href="">Pré-builds</a></li>
+				<li><a href="{{ path('app_build_comu') }}">Communauté</a></li>
+				<li><a href="{{ path('app_prebuilds') }}">Pré-builds</a></li>
 				<li><a href="{{ path('app_news_index') }}">News</a></li>
 			</ul>
 		</div>
@@ -17,11 +17,11 @@
 			<ul>
 				<li><a href="{{ path('app_cpu_index') }}">Processeur</a></li>
 				<li><a href="{{ path('app_motherboard_index') }}">Carte mère</a></li>
-				<li><a href="{{ path('app_gpu_index') }}">Carte grphique</a></li>
+				<li><a href="{{ path('app_gpu_index') }}">Carte graphique</a></li>
 				<li><a href="{{ path('app_ram_index') }}">Ram</a></li>
 				<li><a href="{{ path('app_storage_index') }}">stockage</a></li>
 				<li><a href="{{ path('app_psu_index') }}">Alimentation</a></li>
-				<li><a href="{{ path('app_cooler_index') }}">Refroisdissment</a></li>
+				<li><a href="{{ path('app_cooler_index') }}">Refroidissement</a></li>
 				<li><a href="{{ path('app_boitier_index') }}">Boîtier</a></li>
 				<li><a href="{{ path('app_fan_index') }}">Ventilateur</a></li>
 			</ul>
@@ -34,16 +34,15 @@
 						<a href="{{ path('app_profile', {'id': app.user.id}) }}">Profil</a>
 					</li>
 					<li>
-						{# <a href="{{ path('app_build', {'id': app.user.id}) }}">Profil</a> #}
 						<a href="{{ path('app_logout') }}">Déconnexion</a>
 					</li>
 					{% if is_granted('ROLE_ADMIN') %}
 						<li>
-							<a href="">Admin</a>
+							<a href="{{ path('app_admin_user_index') }}">Admin</a>
 						</li>
 					{% elseif is_granted('ROLE_REDACTEUR')%}
 						<li>
-							<a href="">Rédacteur</a>
+							<a href="{{ path('app_admin_news_index') }}">Rédacteur</a>
 						</li>
 					{% endif %}
 				{% else %}
@@ -54,15 +53,6 @@
 						<a href="{{ path('app_register') }}">Inscription</a>
 					</li>
 				{% endif %}
-			</ul>
-		</div>
-		<div>
-			<h2>Autre</h2>
-			<ul>
-
-				<li><a href="">A propos</a></li>
-				<li><a href="">Q & A</a></li>
-				<li><a href="">Contact</a></li>
 			</ul>
 		</div>
 	</footer>

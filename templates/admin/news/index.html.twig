@@ -1,0 +1,58 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Gestion des actualités - Admin{% endblock %}
+
+{% block main %}
+	<main class="main-show">
+{% include "admin/part/adminNav.html.twig" %}
+		<h1>Gestion des actualités</h1>
+		<a href="{{ path('app_admin_news_new') }}" class="btn">Créer une nouvelle actualité</a>
+		<div class="table-div">
+			<table class="table">
+				<thead>
+					<tr>
+						<th>ID</th>
+						<th>Titre</th>
+						<th>Accroche</th>
+						<th>Image</th>
+						<th>Créé le</th>
+						<th>Slug</th>
+						<th>Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for news in newss %}
+						<tr>
+							<td>{{ news.id }}</td>
+							<td>{{ news.titre }}</td>
+							<td>{{ news.accroche }}</td>
+							<td>
+								<img src="{{ news.image ? vich_uploader_asset(news.image, 'imageFile') : asset('img/placeholder/news.png') }}" alt="{{ news.titre }}" style="max-width: 50px;">
+							</td>
+							<td>{{ news.createdAt|date('d/m/y H:i') }}</td>
+							<td>{{ news.slug }}</td>
+							<td>
+								<a href="{{ path('app_news_show', {'id': news.id}) }}" aria-label="Voir {{ news.titre }}">
+									<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-eye-icon lucide-eye" role="img" aria-hidden="true"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"/><circle cx="12" cy="12" r="3"/></svg>
+								</a>
+								<a href="{{ path('app_admin_news_edit', {'id': news.id}) }}" aria-label="Modifier {{ news.titre }}">
+									<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pencil-icon lucide-pencil" role="img" aria-hidden="true"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></svg>
+								</a>
+								<form method="post" action="{{ path('app_admin_news_delete', {'id': news.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette actualité ?');" style="display:inline;">
+									<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ news.id) }}">
+									<button class="btn" style="background:none;border:none;padding:0;" aria-label="Supprimer {{ news.titre }}">
+										<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#e5676e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash2-icon lucide-trash-2" role="img" aria-hidden="true"><path d="M10 11v6"/><path d="M14 11v6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+									</button>
+								</form>
+							</td>
+						</tr>
+					{% else %}
+						<tr>
+							<td colspan="7">Aucune actualité trouvée</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</main>
+{% endblock %}

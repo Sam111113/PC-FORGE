@@ -8,7 +8,7 @@
 		<section class="secBuildShow">
 			<div class="hautShow">
 				<div>
-					<img src="{{ build.image ? vich_uploader_asset(build.image, 'imageFile') : asset('img/placeholder/prebuild.png') }}" alt="Build">
+					<img src="{{ build.image ? vich_uploader_asset(build.image, 'imageFile') : asset('img/placeholder/prebuild.png') }}" alt="Image du build de {{ build.user.pseudo }}">
 				</div>
 				<div>
 					<h1>Build de
@@ -18,100 +18,100 @@
 						<p>Prix total du build :
 							{{ build.totalPrice }}€</p>
 						{% if app.user and (app.user == build.user or is_granted('ROLE_ADMIN')) %}
-							<a href="{{ path('app_build_edit', { id: build.id }) }}" class="btn btn-warning">
-								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pencil-icon lucide-pencil"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></svg>
+							<a href="{{ path('app_build_edit', { id: build.id }) }}" class="btn btn-warning" aria-label="Modifier ce build">
+								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pencil-icon lucide-pencil" role="img" aria-hidden="true"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></svg>
 							</a>
 						{% endif %}
 					</div>
 				</div>
 			</div>
-			<article id="compo-card" data-ascin="{{ build.cpu.ascin }}">
+			<article class="compo-card" data-ascin="{{ build.cpu.ascin }}">
 				<div>
-					<div id="compo-card-img">
-						<img src="" alt="">
+					<div class="compo-card-img">
+						<img src="" alt="Image de processeur">
 					</div>
 					<div>
 						<p>{{build.cpu.marque}}
 							{{build.cpu.modele}}</p>
-						<p>{{build.cpu.prix}}€</p>
-						<p id="compo-card-note"></p>
-						<a id="compo-card-revendeur" href="">Amazon</a>
+						<p class="compo-card-price">{{build.cpu.prix}}€</p>
+						<p class="compo-card-note"></p>
+						<a class="compo-card-revendeur" href="">Amazon</a>
 					</div>
 				</div>
 				<div>
 					<p>Socket :
 						{{ build.cpu.socket }}</p>
 					<p>Tdp :
-						{{ build.cpu.tdp }}</p>
+						{{ build.cpu.tdp }}W</p>
 				</div>
 			</article>
-			<article id="compo-card" data-ascin="{{ build.motherboard.ascin }}">
+			<article class="compo-card" data-ascin="{{ build.motherboard.ascin }}">
 				<div>
-					<div id="compo-card-img">
-						<img src="" alt="">
+					<div class="compo-card-img">
+						<img src="" alt="Image de carte mère">
 					</div>
 					<div>
 						<p>{{build.motherboard.marque}}
 							{{build.motherboard.modele}}</p>
-						<p>{{build.motherboard.prix}}€</p>
-						<p id="compo-card-note"></p>
-						<a id="compo-card-revendeur" href="">Amazon</a>
+						<p class="compo-card-price">{{build.motherboard.prix}}€</p>
+						<p class="compo-card-note"></p>
+						<a class="compo-card-revendeur" href="">Amazon</a>
 					</div>
 				</div>
 				<div>
 					<p>Type :
-						{{build.motherboard.formFactor }}W</p>
+						{{build.motherboard.formFactor }}</p>
 					<p>Socket :
 						{{ build.motherboard.socket}}</p>
 					<p>Type de mémoire :
 						{{ build.motherboard.memoryType }}</p>
 					<p>Mémoire max :
-						{{ build.motherboard.memoryMax }}</p>
+						{{ build.motherboard.memoryMax }}GB</p>
 				</div>
 			</article>
 			{% for gpu in build.gpu %}
 
 
-				<article id="compo-card" data-ascin="{{ gpu.ascin }}">
+				<article class="compo-card" data-ascin="{{ gpu.ascin }}">
 					<div>
-						<div id="compo-card-img">
-							<img src="" alt="">
+						<div class="compo-card-img">
+							<img src="" alt="Image de carte graphique">
 						</div>
 						<div>
 							<p>{{gpu.marque}}
 								{{gpu.modele}}</p>
-							<p>{{gpu.prix}}€</p>
-							<p id="compo-card-note"></p>
-							<a id="compo-card-revendeur" href="">Amazon</a>
+							<p class="compo-card-price">{{gpu.prix}}€</p>
+							<p class="compo-card-note"></p>
+							<a class="compo-card-revendeur" href="">Amazon</a>
 						</div>
 					</div>
 					<div>
 						<p>Module PCie :
-							{{ gpu.pcieModule }}W</p>
+							{{ gpu.pcieModule }}</p>
 						<p>Longueur :
-							{{ gpu.length}}</p>
+							{{ gpu.length}}mm</p>
 						<p>Tdp :
-							{{ gpu.tdp }}</p>
+							{{ gpu.tdp }}W</p>
 					</div>
 				</article>
 			{% endfor %}
 			{% for ram in build.ram %}
-				<article id="compo-card" data-ascin="{{ ram.ascin }}">
+				<article class="compo-card" data-ascin="{{ ram.ascin }}">
 					<div>
-						<div id="compo-card-img">
-							<img src="" alt="">
+						<div class="compo-card-img">
+							<img src="" alt="Image de mémoire">
 						</div>
 						<div>
 							<p>{{ram.marque}}
 								{{ram.modele}}</p>
-							<p>{{ram.prix}}€</p>
-							<p id="compo-card-note"></p>
-							<a id="compo-card-revendeur" href="">Amazon</a>
+							<p class="compo-card-price">{{ram.prix}}€</p>
+							<p class="compo-card-note"></p>
+							<a class="compo-card-revendeur" href="">Amazon</a>
 						</div>
 					</div>
 					<div>
 						<p>Type de mémoire :
-							{{ ram.type }}W</p>
+							{{ ram.type }}</p>
 						<p>Nombre de module :
 							{{ ram.nbModule}}</p>
 						<p>Total GB :
@@ -121,22 +121,22 @@
 				</article>
 			{% endfor %}
 			{% for storage in build.storage %}
-				<article id="compo-card" data-ascin="{{ storage.ascin }}">
+				<article class="compo-card" data-ascin="{{ storage.ascin }}">
 					<div>
-						<div id="compo-card-img">
-							<img src="" alt="">
+						<div class="compo-card-img">
+							<img src="" alt="Image de stockage">
 						</div>
 						<div>
 							<p>{{storage.marque}}
 								{{storage.modele}}</p>
-							<p>{{storage.prix}}€</p>
-							<p id="compo-card-note"></p>
-							<a id="compo-card-revendeur" href="">Amazon</a>
+							<p class="compo-card-price">{{storage.prix}}€</p>
+							<p class="compo-card-note"></p>
+							<a class="compo-card-revendeur" href="">Amazon</a>
 						</div>
 					</div>
 					<div>
 						<p>Type de stockage :
-							{{ storage.type }}W</p>
+							{{ storage.type }}</p>
 						<p>Interface :
 							{{ storage.interface}}</p>
 					</div>
@@ -144,40 +144,40 @@
 			{% endfor %}
 			{% if build.cooler ?? null %}
 
-				<article id="compo-card" data-ascin="{{ build.cooler.ascin }}">
+				<article class="compo-card" data-ascin="{{ build.cooler.ascin }}">
 					<div>
-						<div id="compo-card-img">
-							<img src="" alt="">
+						<div class="compo-card-img">
+							<img src="" alt="Image de système de refroidissement">
 						</div>
 						<div>
 							<p>{{build.cooler.marque}}
 								{{build.cooler.modele}}</p>
-							<p>{{build.cooler.prix}}€</p>
-							<p id="compo-card-note"></p>
-							<a id="compo-card-revendeur" href="">Amazon</a>
+							<p class="compo-card-price">{{build.cooler.prix}}€</p>
+							<p class="compo-card-note"></p>
+							<a class="compo-card-revendeur" href="">Amazon</a>
 						</div>
 					</div>
 					<div>
 						<p>Nombre de ventilateur :
-							{{build.cooler.nbFan }}W</p>
+							{{build.cooler.nbFan }}</p>
 						<p>Tdp :
-							{{ build.cooler.tdp}}</p>
+							{{ build.cooler.tdp}}W</p>
 						<p>Socket :
 							{{ build.cooler.socket }}</p>
 					</div>
 				</article>
 			{% endif %}
-			<article id="compo-card" data-ascin="{{ build.psu.ascin }}">
+			<article class="compo-card" data-ascin="{{ build.psu.ascin }}">
 				<div>
-					<div id="compo-card-img">
-						<img src="" alt="">
+					<div class="compo-card-img">
+						<img src="" alt="Image d'alimentation">
 					</div>
 					<div>
 						<p>{{build.psu.marque}}
 							{{build.psu.modele}}</p>
-						<p>{{build.psu.prix}}€</p>
-						<p id="compo-card-note"></p>
-						<a id="compo-card-revendeur" href="">Amazon</a>
+						<p class="compo-card-price">{{build.psu.prix}}€</p>
+						<p class="compo-card-note"></p>
+						<a class="compo-card-revendeur" href="">Amazon</a>
 					</div>
 				</div>
 				<div>
@@ -191,17 +191,17 @@
 						{{ build.psu.sataConnector }}</p>
 				</div>
 			</article>
-			<article id="compo-card" data-ascin="{{ build.boitier.ascin }}">
+			<article class="compo-card" data-ascin="{{ build.boitier.ascin }}">
 				<div>
-					<div id="compo-card-img">
-						<img src="" alt="">
+					<div class="compo-card-img">
+						<img src="" alt="Image de boitier">
 					</div>
 					<div>
 						<p>{{build.boitier.marque}}
 							{{build.boitier.modele}}</p>
-						<p>{{build.boitier.prix}}€</p>
-						<p id="compo-card-note"></p>
-						<a id="compo-card-revendeur" href="">Amazon</a>
+						<p class="compo-card-price">{{build.boitier.prix}}€</p>
+						<p class="compo-card-note"></p>
+						<a class="compo-card-revendeur" href="">Amazon</a>
 					</div>
 				</div>
 				<div>
@@ -221,22 +221,22 @@
 			{% if build.fan ?? null %}
 
 				{% for fan in build.fan %}
-					<article id="compo-card" data-ascin="{{ fan.ascin }}">
+					<article class="compo-card" data-ascin="{{ fan.ascin }}">
 						<div>
-							<div id="compo-card-img">
-								<img src="" alt="">
+							<div class="compo-card-img">
+								<img src="" alt="Image de ventilateur">
 							</div>
 							<div>
 								<p>{{fan.marque}}
 									{{fan.modele}}</p>
-								<p>{{fan.prix}}€</p>
-								<p id="compo-card-note"></p>
-								<a id="compo-card-revendeur" href="">Amazon</a>
+								<p class="compo-card-price">{{fan.prix}}€</p>
+								<p class="compo-card-note"></p>
+								<a class="compo-card-revendeur" href="">Amazon</a>
 							</div>
 						</div>
 						<div>
 							<p>Largeur :
-								{{ fan.width }}W</p>
+								{{ fan.width }}mm</p>
 							<p>Quantité :
 								{{ fan.quantity}}</p>
 						</div>

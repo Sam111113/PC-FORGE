@@ -8,14 +8,14 @@
 			<div></div>
 			<div></div>
 		</div>
-		<ul class="tel-menu">
+		<ul>
 			<li>
 				<a href="{{ path('app_forge') }}">Forge</a>
 			</li>
 			<li class="composant">
-				<a href="#" id="btn-nav">Composants</a>
-				<div class="menu-composant comp">
-				<button class="btn-close-list"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x-icon lucide-x"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
+				<h2 id="btn-nav">Composants</h2>
+				<div class="menu-composant">
+				<button class="btn-close-list" aria-label="Fermer le menu composants"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x-icon lucide-x" role="img" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
 					<ul class="list-compo">
 						<li>
 							<a href="{{path('app_cpu_index')}}">
@@ -27,7 +27,7 @@
 						</li>
 						<li>
 							<a href="{{path('app_gpu_index')}}">
-								Carte grphique</a>
+								Carte graphique</a>
 						</li>
 						<li>
 							<a href="{{path('app_ram_index')}}">
@@ -35,7 +35,7 @@
 						</li>
 						<li>
 							<a href="{{path('app_storage_index')}}">
-								stockage</a>
+								Stockage</a>
 						</li>
 						<li>
 							<a href="{{path('app_psu_index')}}">
@@ -43,7 +43,7 @@
 						</li>
 						<li>
 							<a href="{{path('app_cooler_index')}}">
-								Refroisdissment</a>
+								Refroidissement</a>
 						</li>
 						<li>
 							<a href="{{path('app_boitier_index')}}">
@@ -69,20 +69,20 @@
 		<div class="connecter">
 			{% if app.user %}
 				<div>
-					<img src="{{ app.user.image ? vich_uploader_asset(app.user.image, 'imageFile') : asset('img/placeholder/userplaceholder.jpg') }}">
+					<img src="{{ app.user.image ? vich_uploader_asset(app.user.image, 'imageFile') : asset('img/placeholder/userplaceholder.jpg') }}" alt="Photo de profil de {{ app.user.pseudo }}">
 				</div>
-				<ul class="co">
+				<ul>
 					<li>
 						<a href="{{ path('app_profile', {'id': app.user.id}) }}">Profil</a>
 					</li>
 					{% if is_granted('ROLE_ADMIN') %}
 						<li>
-							<a href="{{ path('app_user_index') }}">Admin</a>
+							<a href="{{ path('app_admin_user_index') }}">Admin</a>
 						</li>
 					{% endif %}
 					{% if is_granted('ROLE_REDACTEUR')%}
 						<li>
-							<a href="{{ path('app_news_adminView') }}">Rédacteur</a>
+							<a href="{{ path('app_admin_news_index') }}">Rédacteur</a>
 						</li>
 					{% endif %}
 					<li>

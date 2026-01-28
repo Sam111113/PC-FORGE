@@ -8,14 +8,13 @@ use App\Entity\Cooler;
 use App\Entity\Cpu;
 use App\Entity\Fan;
 use App\Entity\Gpu;
-use App\Entity\Image;
 use App\Entity\Motherboard;
 use App\Entity\Psu;
 use App\Entity\Ram;
 use App\Entity\Storage;
-use App\Entity\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -26,23 +25,23 @@ class BuildType extends AbstractType
         $builder
             ->add('description')
             ->add('isPreBuild')
-            // ->add('createdAt', null, [
-            //     'widget' => 'single_text',
-            // ])
             ->add('isMonthBuild')
-            // ->add('totalPrice')
-            ->add('name')
+            ->add('name', TextType::class, [
+                'label' => 'Nom du build',
+            ])
             ->add('Motherboard', EntityType::class, [
                 'class' => Motherboard::class,
                 'choice_label' => function (Motherboard $motherboard) {
                     return $motherboard->getMarque() . ' ' . $motherboard->getModele();
                 },
+                'required' => true,
             ])
             ->add('Cpu', EntityType::class, [
                 'class' => Cpu::class,
                 'choice_label' => function (Cpu $cpu) {
                     return $cpu->getMarque() . ' ' . $cpu->getModele();
                 },
+                'required' => true,
             ])
             ->add('Gpu', EntityType::class, [
                 'class' => Gpu::class,
@@ -63,18 +62,21 @@ class BuildType extends AbstractType
                 'choice_label' => function (Boitier $boitier) {
                     return $boitier->getMarque() . ' ' . $boitier->getModele();
                 },
+                'required' => true,
             ])
             ->add('Psu', EntityType::class, [
                 'class' => Psu::class,
                 'choice_label' => function (Psu $psu) {
                     return $psu->getMarque() . ' ' . $psu->getModele();
                 },
+                'required' => true,
             ])
             ->add('Cooler', EntityType::class, [
                 'class' => Cooler::class,
                 'choice_label' => function (Cooler $cooler) {
                     return $cooler->getMarque() . ' ' . $cooler->getModele();
                 },
+                'required' => false,
             ])
             ->add('Storage', EntityType::class, [
                 'class' => Storage::class,
@@ -85,6 +87,7 @@ class BuildType extends AbstractType
             ])
             ->add('Fan', EntityType::class, [
                 'class' => Fan::class,
+                'required' => false,
                 'choice_label' => function (Fan $fan) {
                     return $fan->getMarque() . ' ' . $fan->getModele();
                 },
@@ -94,11 +97,6 @@ class BuildType extends AbstractType
                 'by_reference' => false,
                 'required' => false,
             ])
-            ->add('User', EntityType::class, [
-                'class' => User::class,
-                'choice_label' => 'id',
-            ])
-            ->add('Name')
         ;
     }
 

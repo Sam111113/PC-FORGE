@@ -40,4 +40,26 @@ class FanRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+
+    /**
+     * Trouve les ventilateurs compatibles avec un boîtier donné
+     *
+     * La compatibilité se base sur la taille et le nombre de slots
+     *
+     * @param int $maxFanSlot Nombre de slots de ventilateur disponibles
+     * @param int $maxFanWidth Largeur maximale supportée en mm
+     * @return Fan[] Les ventilateurs compatibles, triés par prix décroissant
+     */
+    public function findCompatibleWithCase(int $maxFanSlot, int $maxFanWidth): array
+    {
+        return $this->createQueryBuilder('fan')
+            ->andWhere('fan.width <= :maxWidth')
+            ->andWhere('fan.quantity <= :slot')
+            ->setParameter('slot', $maxFanSlot)
+            ->setParameter('maxWidth', $maxFanWidth)
+            ->orderBy('fan.prix', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
 }
+

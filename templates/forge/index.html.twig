@@ -20,22 +20,22 @@
 			</p>
 			<div class="ligne"></div>
 			{% if selected.cpu %}
-				<article id="compo-card" data-ascin="{{ selected.cpu.ascin }}">
+				<article class="compo-card" data-ascin="{{ selected.cpu.ascin }}">
 					<div>
-						<div id="compo-card-img">
-							<img src="" alt="">
+						<div class="compo-card-img">
+							<img src="" alt="Image de processeur">
 						</div>
 						<div>
 						<p>{{selected.cpu.marque}}
 							{{selected.cpu.modele}}</p>
-						<p>{{selected.cpu.prix}}€</p>
-						<p id="compo-card-note"></p>
-						<a id="compo-card-revendeur" href="">Amazon</a>
+						<p class="compo-card-price">{{selected.cpu.prix}}€</p>
+						<p class="compo-card-note"></p>
+						<a class="compo-card-revendeur" href="">Amazon</a>
 						</div>
 						<form method="post" action="{{ path('forge_remove_part', { part: 'cpuId' }) }}">
 							<input type="hidden" name="_token" value="{{ csrf_token('forge_remove_part_cpuId') }}">
-							<button>
-								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="#e5676e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-x-icon lucide-circle-x"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
+							<button aria-label="Retirer le processeur">
+								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="#e5676e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-x-icon lucide-circle-x" role="img" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
 							</button>
 						</form>
 					</div>
@@ -59,22 +59,22 @@
 			</p>
 			<div class="ligne"></div>
 			{% if selected.motherboard %}
-				<article id="compo-card" data-ascin="{{ selected.motherboard.ascin }}">
+				<article class="compo-card" data-ascin="{{ selected.motherboard.ascin }}">
 					<div>
-						<div id="compo-card-img">
-							<img src="" alt="">
+						<div class="compo-card-img">
+							<img src="" alt="Image de carte mère">
 						</div>
 						<div>
 						<p>{{selected.motherboard.marque}}
 							{{selected.motherboard.modele}}</p>
-						<p>{{selected.motherboard.prix}}€</p>
-						<p id="compo-card-note"></p>
-						<a id="compo-card-revendeur" href="">Amazon</a>
+						<p class="compo-card-price">{{selected.motherboard.prix}}€</p>
+						<p class="compo-card-note"></p>
+						<a class="compo-card-revendeur" href="">Amazon</a>
 						</div>
 						<form method="post" action="{{ path('forge_remove_part', { part: 'mbId' }) }}">
 							<input type="hidden" name="_token" value="{{ csrf_token('forge_remove_part_mbId') }}">
-							<button>
-								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="#e5676e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-x-icon lucide-circle-x"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
+							<button aria-label="Retirer la carte mère">
+								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="#e5676e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-x-icon lucide-circle-x" role="img" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
 							</button>
 						</form>
 					</div>
@@ -102,22 +102,22 @@
 			</p>
 			<div class="ligne"></div>
 			{% if selected.gpu %}
-				<article id="compo-card" data-ascin="{{ selected.gpu.ascin }}">
+				<article class="compo-card" data-ascin="{{ selected.gpu.ascin }}">
 					<div>
-						<div id="compo-card-img">
-							<img src="" alt="">
+						<div class="compo-card-img">
+							<img src="" alt="Image de carte graphique">
 						</div>
 						<div>
 						<p>{{selected.gpu.marque}}
 							{{selected.gpu.modele}}</p>
-						<p>{{selected.gpu.prix}}€</p>
-						<p id="compo-card-note"></p>
-						<a id="compo-card-revendeur" href="">Amazon</a>
+						<p class="compo-card-price">{{selected.gpu.prix}}€</p>
+						<p class="compo-card-note"></p>
+						<a class="compo-card-revendeur" href="">Amazon</a>
 						</div>
 						<form method="post" action="{{ path('forge_remove_part', { part: 'gpuId' }) }}">
 							<input type="hidden" name="_token" value="{{ csrf_token('forge_remove_part_gpuId') }}">
-							<button>
-								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="#e5676e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-x-icon lucide-circle-x"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
+							<button aria-label="Retirer la carte graphique">
+								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="#e5676e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-x-icon lucide-circle-x" role="img" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
 							</button>
 						</form>
 					</div>
@@ -143,22 +143,22 @@
 			</p>
 			<div class="ligne"></div>
 			{% if selected.ram %}
-					<article id="compo-card" data-ascin="{{ selected.ram.ascin }}">
+					<article class="compo-card" data-ascin="{{ selected.ram.ascin }}">
 						<div>
-							<div id="compo-card-img">
-								<img src="" alt="">
+							<div class="compo-card-img">
+								<img src="" alt="Image de mémoire">
 							</div>
 							<div>
 							<p>{{selected.ram.marque}}
 								{{selected.ram.modele}}</p>
-							<p>{{selected.ram.prix}}€</p>
-							<p id="compo-card-note"></p>
-							<a id="compo-card-revendeur" href="">Amazon</a>
+							<p class="compo-card-price">{{selected.ram.prix}}€</p>
+							<p class="compo-card-note"></p>
+							<a class="compo-card-revendeur" href="">Amazon</a>
 							</div>
 							<form method="post" action="{{ path('forge_remove_part', { part: 'ramId' }) }}">
 								<input type="hidden" name="_token" value="{{ csrf_token('forge_remove_part_ramId') }}">
-								<button>
-									<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="#e5676e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-x-icon lucide-circle-x"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
+								<button aria-label="Retirer la mémoire RAM">
+									<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="#e5676e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-x-icon lucide-circle-x" role="img" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
 								</button>
 							</form>
 						</div>
@@ -184,21 +184,24 @@
 			</p>
 			<div class="ligne"></div>
 			{% if selected.storage %}
-					<article id="compo-card" data-ascin="{{ selected.storage.ascin }}">
+					<article class="compo-card" data-ascin="{{ selected.storage.ascin }}">
 						<div>
-							<div id="compo-card-img">
-								<img src="" alt="">
+							<div class="compo-card-img">
+								<img src="" alt="Image de stockage">
 							</div>
 							<div>
 							<p>{{selected.storage.marque}}
 								{{selected.storage.modele}}</p>
-							<p>{{selected.storage.prix}}€</p>
-							<p id="compo-card-note"></p>
-							<a id="compo-card-revendeur" href="">Amazon</a>
+							<p class="compo-card-price">{{selected.storage.prix}}€</p>
+							<p class="compo-card-note"></p>
+							<a class="compo-card-revendeur" href="">Amazon</a>
 							</div>
-							<button>
-								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="#e5676e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-x-icon lucide-circle-x"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
-							</button>
+							<form method="post" action="{{ path('forge_remove_part', { part: 'storageId' }) }}">
+								<input type="hidden" name="_token" value="{{ csrf_token('forge_remove_part_storageId') }}">
+								<button aria-label="Retirer le stockage">
+									<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="#e5676e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-x-icon lucide-circle-x" role="img" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
+								</button>
+							</form>
 						</div>
 						<div>
 							<p>Type de stockage :
@@ -219,21 +222,24 @@
 			</p>
 			<div class="ligne"></div>
 			{% if selected.cooler %}
-				<article id="compo-card" data-ascin="{{ selected.cooler.ascin }}">
+				<article class="compo-card" data-ascin="{{ selected.cooler.ascin }}">
 					<div>
-						<div id="compo-card-img">
-							<img src="" alt="">
+						<div class="compo-card-img">
+							<img src="" alt="Image de système de refroidissement">
 						</div>
 						<div>
 						<p>{{selected.cooler.marque}}
 							{{selected.cooler.modele}}</p>
-						<p>{{selected.cooler.prix}}€</p>
-						<p id="compo-card-note"></p>
-						<a id="compo-card-revendeur" href="">Amazon</a>
+						<p class="compo-card-price">{{selected.cooler.prix}}€</p>
+						<p class="compo-card-note"></p>
+						<a class="compo-card-revendeur" href="">Amazon</a>
 						</div>
-						<button>
-							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="#e5676e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-x-icon lucide-circle-x"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
-						</button>
+							<form method="post" action="{{ path('forge_remove_part', { part: 'coolerId' }) }}">
+								<input type="hidden" name="_token" value="{{ csrf_token('forge_remove_part_coolerId') }}">
+								<button aria-label="Retirer le système de refroidissement">
+									<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="#e5676e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-x-icon lucide-circle-x" role="img" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
+								</button>
+							</form>
 					</div>
 					<div>
 						<p>Nombre de ventilateur :
@@ -251,27 +257,30 @@
 		</section>
 		<div class="ligne"></div>
 		<section class="forge-comp">
-			<h2>Etape 7 : L'alimentation'</h2>
+			<h2>Etape 7 : L'alimentation</h2>
 			<p>
 				L’alimentation fournit l’énergie à tous tes composants. Choisis une puissance suffisante (en watts) selon ton CPU et ton GPU. Par exemple, un PC gaming milieu de gamme fonctionne avec 650–750W, tandis qu’un haut de gamme demande 850W ou plus. Privilégie une certification 80+ Gold pour un meilleur rendement et une marque fiable.
 			</p>
 			<div class="ligne"></div>
 			{% if selected.psu %}
-				<article id="compo-card" data-ascin="{{ selected.psu.ascin }}">
+				<article class="compo-card" data-ascin="{{ selected.psu.ascin }}">
 					<div>
-						<div id="compo-card-img">
-							<img src="" alt="">
+						<div class="compo-card-img">
+							<img src="" alt="Image de l'alimentation">
 						</div>
 						<div>
 						<p>{{selected.psu.marque}}
 							{{selected.psu.modele}}</p>
-						<p>{{selected.psu.prix}}€</p>
-						<p id="compo-card-note"></p>
-						<a id="compo-card-revendeur" href="">Amazon</a>
+						<p class="compo-card-price">{{selected.psu.prix}}€</p>
+						<p class="compo-card-note"></p>
+						<a class="compo-card-revendeur" href="">Amazon</a>
 						</div>
-						<button>
-							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="#e5676e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-x-icon lucide-circle-x"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
-						</button>
+							<form method="post" action="{{ path('forge_remove_part', { part: 'psuId' }) }}">
+								<input type="hidden" name="_token" value="{{ csrf_token('forge_remove_part_psuId') }}">
+								<button aria-label="Retirer l'alimentation">
+									<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="#e5676e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-x-icon lucide-circle-x" role="img" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
+								</button>
+							</form>
 					</div>
 					<div>
 						<p>Wattage :
@@ -297,21 +306,24 @@
 			</p>
 			<div class="ligne"></div>
 			{% if selected.boitier %}
-				<article id="compo-card" data-ascin="{{ selected.boitier.ascin }}">
+				<article class="compo-card" data-ascin="{{ selected.boitier.ascin }}">
 					<div>
-						<div id="compo-card-img">
-							<img src="" alt="">
+						<div class="compo-card-img">
+							<img src="" alt="Image de boitier">
 						</div>
 						<div>
 						<p>{{selected.boitier.marque}}
 							{{selected.boitier.modele}}</p>
-						<p>{{selected.boitier.prix}}€</p>
-						<p id="compo-card-note"></p>
-						<a id="compo-card-revendeur" href="">Amazon</a>
+						<p class="compo-card-price">{{selected.boitier.prix}}€</p>
+						<p class="compo-card-note"></p>
+						<a class="compo-card-revendeur" href="">Amazon</a>
 						</div>
-						<button>
-							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="#e5676e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-x-icon lucide-circle-x"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
-						</button>
+							<form method="post" action="{{ path('forge_remove_part', { part: 'boitierId' }) }}">
+								<input type="hidden" name="_token" value="{{ csrf_token('forge_remove_part_boitierId') }}">
+								<button aria-label="Retirer le boîtier">
+									<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="#e5676e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-x-icon lucide-circle-x" role="img" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
+								</button>
+							</form>
 					</div>
 					<div>
 						<p>Longueur :
@@ -339,21 +351,24 @@
 			</p>
 			<div class="ligne"></div>
 			{% if selected.fan %}
-					<article id="compo-card" data-ascin="{{ selected.fan.ascin }}">
+					<article class="compo-card" data-ascin="{{ selected.fan.ascin }}">
 						<div>
-							<div id="compo-card-img">
-								<img src="" alt="">
+							<div class="compo-card-img">
+								<img src="" alt="Image de ventilateurs">
 							</div>
 							<div>
 							<p>{{selected.fan.marque}}
 								{{selected.fan.modele}}</p>
-							<p>{{selected.fan.prix}}€</p>
-							<p id="compo-card-note"></p>
-							<a id="compo-card-revendeur" href="">Amazon</a>
+							<p class="compo-card-price">{{selected.fan.prix}}€</p>
+							<p class="compo-card-note"></p>
+							<a class="compo-card-revendeur" href="">Amazon</a>
 							</div>
-							<button>
-								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="#e5676e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-x-icon lucide-circle-x"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
-							</button>
+							<form method="post" action="{{ path('forge_remove_part', { part: 'fanId' }) }}">
+								<input type="hidden" name="_token" value="{{ csrf_token('forge_remove_part_fanId') }}">
+								<button aria-label="Retirer les ventilateurs">
+									<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="#e5676e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-x-icon lucide-circle-x" role="img" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
+								</button>
+							</form>
 						</div>
 						<div>
 							<p>Largeur :
@@ -385,8 +400,7 @@
 				{% endif %}
 				<form method="post" action="{{ path('forge_reset') }}">
 					<input type="hidden" name="_token" value="{{ csrf_token('forge_reset') }}">
-					<button class="btn">Réinitialiser
-					</button>
+					<button class="btn">Réinitialiser</button>
 				</form>
 			</div>
 		</section>

@@ -28,8 +28,8 @@ class Storage
     #[ORM\Column(length: 100)]
     private ?string $modele = null;
 
-    #[ORM\Column(type: Types::FLOAT)]
-    private ?float $prix = null;
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $prix = null;
 
     /**
      * @var Collection<int, Build>
@@ -98,12 +98,12 @@ class Storage
         return $this;
     }
 
-    public function getPrix(): ?float
+    public function getPrix(): ?string
     {
         return $this->prix;
     }
 
-    public function setPrix(float $prix): static
+    public function setPrix(string $prix): static
     {
         $this->prix = $prix;
 

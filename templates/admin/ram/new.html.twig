@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Créer une RAM - Admin{% endblock %}
+
+{% block main %}
+	<main class="main-form">
+		<section>
+			<h1>Créer une nouvelle RAM</h1>
+			{{ include('admin/ram/_form.html.twig') }}
+			<a href="{{ path('app_admin_ram_index') }}">Retour à la liste</a>
+		</section>
+	</main>
+{% endblock %}

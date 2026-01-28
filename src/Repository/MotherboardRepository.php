@@ -40,4 +40,23 @@ class MotherboardRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+
+    /**
+     * Trouve les cartes mères compatibles avec un CPU donné
+     *
+     * La compatibilité se base sur le socket du processeur
+     *
+     * @param string $socket Le socket du CPU (ex: 'AM5', 'LGA1700')
+     * @return Motherboard[] Les cartes mères compatibles, triées par ID décroissant
+     */
+    public function findCompatibleWithCpu(string $socket): array
+    {
+        return $this->createQueryBuilder('mb')
+            ->andWhere('mb.socket = :socket')
+            ->setParameter('socket', $socket)
+            ->orderBy('mb.id', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
 }
+

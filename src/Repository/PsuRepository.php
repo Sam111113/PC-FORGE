@@ -40,4 +40,23 @@ class PsuRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+
+    /**
+     * Trouve les alimentations compatibles avec un build donné
+     *
+     * La compatibilité se base sur la puissance requise (TDP CPU + GPU + 150W marge)
+     *
+     * @param int $totalTdp Le TDP total requis en watts
+     * @return Psu[] Les alimentations compatibles, triées par prix décroissant
+     */
+    public function findByMinimumWattage(int $totalTdp): array
+    {
+        return $this->createQueryBuilder('psu')
+            ->andWhere('psu.wattage >= :tdp')
+            ->setParameter('tdp', $totalTdp)
+            ->orderBy('psu.prix', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
 }
+

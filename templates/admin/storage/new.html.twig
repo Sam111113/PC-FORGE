@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Créer un stockage - Admin{% endblock %}
+
+{% block main %}
+	<main class="main-form">
+		<section>
+			<h1>Créer un nouveau stockage</h1>
+			{{ include('admin/storage/_form.html.twig') }}
+			<a href="{{ path('app_admin_storage_index') }}">Retour à la liste</a>
+		</section>
+	</main>
+{% endblock %}

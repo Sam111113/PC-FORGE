@@ -26,21 +26,24 @@
         font-size: $fontsizeTitle;
 
         span {
-            border-bottom: 2px solid $colorBorder
+            border-bottom: 2px solid $colorBorder;
         }
     }
 
-    .news-content-aside {
+    .news-content {
         @include flex-evenly(row);
         width: 100%;
         margin: 2rem;
 
         >article {
             width: 60%;
-            text-align: justify;
 
             >h3 {
-                margin-bottom: 0.5rem;
+                margin-bottom: 1.5rem 0 1rem 0;
+            }
+            >p {
+                text-align: justify;
+                margin: 1rem 0;
             }
         }
 
@@ -52,7 +55,7 @@
             text-align: center;
 
             >h3 {
-                margin: 1rem
+                margin: 1rem;
             }
 
             >ul {
@@ -65,35 +68,6 @@
                     }
                 }
             }
-        }
-    }
-}
-
-.news-cards {
-    height: 30vh;
-    width: 80%;
-    @include flex-evenly(row);
-    padding: 2rem;
-
-    >div:first-of-type {
-        height: 100%;
-        width: 50%;
-        @include flex-evenly(column);
-
-        p {
-            width: 80%;
-            text-align: justify;
-        }
-    }
-
-    >div:last-of-type {
-        width: 50%;
-        height: 100%;
-
-        img {
-            object-fit: cover;
-            width: 100%;
-            height: 100%;
         }
     }
 }
@@ -114,7 +88,6 @@
 
         h2 {
             width: 90%;
-            line-height: 4vh;
             text-align: center ;
         }
 
@@ -135,9 +108,7 @@
         height: 100%;
 
         >img {
-            object-fit: cover;
-            width: 100%;
-            height: 100%;
+            @include imgDiv(cover);
         }
     }
 }
@@ -222,11 +193,11 @@
             font-size: $fontsizeTitle;
 
             span {
-                border-bottom: 2px solid $colorBorder
+                border-bottom: 2px solid $colorBorder;
             }
         }
 
-        .news-content-aside {
+        .news-content {
            flex-direction: column;
             width: 100%;
 
@@ -238,6 +209,7 @@
                 margin-top: 2rem;
                 width: 90%;
                 align-self: center;
+                justify-self: flex-end;
                 text-align: center;
             }
         }

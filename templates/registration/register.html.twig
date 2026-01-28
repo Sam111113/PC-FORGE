@@ -16,7 +16,9 @@
 		{{ form_row(registrationForm.plainPassword, {
             label: 'Mot de passe'
         }) }}
-		{{ form_row(registrationForm.agreeTerms) }}
+		{{ form_row(registrationForm.confirmedPassword, {
+			label: 'Confirmez le mot de passe'
+		}) }}
 
 		<button type="submit" class="btn">Inscription</button>
 		<h2>Vous n'avez pas de compte ?</h2>

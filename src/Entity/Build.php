@@ -73,8 +73,8 @@ class Build
     #[ORM\Column(nullable: true)]
     private ?bool $isMonthBuild = null;
 
-    #[ORM\Column(type: Types::FLOAT, nullable: true)]
-    private ?float $totalPrice = null;
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
+    private ?string $totalPrice = null;
 
     #[ORM\Column(length: 100, nullable: true)]
     private ?string $name = null;
@@ -324,49 +324,92 @@ class Build
         return $this;
     }
 
-    public function getTotalPrice(): ?float
+    public function getTotalPrice(): ?string
     {
         return $this->totalPrice;
     }
 
-    public function setTotalPrice(): static
+    /**
+     * Calcule le prix total du build en additionnant tous les composants
+     * @return string Le prix total calculé au format décimal
+     */
+    public function calculateTotalPrice(): string
     {
-        $totalPrice = 0;
-        if($this->getCpu()) {
-            $totalPrice += (float) $this->getCpu()->getPrix();
-        }
-        if($this->getMotherboard()) {
-            $totalPrice += (float) $this->getMotherboard()->getPrix();
-        }
-        if($this->getPsu()) {
-            $totalPrice += (float) $this->getPsu()->getPrix();
-        }
-        if($this->getCooler()) {
-            $totalPrice += (float) $this->getCooler()->getPrix();
-        }
-        if($this->getBoitier()) {
-            $totalPrice += (float) $this->getBoitier()->getPrix();
-        }
-        if($this->getGpu()){
-        foreach ($this->getGpu() as $gpu) {
-            $totalPrice += (float) $gpu->getPrix();
-        }}
-        if($this->getRam()){
-        foreach ($this->getRam() as $ram) {
-            $totalPrice += (float) $ram->getPrix();
-        }}
-        if($this->getStorage()){
-        foreach ($this->getStorage() as $storage) {
-            $totalPrice += (float) $storage->getPrix();
-        }}
-        if($this->getfan()){
-        foreach ($this->getfan() as $fan) {
-            $totalPrice += (float) $fan->getPrix();
-        }}
+        $totalPrice = '0';
 
-        $this->totalPrice = round($totalPrice, 2);
+        // Composants uniques (ManyToOne)
+        if ($this->getCpu()) {
+            $totalPrice = bcadd($totalPrice, $this->getCpu()->getPrix() ?? '0', 2);
+        }
+        if ($this->getMotherboard()) {
+            $totalPrice = bcadd($totalPrice, $this->getMotherboard()->getPrix() ?? '0', 2);
+        }
+        if ($this->getPsu()) {
+            $totalPrice = bcadd($totalPrice, $this->getPsu()->getPrix() ?? '0', 2);
+        }
+        if ($this->getCooler()) {
+            $totalPrice = bcadd($totalPrice, $this->getCooler()->getPrix() ?? '0', 2);
+        }
+        if ($this->getBoitier()) {
+            $totalPrice = bcadd($totalPrice, $this->getBoitier()->getPrix() ?? '0', 2);
+        }
+
+        // Collections (ManyToMany) - GPU
+        if (!$this->getGpu()->isEmpty()) {
+            foreach ($this->getGpu() as $gpu) {
+                $totalPrice = bcadd($totalPrice, $gpu->getPrix() ?? '0', 2);
+            }
+        }
+
+        // Collections (ManyToMany) - RAM
+        if (!$this->getRam()->isEmpty()) {
+            foreach ($this->getRam() as $ram) {
+                $totalPrice = bcadd($totalPrice, $ram->getPrix() ?? '0', 2);
+            }
+        }
+
+        // Collections (ManyToMany) - Storage
+        if (!$this->getStorage()->isEmpty()) {
+            foreach ($this->getStorage() as $storage) {
+                $totalPrice = bcadd($totalPrice, $storage->getPrix() ?? '0', 2);
+            }
+        }
+
+        // Collections (ManyToMany) - Fan
+        if (!$this->getFan()->isEmpty()) {
+            foreach ($this->getFan() as $fan) {
+                $totalPrice = bcadd($totalPrice, $fan->getPrix() ?? '0', 2);
+            }
+        }
+
+        return $totalPrice;
+    }
+
+    /**
+     * Définit le prix total du build
+     * Si aucun paramètre n'est fourni, calcule automatiquement le prix
+     * @param string|null $totalPrice Le prix à définir, ou null pour calcul auto
+     * @return static
+     */
+    public function setTotalPrice(?string $totalPrice = null): static
+    {
+        if ($totalPrice === null) {
+            $this->totalPrice = $this->calculateTotalPrice();
+        } else {
+            $this->totalPrice = $totalPrice;
+        }
 
         return $this;
+    }
+
+    /**
+     * Hook Doctrine qui met à jour automatiquement le prix total avant la sauvegarde
+     */
+    #[ORM\PrePersist]
+    #[ORM\PreUpdate]
+    public function updateTotalPrice(): void
+    {
+        $this->totalPrice = $this->calculateTotalPrice();
     }
 
     public function getName(): ?string

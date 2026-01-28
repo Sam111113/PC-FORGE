@@ -40,4 +40,26 @@ class RamRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+
+    /**
+     * Trouve les RAM compatibles avec une carte mère donnée
+     *
+     * La compatibilité se base sur le type de mémoire et la capacité maximale
+     *
+     * @param string $memoryType Le type de mémoire supporté par la carte mère (ex: 'DDR4', 'DDR5')
+     * @param int $memoryMax La capacité maximale de RAM supportée (en Go)
+     * @return Ram[] Les RAM compatibles, triées par prix décroissant
+     */
+    public function findCompatibleWithMotherboard(string $memoryType, int $memoryMax): array
+    {
+        return $this->createQueryBuilder('ram')
+            ->andWhere('ram.type LIKE :memoryType')
+            ->andWhere('ram.total <= :memoryMax')
+            ->setParameter('memoryType', $memoryType)
+            ->setParameter('memoryMax', $memoryMax)
+            ->orderBy('ram.prix', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
 }
+

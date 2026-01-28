@@ -31,7 +31,8 @@ header {
         >li {
             margin: 3rem;
 
-            >a {
+            >a,
+            >h2 {
                 color: $colortextPrimary;
                 font-family: $fontTitle;
                 text-decoration: none;
@@ -62,13 +63,11 @@ header {
         width: 47vw;
         height: 30vh;
         position: absolute;
-        top: 5rem;
+        top: 7vh;
+        left: -100vw;
         background-color: $colorBgF;
         border-radius: 0 0 $bRadius $bRadius;
         transition: transform 0.3s ease;
-        display: flex;
-        align-items: center;
-        justify-content: center;
         padding: 1rem;
 
         .list-compo {
@@ -84,9 +83,7 @@ header {
             li {
                 height: 100%;
                 width: 100%;
-                background-position: center;
-                background-repeat: no-repeat;
-                background-size: contain;
+                @include bg-img(contain);
                 padding: 0.5rem;
                 overflow: hidden;
                 border: 2px solid $colorBorder;
@@ -98,9 +95,8 @@ header {
                 &:hover {
                     background-color: rgba($color: black, $alpha: 0.5);
                     background-blend-mode: color;
-                    transform: scale(1.03, 1.03);
-                    box-shadow: 2px 2px 6px rgba(255, 255, 255, 0.2),
-                        -2px -2px 6px rgba(255, 255, 255, 0.2);
+                    transform: scale(1.03);
+                    box-shadow: $shadowHover;
                 }
 
                 &:hover a {
@@ -118,7 +114,7 @@ header {
                     position: relative;
                     width: 100%;
                     height: 100%;
-                    transition: transform 0.4s ease 0s;
+                    transition: transform 0.3s ease 0s;
                     top: 10rem;
                 }
             }
@@ -132,13 +128,13 @@ header {
 }
 
 .connecter {
-    margin-right: 3rem;
+    margin: 0 3rem 0 5rem;
     position: relative;
 
     >div {
         width: 75px;
         height: 75px;
-        border-radius: 100%;
+        border-radius: 50%;
         overflow: hidden;
         cursor: pointer;
 
@@ -149,14 +145,13 @@ header {
 
     >ul {
         position: absolute;
-        top: 7rem;
-        left: -2.3rem;
+        top: 13vh;
+        left: 50vw;
         background-color: $colorBgF;
         @include flex-center(column);
         border-radius: $bRadius;
         border: 2px solid $colorBorder;
-        box-shadow: 2px 2px 5px rgba(255, 255, 255, 0.2),
-            -2px -2px 5px rgba(255, 255, 255, 0.2);
+        box-shadow: $shadow;
         transition: transform 0.3s ease;
 
         li:nth-of-type(2) {
@@ -169,10 +164,7 @@ header {
         }
 
         li {
-            padding-left: 1rem;
-            padding-top: 0.5rem;
-            padding-bottom: 0.5rem;
-            padding-right: 1rem;
+            padding: 0.5rem 1rem;
             width: 100%;
             height: 100%;
             @include flex-center(row);
@@ -200,11 +192,11 @@ header {
 }
 
 .co {
-    transform: translateX(20rem);
+    transform: translateX(-52vw);
 }
 
 .comp {
-    transform: translateY(-30rem);
+    transform: translateX(80.5vw);
 }
 
 .list-compo li:first-of-type {
@@ -243,7 +235,7 @@ header {
     background-image: url('../img/navbar/fan.png');
 }
 
-@media screen and (max-width: 767px) {
+@media only screen and (max-width: 620px) {
     .navbar {
         background-color: $colorBgF;
         display: flex;
@@ -265,20 +257,20 @@ header {
             width: 100%;
             position: absolute;
             top: 15vh;
+            left: 100vw;
             background-color: $colorBgF;
             transition: transform 0.3s ease;
-
+            z-index: 2;
         }
     }
 
     .composant {
+        z-index: 10;
         .menu-composant {
             min-width: 100vw;
             min-height: 100vh;
-            left: -33vw;
+            left: 100vw;
             top: -39vh;
-            display: block;
-            z-index: 2;
 
             .btn-close-list {
                 position: absolute;
@@ -290,6 +282,7 @@ header {
                 justify-content: center;
                 cursor: pointer;
                 border: none;
+                z-index: 2;
             }
 
             .list-compo {
@@ -309,8 +302,6 @@ header {
                     height: 150px;
                     width: 150px;
                 }
-
-
             }
         }
     }
@@ -328,8 +319,9 @@ header {
         }
 
         ul {
-            left: -5rem;
+            left: 100vw;
             top: 15vh;
+            z-index: 50;
         }
     }
 
@@ -352,14 +344,15 @@ header {
     }
 
     .comp {
-        display: none;
-        transform: translateX(160vw);
+        transform: translateX(-133vw);
     }
 
     .tel-menu {
-        transform: translateX(100vw);
+        transform: translateX(-100vw);
     }
-
+    .co {
+        transform: translateX(-118vw);
+    }
     .burger-active {
         transform: rotate(90deg);
 

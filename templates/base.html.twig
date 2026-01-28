@@ -23,6 +23,15 @@
 	<body>
 		{% block body %}
 			{% include "part/header.html.twig" %}
+				{# Affichage des messages flash (success, error, warning, info) #}
+				{% for type, messages in app.flashes %}
+					{% for message in messages %}
+						<div class="flash-message flash-{{ type }}" role="alert">
+							{{ message }}
+							<button type="button" class="flash-close" aria-label="Fermer">&times;</button>
+						</div>
+					{% endfor %}
+				{% endfor %}
 				{% block hero %}{% endblock %}
 				{% block main %}{% endblock %}
 			{% include "part/footer.html.twig" %}

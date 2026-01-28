@@ -15,8 +15,7 @@
     font-weight: 400;
     font-family: $fontText;
     border: 2px solid $colorBgF;
-    box-shadow: 2px 2px 5px rgba(255, 255, 255, 0.2),
-        -2px -2px 5px rgba(255, 255, 255, 0.2);
+    box-shadow: $shadow;
 
     h3 {
         font-size: 1.5rem;
@@ -39,7 +38,7 @@
             background-color: rgba($color: white, $alpha: 0.2);
             padding: 1rem;
 
-            img {
+            >img {
                 height: 100%;
                 width: 100%;
                 object-fit: contain;
@@ -84,8 +83,7 @@
     }
 
     &:hover {
-        box-shadow: 2px 2px 6px rgba(255, 255, 255, 0.2),
-            -2px -2px 6px rgba(255, 255, 255, 0.2);
+        box-shadow: $shadowHover;
         border: 2px solid $colorBorder;
     }
 
@@ -130,8 +128,7 @@
     font-weight: 400;
     font-family: $fontText;
     border: 2px solid $colorBgF;
-    box-shadow: 2px 2px 5px rgba(255, 255, 255, 0.2),
-        -2px -2px 5px rgba(255, 255, 255, 0.2);
+    box-shadow: $shadow;
 
     h3 {
         font-size: 1.5rem;

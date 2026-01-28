@@ -40,4 +40,26 @@ class CoolerRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+
+    /**
+     * Trouve les refroidisseurs compatibles avec un CPU donné
+     *
+     * La compatibilité se base sur le socket et le TDP
+     *
+     * @param string $socket Le socket du CPU (ex: 'AM5', 'LGA1700')
+     * @param int $tdp Le TDP du CPU en watts
+     * @return Cooler[] Les refroidisseurs compatibles, triés par prix décroissant
+     */
+    public function findCompatibleWithCpu(string $socket, int $tdp): array
+    {
+        return $this->createQueryBuilder('cooler')
+            ->andWhere('cooler.socket LIKE :socket')
+            ->andWhere('cooler.tdp >= :tdp')
+            ->setParameter('socket', '%' . $socket . '%')
+            ->setParameter('tdp', $tdp)
+            ->orderBy('cooler.prix', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
 }
+

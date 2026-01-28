@@ -10,9 +10,6 @@
 
 			{{ include('build/_form.html.twig', {'button_label': 'Sauvegarder'}) }}
 			<div>
-				{% if is_granted('ROLE_ADMIN') %}
-					<a href="{{ path('app_build_index') }}">retour à la liste</a>
-				{% endif %}
 				{{ include('build/_delete_form.html.twig') }}
 			</div>
 		</section>

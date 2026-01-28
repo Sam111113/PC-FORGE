@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Vich\UploaderBundle\Form\Type\VichImageType;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class ImageType extends AbstractType
 {
@@ -14,11 +15,21 @@ class ImageType extends AbstractType
     {
         $builder
             ->add('imageFile', VichImageType::class, [
-                'label' => ' ',
+                'label' => false,
                 'required' => false,
-                'allow_delete' => true,
-                'download_uri' => true,
+                'allow_delete' => false,
+                'download_uri' => false,
                 'image_uri' => false,
+                'constraints' => [
+                    new Assert\Image([
+                        'maxSize' => '5M',
+                        'mimeTypes' => ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'],
+                        'mimeTypesMessage' => 'Veuillez uploader une image valide (JPEG, PNG ou WebP)',
+                        'maxSizeMessage' => 'Le fichier est trop volumineux ({{ size }} {{ suffix }}). Maximum : {{ limit }} {{ suffix }}.',
+                        'maxWidth' => 4000,
+                        'maxHeight' => 4000,
+                    ])
+                ],
             ])
         ;
     }

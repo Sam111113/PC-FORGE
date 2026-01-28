@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Créer un build - Admin{% endblock %}
+
+{% block main %}
+	<main class="main-form">
+		<section>
+			<h1>Créer un nouveau build</h1>
+
+			{{ include('build/_form.html.twig') }}
+
+			<a href="{{ path('app_admin_build_index') }}">Retour à la liste</a>
+		</section>
+	</main>
+{% endblock %}

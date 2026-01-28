@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier le boîtier - Admin{% endblock %}
+
+{% block main %}
+	<main class="main-form">
+		<section>
+			<h1>Modifier le boîtier</h1>
+			{{ include('admin/boitier/_form.html.twig', {'button_label': 'Sauvegarder'}) }}
+			<div>
+				<a href="{{ path('app_admin_boitier_index') }}">Retour à la liste</a>
+				<form method="post" action="{{ path('app_admin_boitier_delete', {'id': boitier.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce boîtier ?');">
+					<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ boitier.id) }}">
+					<button class="btn btn-danger">Supprimer</button>
+				</form>
+			</div>
+		</section>
+	</main>
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier le build - Admin{% endblock %}
+
+{% block main %}
+	<main class="main-form">
+		<section>
+			<h1>Modifier le build</h1>
+
+			{{ include('build/_form.html.twig', {'button_label': 'Sauvegarder'}) }}
+
+			<div>
+				<a href="{{ path('app_admin_build_index') }}">Retour à la liste</a>
+
+				<form method="post" action="{{ path('app_admin_build_delete', {'id': build.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce build ?');">
+					<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ build.id) }}">
+					<button class="btn btn-danger">Supprimer</button>
+				</form>
+			</div>
+		</section>
+	</main>
+{% endblock %}
