@@ -4,7 +4,7 @@
     width: 100%;
     height: 85vh;
     @include flex-center(column);
-    background-image: url('../img/prebuilds/spaceship.jpg');
+    background-image: url('/img/prebuilds/spaceship.jpg');
     @include bg-img(cover);
 
 }
@@ -13,7 +13,7 @@
     width: 100%;
     height: 85vh;
     @include flex-center(column);
-    background-image: url('../img/prebuilds/low.png');
+    background-image: url('/img/prebuilds/low.png');
     @include bg-img(cover);
 
 }

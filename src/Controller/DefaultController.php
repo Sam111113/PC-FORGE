@@ -27,7 +27,7 @@ final class DefaultController extends AbstractController
      * @param BuildRepository $buildRepo Repository pour récupérer les builds
      * @return Response Page d'accueil avec le build du mois et la dernière news
      */
-    #[Route('/Pc-Forge', name: 'app_home')]
+    #[Route('/', name: 'app_home')]
     public function index(NewsRepository $newsRepo, BuildRepository $buildRepo): Response
     {
         $monthBuild = $buildRepo->findOneBy(['isMonthBuild'=> true]);

@@ -1,7 +1,7 @@
 @use './abstracts' as *;
 
 .hero {
-    background-image: url(../img/herohome.png);
+    background-image: url('/img/herohome.png');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
@@ -51,7 +51,7 @@
 
 .home-builds {
     @include flex-evenly(column);
-    background-image: url('../img/bgBuildHome.png');
+    background-image: url('/img/bgBuildHome.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
