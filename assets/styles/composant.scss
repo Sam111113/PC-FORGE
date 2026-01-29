@@ -115,16 +115,14 @@
 @media screen and (max-width: 767px) {
     .compo-card {
         width: 95vw;
-        min-height: 200px;
-        height: auto;
+        height: 35svh;
 
         &:hover {
-            min-height: 260px;
+            height: 45svh;
         }
 
         >div:first-of-type {
-            min-height: 200px;
-            height: auto;
+            height: 45svh;
             position: relative;
 
 
@@ -132,7 +130,6 @@
                 flex-direction: column;
                 gap: 1rem;
                 width: 50%;
-                height: 100%;
                 height: auto;
 
 
@@ -144,8 +141,8 @@
 
             form {
                 position: absolute;
-                top: 0.5rem;
-                right: 0.5rem;
+                top: 0;
+                right: 0;
 
                 button {
                     width: 2rem;
