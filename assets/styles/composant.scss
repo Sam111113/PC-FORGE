@@ -115,7 +115,7 @@
 @media screen and (max-width: 767px) {
     .compo-card {
         width: 95vw;
-        height: 30vh;
+        min-height: 30vh;
 
         &:hover {
             height: 40vh;

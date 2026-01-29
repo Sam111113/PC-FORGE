@@ -17,7 +17,19 @@
     @include bg-img(cover);
 
 }
+.form-log-reg {
+        div:last-of-type {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
 
+        >input {
+            width: 1em;
+            align-self: flex-start;
+        }
+    }
+
+}
 .form-log-reg,
 .section-register form {
     width: 35%;
@@ -31,7 +43,7 @@
 
     h1,
     h2 {
-        font-size: 2rem;
+        font-size: $fontbig;
         font-weight: 400;
     }
 
@@ -57,17 +69,6 @@
 
     }
 
-    div:last-of-type {
-        display: flex;
-        flex-direction: row-reverse;
-        justify-content: flex-end;
-        align-items: center;
-
-        >input {
-            width: 1em;
-            margin-right: 1em;
-        }
-    }
 
     button {
         @include bouton-nav;
