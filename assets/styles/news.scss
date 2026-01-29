@@ -74,7 +74,7 @@
 
 .news-index-cards {
     background-color: $colorBgS;
-    height: 38vh;
+    min-height: 38vh;
     width: 70%;
     @include flex-evenly(row);
     padding: 1rem;
