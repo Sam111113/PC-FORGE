@@ -115,14 +115,16 @@
 @media screen and (max-width: 767px) {
     .compo-card {
         width: 95vw;
-        height: 35vh;
+        min-height: 200px;
+        height: auto;
 
         &:hover {
-            height: 45vh;
+            min-height: 260px;
         }
 
         >div:first-of-type {
-            height: 35vh;
+            min-height: 200px;
+            height: auto;
             position: relative;
 
 

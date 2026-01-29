@@ -1324,13 +1324,15 @@ input {
 @media screen and (max-width: 767px) {
   .compo-card {
     width: 95vw;
-    height: 35vh;
+    min-height: 200px;
+    height: auto;
   }
   .compo-card:hover {
-    height: 45vh;
+    min-height: 260px;
   }
   .compo-card > div:first-of-type {
-    height: 35vh;
+    min-height: 200px;
+    height: auto;
     position: relative;
   }
   .compo-card > div:first-of-type > div:nth-of-type(2) {
