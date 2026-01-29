@@ -1191,6 +1191,7 @@ input {
   }
   .caroussel {
     margin: 0;
+    height: 60vh;
   }
   .caroussel .slide {
     width: 81vw;
@@ -1345,8 +1346,8 @@ input {
   }
   .compo-card > div:first-of-type form {
     position: absolute;
-    top: 0;
-    right: 0;
+    top: 0.1rem;
+    left: 0.1rem;
   }
   .compo-card > div:first-of-type form button {
     width: 2rem;
