@@ -482,7 +482,7 @@ footer div:nth-of-type(2) ul {
 .form-log-reg,
 .section-register form {
   width: 35%;
-  height: 75%;
+  min-height: 75%;
   border-radius: 0.5rem;
   display: flex;
   justify-content: space-evenly;
@@ -1324,13 +1324,13 @@ input {
 @media screen and (max-width: 767px) {
   .compo-card {
     width: 95vw;
-    min-height: 30vh;
+    height: 35vh;
   }
   .compo-card:hover {
-    height: 40vh;
+    height: 45vh;
   }
   .compo-card > div:first-of-type {
-    height: 30vh;
+    height: 35vh;
     position: relative;
   }
   .compo-card > div:first-of-type > div:nth-of-type(2) {

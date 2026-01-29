@@ -33,7 +33,7 @@
 .form-log-reg,
 .section-register form {
     width: 35%;
-    height: 75%;
+    min-height: 75%;
     border-radius: $bRadius;
     @include flex-evenly(column);
     background-color: $colorBgF;
