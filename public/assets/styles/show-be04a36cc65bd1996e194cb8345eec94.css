@@ -1,0 +1,133 @@
+@use './abstracts/' as *;
+
+.main-show {
+    @include flex-evenly(column);
+    font-family: $fontText;
+    min-height: 60vh;
+    background-color: $colorBgS;
+    gap: 2rem;
+
+    nav {
+        margin-top: 2rem;
+
+        ul {
+            @include flex-center(row);
+            margin-bottom: 0.5rem;
+            li {
+                border-left: 2px solid $colorBorder;
+            }
+
+            li:last-of-type{
+                border-right: 2px solid $colorBorder;
+            }
+
+            li {
+                width: 10vw;
+                text-align: center;
+
+                a {
+                    font-size: $fontsizeTitle;
+                }
+
+                a:hover {
+                    color: $colorBorder;
+                }
+            }
+        }
+    }
+
+    h1 {
+        text-align: center;
+        font-weight: 400;
+    }
+
+    .table-div {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+
+        .table {
+            max-width: 80%;
+            margin-bottom: 2rem;
+            border-collapse: collapse;
+            row-gap: 0.3rem;
+
+            th {
+                border-bottom: 2px solid $colorBorder;
+            }
+
+            td {
+                max-width: 30vw;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                img {
+                    object-fit: cover;
+                    width: 100%;
+                    height: 100%;
+                }
+            }
+
+            th,
+            td {
+                padding: 0.5rem;
+                text-align: center;
+            }
+
+            select {
+                height: 100%;
+                background-color: $colorBgS;
+            }
+        }
+
+        div {
+            @include flex-center(row);
+
+            >button, >a {
+                width: 10vw;
+                height: 2vh;
+                margin: 1rem;
+                margin-top: 1rem;
+
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .main-show {
+        width: 100%;
+
+        >nav {
+            width: 100%;
+
+            ul {
+                width: 100%;
+
+                li {
+                    width: 27vw;
+
+                    a {
+                        font-size: 1.2rem;
+                    }
+                }
+            }
+        }
+
+        .table-div {
+            max-width: 100%;
+            overflow-x: auto;
+            overflow-y: hidden;
+            -webkit-overflow-scrolling: touch;
+            justify-content: flex-start;
+
+            td {
+                white-space: nowrap;
+                max-width: 50vw;
+                button {
+                    width: 2rem;
+                    height: 2rem;
+                }
+            }
+        }
+    }
+}

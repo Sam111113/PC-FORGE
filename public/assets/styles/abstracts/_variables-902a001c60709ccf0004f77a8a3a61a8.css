@@ -1,0 +1,15 @@
+$colorBgF: #001524;
+$colorBgS: #172A37;
+$colorBorder: #7180AC;
+$alert: #EF404B;
+$succes: #00CDFF;
+$colortextPrimary: #FFFFFF;
+
+$fontTitle: 'Russo One', sans-serif;
+$fontText: 'Poppins', sans-serif;
+$fontbig: 1.3rem;
+$fontsizeTitle: 1.1rem;
+$fontsizeText: 0.9rem;
+$bRadius: 0.5rem;
+$shadow: 2px 2px 5px rgba(255, 255, 255, 0.2), -2px -2px 5px rgba(255, 255, 255, 0.2);
+$shadowHover: 2px 2px 6px rgba(255, 255, 255, 0.2), -2px -2px 6px rgba(255, 255, 255, 0.2);

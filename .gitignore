@@ -16,6 +16,6 @@
 ###< phpunit/phpunit ###
 
 ###> symfony/asset-mapper ###
-/public/assets/
+# /public/assets/  # Commenté pour inclure les assets compilés dans le repo
 /assets/vendor/
 ###< symfony/asset-mapper ###

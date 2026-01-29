@@ -164,32 +164,28 @@
     .build-card {
         min-width: 80vw;
         max-width: 80vw;
-        min-height: 60vh;
-        max-height: 60vh;
+        min-height: 50vh;
+        max-height: 50vh;
 
         >div:first-of-type {
             min-width: 80vw;
             max-width: 80vw;
-            min-height: 60vh;
-            max-height: 60vh;
+            min-height: 50vh;
+            max-height: 50vh;
         }
 
         >div:last-of-type {
             min-width: 80vw;
             max-width: 80vw;
-            min-height: 60vh;
-            max-height: 60vh;
-
-            div:first-of-type {
-                margin-top: 0;
-            }
+            min-height: 50vh;
+            max-height: 50vh;
         }
     }
 
     .build-home {
         min-width: 80vw;
         max-width: 80vw;
-        min-height: 60vh;
-        max-height: 60vh;
+        min-height: 50vh;
+        max-height: 50vh;
     }
 }
