@@ -1324,22 +1324,19 @@ input {
 @media screen and (max-width: 767px) {
   .compo-card {
     width: 95vw;
-    min-height: 200px;
-    height: auto;
+    height: 35svh;
   }
   .compo-card:hover {
-    min-height: 260px;
+    height: 45svh;
   }
   .compo-card > div:first-of-type {
-    min-height: 200px;
-    height: auto;
+    height: 35svh;
     position: relative;
   }
   .compo-card > div:first-of-type > div:nth-of-type(2) {
     flex-direction: column;
     gap: 1rem;
     width: 50%;
-    height: 100%;
     height: auto;
   }
   .compo-card > div:first-of-type > div:nth-of-type(2) p {
@@ -1348,8 +1345,8 @@ input {
   }
   .compo-card > div:first-of-type form {
     position: absolute;
-    top: 0.5rem;
-    right: 0.5rem;
+    top: 0;
+    right: 0;
   }
   .compo-card > div:first-of-type form button {
     width: 2rem;
