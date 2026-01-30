@@ -5,8 +5,8 @@
     background-color: $colorBgF;
     min-width: 18vw;
     max-width: 18vw;
-    min-height: 50vh;
-    max-height: 50vh;
+    min-height: 50svh;
+    max-height: 50svh;
     border-radius: $bRadius;
     display: flex;
     justify-content: center;
@@ -26,8 +26,8 @@
         @include flex-evenly(column);
         min-width: 18vw;
         max-width: 18vw;
-        min-height: 50vh;
-        max-height: 50vh;
+        min-height: 50svh;
+        max-height: 50svh;
 
         >div {
             position: relative;
@@ -62,8 +62,8 @@
         background-color: rgba($color: black, $alpha: 0.5);
         min-width: 18vw;
         max-width: 18vw;
-        min-height: 50vh;
-        max-height: 50vh;
+        min-height: 50svh;
+        max-height: 50svh;
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
@@ -118,8 +118,8 @@
 .build-home {
     min-width: 18vw;
     max-width: 18vw;
-    min-height: 50vh;
-    max-height: 50vh;
+    min-height: 50svh;
+    max-height: 50svh;
     color: $colortextPrimary;
     background-color: $colorBgF;
     border-radius: $bRadius;
@@ -162,34 +162,30 @@
 
 @media screen and (max-width: 767px) {
     .build-card {
-        min-width: 80vw;
-        max-width: 80vw;
-        min-height: 60vh;
-        max-height: 60vh;
+        min-width: 80svw;
+        max-width: 80svw;
+        min-height: 60svh;
+        max-height: 60svh;
 
         >div:first-of-type {
             min-width: 80vw;
             max-width: 80vw;
-            min-height: 60vh;
-            max-height: 60vh;
+            min-height: 60svh;
+            max-height: 60svh;
         }
 
         >div:last-of-type {
-            min-width: 80vw;
-            max-width: 80vw;
-            min-height: 60vh;
-            max-height: 60vh;
-
-            div:first-of-type {
-                margin-top: 0;
-            }
+            min-width: 80svw;
+            max-width: 80svw;
+            min-height: 60svh;
+            max-height: 60svh;
         }
     }
 
     .build-home {
-        min-width: 80vw;
-        max-width: 80vw;
-        min-height: 60vh;
-        max-height: 60vh;
+        min-width: 80svw;
+        max-width: 80svw;
+        min-height: 60svh;
+        max-height: 60svh;
     }
 }

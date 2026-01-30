@@ -7,8 +7,8 @@
     font-size: $fontsizeTitle;
     color: $colortextPrimary;
     text-align: center;
-    height: 10vh;
-    line-height: 10vh;
+    height: 10svh;
+    line-height: 10svh;
 }
 
 .section-news {
@@ -74,7 +74,7 @@
 
 .news-index-cards {
     background-color: $colorBgS;
-    min-height: 38vh;
+    min-height: 38svh;
     width: 70%;
     @include flex-evenly(row);
     padding: 1rem;

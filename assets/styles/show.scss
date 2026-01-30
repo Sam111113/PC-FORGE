@@ -3,7 +3,7 @@
 .main-show {
     @include flex-evenly(column);
     font-family: $fontText;
-    min-height: 60vh;
+    min-height: 60svh;
     background-color: $colorBgS;
     gap: 2rem;
 
@@ -84,7 +84,7 @@
 
             >button, >a {
                 width: 10vw;
-                height: 2vh;
+                height: 2svh;
                 margin: 1rem;
                 margin-top: 1rem;
 

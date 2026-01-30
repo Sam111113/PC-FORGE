@@ -3,7 +3,7 @@
 header {
     width: 100%;
     background-color: $colorBgF;
-    height: 15vh;
+    height: 15svh;
     position: fixed;
     top: 0;
     left: 0;
@@ -16,7 +16,8 @@ header {
     @include flex-between($direction: row);
 
     >a {
-        margin-left: 3rem;
+        margin-left: 1rem;
+        margin-right: 5.8rem;
         width: 135px;
         height: 135px;
 
@@ -26,11 +27,10 @@ header {
     }
 
     >ul {
+
         @include flex-center(row);
-
         >li {
-            margin: 3rem;
-
+            margin: 0 2.5rem;
             >a,
             >h2 {
                 color: $colortextPrimary;
@@ -61,9 +61,9 @@ header {
 
     .menu-composant {
         width: 47vw;
-        height: 30vh;
+        height: 30svh;
         position: absolute;
-        top: 7vh;
+        top: 7svh;
         left: -100vw;
         background-color: $colorBgF;
         border-radius: 0 0 $bRadius $bRadius;
@@ -128,7 +128,7 @@ header {
 }
 
 .connecter {
-    margin: 0 3rem 0 5rem;
+    margin: 0 3rem;
     position: relative;
 
     >div {
@@ -145,7 +145,7 @@ header {
 
     >ul {
         position: absolute;
-        top: 13vh;
+        top: 13svh;
         left: 50vw;
         background-color: $colorBgF;
         @include flex-center(column);
@@ -190,13 +190,16 @@ header {
 .btn-close-list {
     display: none;
 }
-
+.divCo {
+        margin-left: 5.8rem;
+}
 .co {
-    transform: translateX(-52vw);
+    transform: translateX(-46.5vw);
+
 }
 
 .comp {
-    transform: translateX(80.5vw);
+    transform: translateX(79.5vw);
 }
 
 .list-compo li:first-of-type {
@@ -255,10 +258,10 @@ header {
 
         >ul {
             @include flex-evenly(column);
-            height: 85vh;
+            height: 85svh;
             width: 100%;
             position: absolute;
-            top: 15vh;
+            top: 15svh;
             left: 100vw;
             background-color: $colorBgF;
             transition: transform 0.3s ease;
@@ -272,11 +275,12 @@ header {
 
     .composant {
         z-index: 10;
+
         .menu-composant {
             min-width: 100vw;
-            min-height: 100vh;
+            min-height: 100svh;
             left: 100vw;
-            top: -39vh;
+            top: -40svh;
 
             .btn-close-list {
                 position: absolute;
@@ -299,14 +303,14 @@ header {
                 gap: 0.5rem;
 
                 li {
-                    width: 150px;
-                    height: 150px;
+                    width: 125px;
+                    height: 125px;
                 }
 
                 >li:nth-of-type(5) {
                     grid-area: 3/1/4/2;
-                    height: 150px;
-                    width: 150px;
+                    height: 125px;
+                    width: 125px;
                 }
             }
         }
@@ -326,7 +330,7 @@ header {
 
         ul {
             left: 100vw;
-            top: 15vh;
+            top: 15svh;
             z-index: 50;
         }
     }
@@ -350,15 +354,17 @@ header {
     }
 
     .comp {
-        transform: translateX(-133vw);
+        transform: translateX(-137svw);
     }
 
     .tel-menu {
-        transform: translateX(-100vw);
+        transform: translateX(-100svw);
     }
+
     .co {
-        transform: translateX(-118vw);
+        transform: translateX(-100svw);
     }
+
     .burger-active {
         transform: rotate(90deg);
 

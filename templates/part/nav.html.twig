@@ -68,7 +68,7 @@
 		</ul>
 		<div class="connecter">
 			{% if app.user %}
-				<div>
+				<div class="divCo">
 					<img src="{{ app.user.image ? vich_uploader_asset(app.user.image, 'imageFile') : asset('img/placeholder/userplaceholder.jpg') }}" alt="Photo de profil de {{ app.user.pseudo }}">
 				</div>
 				<ul>

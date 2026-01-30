@@ -23,7 +23,7 @@
     @include bg-img(cover);
     @include flex-evenly(column);
     width: 100%;
-    height: 60vh;
+    height: 60svh;
     backdrop-filter: blur(10px);
 
     >div {
@@ -37,8 +37,8 @@
     background-color: $colorBgF;
     text-align: center;
     font-family: $fontTitle;
-    height: 8vh;
-    line-height: 8vh;
+    height: 8svh;
+    line-height: 8svh;
     font-weight: 400;
     font-size: $fontsizeTitle;
 }
@@ -73,7 +73,7 @@
 
     section:first-of-type {
         width: 100%;
-        height: 80vh;
+        height: 80svh;
         background-image: url('/img/heroBuilder3.png');
         background-repeat: no-repeat;
         background-size: cover;
@@ -138,7 +138,7 @@
 }
 
 .ligne {
-    height: 13vh;
+    height: 13svh;
     width: 3px;
     background-color: $colorBorder;
     border-radius: 2rem;

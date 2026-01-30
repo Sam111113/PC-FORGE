@@ -5,7 +5,7 @@
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
-    height: 80vh;
+    height: 80svh;
     width: 100%;
     color: $colortextPrimary;
     display: flex;
@@ -14,7 +14,7 @@
 
     div {
         @include flex-evenly($direction: column);
-        height: 30vh;
+        height: 30svh;
         margin-right: 15vw;
 
         h1 {
@@ -75,8 +75,8 @@
         font-size: $fontsizeTitle;
         font-weight: 400;
         text-align: center;
-        line-height: 8vh;
-        height: 8vh;
+        line-height: 8svh;
+        height: 8svh;
         color: $colortextPrimary;
     }
 }
@@ -84,7 +84,7 @@
 .pagination {
     font-family: $fontText;
     color: $colortextPrimary;
-    height: 7vh;
+    height: 7svh;
     @include flex-center(row);
 
     >span {

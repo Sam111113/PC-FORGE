@@ -26,10 +26,10 @@ body {
     background-color: $colorBgF;
 }
 main {
-    margin-top: 15vh;
+    margin-top: 15svh;
     background-color: $colorBgF;
     width: 100%;
-    min-height: 85vh;
+    min-height: 85svh;
 }
 
 .compo-card>button,
@@ -52,10 +52,13 @@ svg {
         color: $colorBorder;
     }
 }
-
+.apiError {
+    color: $alert;
+    text-align: center;
+}
 .flash-message {
     position: fixed;
-    top: 16vh;
+    top: 16svh;
     left: 50%;
     transform: translateX(-50%);
     padding: 1rem 2rem;
