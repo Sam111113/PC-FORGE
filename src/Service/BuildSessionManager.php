@@ -35,9 +35,9 @@ class BuildSessionManager
     public function initBuild(): array
     {
         $session = $this->getSession();
-        $state = $session->get(self::SESSION_KEY);
-        if (!$state) {
-            $state = [
+        $build = $session->get(self::SESSION_KEY);
+        if (!$build) {
+            $build = [
                 'cpuId' => null,
                 'mbId' => null,
                 'gpuId' => null,
@@ -48,9 +48,9 @@ class BuildSessionManager
                 'boitierId' => null,
                 'fanId' => null,
             ];
-            $session->set(self::SESSION_KEY, $state);
+            $session->set(self::SESSION_KEY, $build);
         }
-        return $state;
+        return $build;
     }
 
     /**
@@ -64,9 +64,9 @@ class BuildSessionManager
     /**
      * Sauvegarde le build en session
      */
-    public function saveBuild(array $state): void
+    public function saveBuild(array $build): void
     {
-        $this->getSession()->set(self::SESSION_KEY, $state);
+        $this->getSession()->set(self::SESSION_KEY, $build);
     }
 
     /**
@@ -74,9 +74,9 @@ class BuildSessionManager
      */
     public function setComponent(string $key, ?int $id): void
     {
-        $state = $this->getBuild();
-        $state[$key] = $id;
-        $this->saveBuild($state);
+        $build = $this->getBuild();
+        $build[$key] = $id;
+        $this->saveBuild($build);
     }
 
     /**

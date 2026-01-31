@@ -3,14 +3,13 @@
 {% endblock %}
 {% block main %}
 	<main>
-		<h1 class="titre-main-page">Les Build de la commu</h1>
+		<h1 class="titre-main-page">Les Builds de la commu</h1>
 		<section class="section-comu">
 			{% for b in pagination %}
 				<article class="build-card">
 							<div>
 								{% if b.name ?? false %}
-									<h3>Build
-										{{ b.name }}</h3>
+									<h3>{{ b.name }}</h3>
 								{% else %}
 									<h3>Build
 										{{ b.cpu.marque }}</h3>

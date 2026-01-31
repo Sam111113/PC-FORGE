@@ -43,6 +43,9 @@
     color: $colortextPrimary;
     font-family: $fontText;
     @include flex-evenly(column);
+    h2 {
+        font-family: $fontTitle;
+    }
 
     >article {
         margin: 0;
@@ -70,7 +73,7 @@
 
 .home-news,
 .home-builds {
-    h2:first-of-type {
+    >h2:first-of-type {
         font-family: $fontTitle;
         font-size: $fontsizeTitle;
         font-weight: 400;

@@ -71,6 +71,8 @@
         @include flex-evenly(row);
         height: 10svh;
         border-top: 2px solid $colorBorder;
+        P {
+            text-align: center;}
     }
 
     form {

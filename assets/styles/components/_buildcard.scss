@@ -32,8 +32,8 @@
         >div {
             position: relative;
             overflow: hidden;
-            height: 60%;
             width: 80%;
+            aspect-ratio: 9 / 10;
             border-radius: $bRadius;
             background-color: rgba($color: white, $alpha: 0.2);
             padding: 1rem;
@@ -138,8 +138,8 @@
     >div {
         position: relative;
         overflow: hidden;
-        height: 60%;
         width: 80%;
+        aspect-ratio: 9 / 10;
         border-radius: $bRadius;
         background-color: rgba($color: white, $alpha: 0.2);
         padding: 1rem;

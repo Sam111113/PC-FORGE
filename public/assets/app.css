@@ -105,6 +105,7 @@ header {
   transform: translateY(-10rem);
 }
 .composant .menu-composant .list-compo li a {
+  text-align: center;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -748,8 +749,8 @@ input {
 .build-card > div:first-of-type > div {
   position: relative;
   overflow: hidden;
-  height: 60%;
   width: 80%;
+  aspect-ratio: 9/10;
   border-radius: 0.5rem;
   background-color: rgba(255, 255, 255, 0.2);
   padding: 1rem;
@@ -852,8 +853,8 @@ input {
 .build-home > div {
   position: relative;
   overflow: hidden;
-  height: 60%;
   width: 80%;
+  aspect-ratio: 9/10;
   border-radius: 0.5rem;
   background-color: rgba(255, 255, 255, 0.2);
   padding: 1rem;
@@ -959,6 +960,9 @@ input {
   align-items: center;
   flex-direction: column;
 }
+.home-news h2 {
+  font-family: "Russo One", sans-serif;
+}
 .home-news > article {
   margin: 0;
 }
@@ -987,8 +991,8 @@ input {
   padding: 2rem;
 }
 
-.home-news h2:first-of-type,
-.home-builds h2:first-of-type {
+.home-news > h2:first-of-type,
+.home-builds > h2:first-of-type {
   font-family: "Russo One", sans-serif;
   font-size: 1.1rem;
   font-weight: 400;
@@ -1055,6 +1059,7 @@ input {
   flex-direction: row;
   width: 100%;
   height: 100%;
+  margin-right: 6rem;
 }
 .info > div:first-of-type > div:first-of-type {
   width: 250px;
@@ -1167,6 +1172,7 @@ input {
   .info > div:first-of-type {
     flex-direction: column;
     height: auto;
+    margin: 0;
   }
   .info > div:first-of-type > div:first-of-type {
     width: 150px;
@@ -1289,6 +1295,9 @@ input {
   flex-direction: row;
   height: 10svh;
   border-top: 2px solid #7180AC;
+}
+.compo-card > div:last-of-type P {
+  text-align: center;
 }
 .compo-card form {
   display: flex;
@@ -1453,6 +1462,7 @@ input {
   text-align: center;
 }
 .news-index-cards > div:first-of-type > p {
+  padding: 1rem 0;
   width: 80%;
   text-align: justify;
   font-size: 0.9rem;
@@ -1516,29 +1526,35 @@ input {
 }
 
 @media screen and (max-width: 767px) {
-  .news-index-cards, .news-cards {
+  .news-index-cards,
+  .news-cards {
     flex-direction: column-reverse;
     height: auto;
     width: 90%;
   }
-  .news-index-cards > div:first-of-type, .news-cards > div:first-of-type {
+  .news-index-cards > div:first-of-type,
+  .news-cards > div:first-of-type {
     width: 100%;
     height: auto;
   }
-  .news-index-cards > div:first-of-type h2, .news-cards > div:first-of-type h2 {
+  .news-index-cards > div:first-of-type h2,
+  .news-cards > div:first-of-type h2 {
     height: auto;
     width: 80%;
     line-height: 2rem;
     margin: 0.5rem;
   }
-  .news-index-cards > div:first-of-type p, .news-cards > div:first-of-type p {
+  .news-index-cards > div:first-of-type p,
+  .news-cards > div:first-of-type p {
     height: auto;
     width: 100%;
   }
-  .news-index-cards > div:last-of-type, .news-cards > div:last-of-type {
+  .news-index-cards > div:last-of-type,
+  .news-cards > div:last-of-type {
     width: 100%;
   }
-  .news-index-cards a:last-of-type, .news-cards a:last-of-type {
+  .news-index-cards a:last-of-type,
+  .news-cards a:last-of-type {
     margin-top: 2rem;
   }
   .section-news {

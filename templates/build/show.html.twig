@@ -11,8 +11,12 @@
 					<img src="{{ build.image ? vich_uploader_asset(build.image, 'imageFile') : asset('img/placeholder/prebuild.png') }}" alt="Image du build de {{ build.user.pseudo }}">
 				</div>
 				<div>
+				{% if build.name ?? false %}
+				<h1> {{ build.name }} </h1>
+					{% else %}
 					<h1>Build de
 						{{ build.user.pseudo }}</h1>
+					{% endif %}
 					<p>{{ build.description }}</p>
 					<div>
 						<p>Prix total du build :

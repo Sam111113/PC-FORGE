@@ -111,4 +111,25 @@ class Image
 
         return $this;
     }
+
+    public function __serialize(): array
+    {
+        return [
+            'id' => $this->id,
+            'filename' => $this->filename,
+            'alt' => $this->alt,
+            'updatedAt' => $this->updatedAt,
+            'context' => $this->context,
+        ];
+    }
+
+    public function __unserialize(array $data): void
+    {
+        $this->id = $data['id'] ?? null;
+        $this->filename = $data['filename'] ?? null;
+        $this->alt = $data['alt'] ?? null;
+        $this->updatedAt = $data['updatedAt'] ?? null;
+        $this->context = $data['context'] ?? null;
+        $this->imageFile = null;
+    }
 }
